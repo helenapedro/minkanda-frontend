@@ -17,7 +17,6 @@ export const fetchNotes = async () => {
         Authorization: `Bearer ${token}`
       },
     });
-    console.log('API Response Data:', response.data);
     return response.data.content;
   } catch (error) {
     throw new Error(error.response ? error.response.data.message : error.message);
