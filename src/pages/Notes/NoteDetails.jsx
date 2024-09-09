@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchNoteById } from '../services/api';
+import { fetchNoteById } from '../../services/api';
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -11,7 +11,7 @@ const NoteDetails = () => {
   useEffect(() => {
     const getNoteDetails = async () => {
       try {
-        const fetchedNote = await fetchNoteById(id); // Correct function usage
+        const fetchedNote = await fetchNoteById(id);
         setNote(fetchedNote);
       } catch (err) {
         setError('Failed to fetch note details.');

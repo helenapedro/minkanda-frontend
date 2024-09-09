@@ -17,7 +17,8 @@ export const fetchNotes = async () => {
         Authorization: `Bearer ${token}`
       },
     });
-    return response.data;
+    console.log('API Response Data:', response.data);
+    return response.data.content;
   } catch (error) {
     throw new Error(error.response ? error.response.data.message : error.message);
   }
@@ -25,23 +26,46 @@ export const fetchNotes = async () => {
 
 export const fetchNoteById = async (id) => {
   try {
-    const response = await api.get(`/notes/${id}`);
-    return response.data;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('No token found. Please login.');
+    }
+    const response = await api.get(`/notes/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data; 
   } catch (error) {
-    console.error('Error fetching note:', error);
-    throw error;
+    console.error('Error fetching note:', error.response ? error.response.data : error.message);
+    throw new Error(error.response ? error.response.data.message : error.message);
   }
 };
 
 export const addNote = async (note) => {
   try {
-    const response = await api.post('/notes', note);
-    return response.data;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("You can't add a new note without a valid token.");
+    }
+
+    const response = await api.post('/notes', note, { 
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.data) {
+      throw new Error('Unexpected response format.');
+    }
+
+    return response.data.content;
   } catch (error) {
-    console.error('Error adding note:', error);
-    throw error;
+    console.error('Error adding note:', error.response ? error.response.data : error.message);
+    throw new Error(error.response ? error.response.data.message : error.message);
   }
 };
+
 
 export const updateNote = async (id, note) => {
   try {
@@ -53,9 +77,17 @@ export const updateNote = async (id, note) => {
   }
 };
 
-export const deleteNote = async (id) => {
+export const deleteNote = async (nid) => {
   try {
-    await api.delete(`/notes/${id}`);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('No authentication token found.');
+    }
+    await api.delete(`/notes/${nid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
   } catch (error) {
     console.error('Error deleting note:', error);
     throw error;

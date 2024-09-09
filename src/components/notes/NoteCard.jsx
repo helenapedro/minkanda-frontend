@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteNoteAsync } from '../redux/notesSlice';
+import { deleteNoteAsync } from '../../redux/notesSlice';
 import { useNavigate } from 'react-router-dom';
 
 const NoteCard = ({ note }) => {
@@ -8,15 +8,16 @@ const NoteCard = ({ note }) => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    dispatch(deleteNoteAsync(note.id));
+    dispatch(deleteNoteAsync(note.nid));
   };
 
   const handleView = () => {
-    navigate(`/notes/${note.id}`);
+    navigate(`/notes/${note.nid}`);
   };
 
   const handleEdit = () => {
-    navigate(`/notes/edit/${note.id}`);
+    console.log('Navigating to:', `/notes/edit/${note.nid}`);
+    navigate(`/notes/edit/${note.nid}`);
   };
 
   return (

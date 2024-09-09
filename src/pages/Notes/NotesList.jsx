@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchNotes } from '../services/api'; 
-import NoteCard from '../components/NoteCard';
+import { fetchNotes } from '../../services/api'; 
+import NoteCard from '../../components/notes/NoteCard';
 
 const NotesList = () => {
   const [notes, setNotes] = useState([]);
@@ -11,6 +11,7 @@ const NotesList = () => {
     const getNotes = async () => {
       try {
         const fetchedNotes = await fetchNotes();
+        console.log('Fetched Notes:', fetchedNotes);
         setNotes(fetchedNotes);
       } catch (err) {
         setError('Failed to fetch notes.');
@@ -34,7 +35,7 @@ const NotesList = () => {
   return (
     <div className="notes-list">
       {notes.map((note) => (
-        <NoteCard key={note.id} note={note} />
+        <NoteCard key={note.nid} note={note} />
       ))}
     </div>
   );
