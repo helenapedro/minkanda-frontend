@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchNotes } from '../../services/api'; 
-import NoteCard from '../../components/notes/NoteCard';
+import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
 
 const NotesList = () => {
   const [notes, setNotes] = useState([]);
@@ -52,14 +52,14 @@ const NotesList = () => {
   return (
     <div className="notes-list">
       {notes.map((note) => (
-        <NoteCard key={note.nid} note={note} />
+        <NoteDetailsCard key={note.nid} note={note} />
       ))}
       <div className="pagination">
         <button onClick={handlePreviousPage} disabled={page === 0}>Previous</button>
         <span>Page {page + 1} of {totalPages}</span>
         <button onClick={handleNextPage} disabled={page === totalPages - 1}>Next</button>
       </div>
-    </div>
+    </div> 
   );
 };
 

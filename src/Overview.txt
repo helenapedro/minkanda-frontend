@@ -1,0 +1,12 @@
+1. NoteCard:
+     This component seems designed to display a single note with its details (title, body) and action buttons (View, Edit, Delete).
+
+2. NotesList:
+     This component fetches the list of notes, handles pagination, and renders NoteCard for each note.
+
+3. NoteDetails:
+     This component fetches and displays the details of a single note based on the id from the URL.
+
+4. NoteItem:
+     This component is intended to provide a summarized view of a note (title, date) and link to its edit page.
+     

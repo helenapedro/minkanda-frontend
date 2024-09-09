@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const NoteItem = ({ note }) => {
      return (
           <Link
-               to={`/notes/edit/${note.nid}`}
+               to={`/notes/${note.nid}`}
                className="note"
                style={{ background: note.color }}
           >

@@ -1,79 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateNoteAsync, fetchNotesAsync } from '../../redux/notesSlice';
+import { useParams, useNavigate } from 'react-router-dom';
+
+import { fetchNoteByIdAsync, updateNoteAsync } from '../../redux/notesSlice';
 
 const NoteEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const notes = useSelector((state) => state.notes.notes);
-  const loading = useSelector((state) => state.notes.loading);
-  const error = useSelector((state) => state.notes.error);
+  const navigate = useNavigate();
+
+  const note = useSelector((state) =>
+    state.notes.selectedNote
+  ); 
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [localError, setLocalError] = useState(null);
 
   useEffect(() => {
-    if (!loading && notes.length === 0) {
-      dispatch(fetchNotesAsync()).unwrap().catch(() => {
-        setLocalError('Failed to fetch notes.');
-      });
+    if (id) {
+      dispatch(fetchNoteByIdAsync(id)); 
     }
-  }, [loading, notes.length, dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (!loading) {
-      console.log('Notes:', notes); // Debugging line
-      const note = notes.find((note) => note.nid === parseInt(id, 10));
-      if (note) {
-        setTitle(note.title);
-        setBody(note.body);
-      } else {
-        setLocalError('Note not found.');
-      }
+    if (note) {
+      setTitle(note.title);
+      setBody(note.body);
     }
-  }, [loading, notes, id]);
+  }, [note]);
 
   const handleSave = () => {
-    dispatch(updateNoteAsync({ nid: parseInt(id, 10), note: { title, body } }))
-      .then(() => {
-        navigate(`/notes/${id}`);
+    dispatch(
+      updateNoteAsync({
+        nid: note.nid,
+        title,
+        body,
       })
-      .catch((err) => {
-        setLocalError('Failed to update note.');
-        console.error(err);
-      });
+    );
+    navigate('/notes');
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (localError) {
-    return <div>{localError}</div>;
-  }
 
   return (
     <div>
       <h2>Edit Note</h2>
-      <div>
-        <label>Title:</label>
+      <div className="mb-3">
+        <label htmlFor="title" className="form-label">
+          Title
+        </label>
         <input
           type="text"
+          className="form-control"
+          id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-      <div>
-        <label>Body:</label>
+      <div className="mb-3">
+        <label htmlFor="body" className="form-label">
+          Body
+        </label>
         <textarea
+          className="form-control"
+          id="body"
+          rows="3"
           value={body}
           onChange={(e) => setBody(e.target.value)}
         />
       </div>
-      <button onClick={handleSave}>Save</button>
+      <button className="btn btn-primary" onClick={handleSave}>
+        Save
+      </button>
     </div>
   );
 };

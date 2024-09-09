@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchNoteById } from '../../services/api';
+import getRandomColor from '../../components/notes/NoteColor';
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -24,6 +25,11 @@ const NoteDetails = () => {
     getNoteDetails();
   }, [id]);
 
+  const [cardColor, setCardColor] = useState(getRandomColor());
+  useEffect(() => {
+    setCardColor(getRandomColor());
+  }, [id]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -33,11 +39,13 @@ const NoteDetails = () => {
   }
 
   return (
-    <div>
+    <div className='card card-body' style={{ backgroundColor: cardColor}}>
       {note ? (
-        <div>
-          <h2>{note.title}</h2>
-          <p>{note.body}</p>
+        <div >
+          <h2 >{note.title}</h2>
+          <p >{note.body}</p>
+          <p className="card-text">Created at: {note.createdAt}</p>
+          <p className="card-text">Updated at: {note.updatedAt}</p>
         </div>
       ) : (
         <div>Note not found.</div>
