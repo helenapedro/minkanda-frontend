@@ -4,8 +4,8 @@ import { fetchNotes, fetchNoteById, addNote, updateNote, deleteNote } from '../s
 // Async actions using createAsyncThunk
 export const fetchNotesAsync = createAsyncThunk(
   'notes/fetchNotes', 
-  async () => {
-    const response = await fetchNotes();
+  async (page = 0) => {
+    const response = await fetchNotes(page);
     console.log('Fetched Notes:', response);
     return response;
   }
@@ -60,6 +60,7 @@ const notesSlice = createSlice({
       .addCase(fetchNotesAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.notes = action.payload.content;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchNotesAsync.rejected, (state, action) => {
         state.loading = false;

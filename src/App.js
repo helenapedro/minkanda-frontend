@@ -20,10 +20,12 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path='/login' element={<Login/>}/>
         <Route path="/register" element={<Register />} />
-        <Route path="/notes" element={<NotesList />} />
-        <Route path="/notes/:id" element={<NoteDetails />} />
-        <Route path="/notes/edit/:id" element={<NoteEdit/>} />
-        <Route path="/notes/add" element={<AddNote />} />
+        <Route path="/notes" >
+          <Route index element={<NotesList />} />
+          <Route path=":id" element={<NoteDetails />} />
+          <Route path="edit/:id" element={<NoteEdit />} />
+          <Route path="add" element={<AddNote />} />
+        </Route>
       </Routes>
     </Router>
   );
