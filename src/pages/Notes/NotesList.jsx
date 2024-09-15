@@ -16,22 +16,25 @@ const NotesList = () => {
   const [error, setError] = useState(null);
 
   const [showSearch, setShowSearch] = useState(false);
+
   const [text, setText] = useState('');
   const [filteredNotes, setFilteredNotes] = useState(notes);
 
+   // Pagination state
   const [page, setPage] = useState(0); 
   const [totalPages, setTotalPages] = useState(1); 
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     const getNotes = async () => {
       setLoading(true);
       try {
-        const fetchedNotes = await fetchNotes();
+        const fetchedNotes = await fetchNotes(page, pageSize);
         console.log('Fetched Notes:', fetchedNotes);
-        setNotes(fetchedNotes);
 
-        if (Array.isArray(fetchedNotes)) {
-          setNotes(fetchedNotes);
+        if (fetchedNotes && fetchedNotes.content && Array.isArray(fetchedNotes.content)) {
+          setNotes(fetchedNotes.content);
+          setTotalPages(fetchedNotes.totalPages);
         } else {
           throw new Error('Unexpected API response format');
         }
@@ -44,7 +47,7 @@ const NotesList = () => {
     };
 
     getNotes();
-  }, []);
+  }, [page, pageSize]);
 
   const handleSearch = () => {
     if (text.trim() === '') {
@@ -71,11 +74,15 @@ const NotesList = () => {
 
 
   const handleNextPage = () => {
-    if (page < totalPages - 1) setPage((prevPage) => prevPage + 1); 
+    if (page < totalPages - 1) {
+      setPage((prevPage) => prevPage + 1);
+    }  
   };
 
   const handlePreviousPage = () => {
-    if (page > 0) setPage((prevPage) => prevPage - 1); 
+    if (page > 0) {
+      setPage((prevPage) => prevPage - 1);
+    } 
   };
 
   return (
@@ -121,9 +128,13 @@ const NotesList = () => {
       ))}
 
       <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={page === 0}>Previous</button>
+        <button onClick={handlePreviousPage} disabled={page === 0}>
+          Previous
+        </button>
         <span>Page {page + 1} of {totalPages}</span>
-        <button onClick={handleNextPage} disabled={page === totalPages - 1}>Next</button>
+        <button onClick={handleNextPage} disabled={page === totalPages - 1}>
+          Next
+        </button>
       </div>
     </div> 
   );

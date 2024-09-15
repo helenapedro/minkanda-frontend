@@ -11,15 +11,19 @@ const api = axios.create({
   },
 });
 
-export const fetchNotes = async () => {
+export const fetchNotes = async (page = 0, pageSize = 10) => {
   try {
     const token = getToken();
     const response = await api.get('/notes', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: {
+        page,
+        size: pageSize,
+      },
     });
-    return response.data.content;
+    return response.data;
   } catch (error) {
     handleApiError(error, '/notes'); 
   }
