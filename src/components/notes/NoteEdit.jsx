@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import { fetchNoteByIdAsync, updateNoteAsync } from '../../redux/notesSlice';
 
 const NoteEdit = () => {
@@ -8,43 +9,60 @@ const NoteEdit = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 
-  const note = useSelector((state) =>
-    state.notes.selectedNote
-  );
+  const note = useSelector((state) => state.notes.selectedNote);
+  const error = useSelector(state => state.notes.error) 
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
   const updateNoteStatus = useSelector(state => state.notes.updateNoteStatus);
- 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchNoteByIdAsync(id)); 
-    }
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    if (note) {
-      setTitle(note.title);
-      setBody(note.body);
-    }
-  }, [note]);
 
   useEffect(() => {
     if (updateNoteStatus === 'fulfilled') {
       navigate('/notes'); 
     }
   }, [updateNoteStatus, navigate]);
+ 
+  useEffect(() => {
+    if (id) {
+      console.log('Fetching note with id:', id);
+      dispatch(fetchNoteByIdAsync(id)); 
+    }
+
+    return () => {
+      dispatch({ type: 'notes/clearError' });
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (note) {
+      console.log('Received note data:', note);
+      setTitle(note.title);
+      setBody(note.body);
+
+      dispatch({ type: 'notes/clearError' }); 
+    }
+  }, [note]);
+
 
   const handleSave = () => {
-    const { nid, ...restOfNote } = note; 
+    if (!note) return;
 
-    dispatch(updateNoteAsync({ nid, ...restOfNote }));
+    const updateNote = {
+      ...note,
+      title,
+      body,
+    };
+
+    dispatch(updateNoteAsync({ nid: note.nid, ...updateNote }));
   };
 
   return (
     <div>
       <h2>Edit Note</h2>
+
+      {error && <div className="alert alert-danger">{error}</div>}
+
       <div className="mb-3">
         <label htmlFor="title" className="form-label">
           Title
@@ -71,7 +89,7 @@ const NoteEdit = () => {
 
         />
       </div>
-      <button className="btn btn-primary" onClick={handleSave}>
+      <button className="btn btn-primary" onClick={handleSave} disabled={!note}> 
         Save
       </button>
     </div>

@@ -50,6 +50,7 @@ const notesSlice = createSlice({
     loading: false,
     error: null,
     totalPages: 0,
+    updateNoteStatus: 'idle',
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -88,11 +89,22 @@ const notesSlice = createSlice({
         state.error = action.error.message;
       })
 
+      .addCase(updateNoteAsync.pending, (state) => {
+        state.updateNoteStatus = 'pending'; 
+      })
       .addCase(updateNoteAsync.fulfilled, (state, action) => {
+        console.log('Update note fulfilled with payload:', action.payload);
+        state.updateNoteStatus = 'fulfilled';
         const index = state.notes.findIndex((note) => note.nid === action.payload.nid);
-        if (index !== -1) state.notes[index] = action.payload;
+        if (index !== -1) {
+          console.log('Updating note at index:', index);
+          state.notes[index] = action.payload;
+        } else {
+          console.warn('Note not found in state for update:', action.payload.nid);
+        }
       })
       .addCase(updateNoteAsync.rejected, (state, action) => {
+        state.updateNoteStatus = 'rejected';
         state.error = action.error.message;
       })
 
