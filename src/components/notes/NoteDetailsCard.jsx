@@ -23,7 +23,9 @@ const NoteDetailsCard = ({ note }) => {
   };
 
   const handleDelete = () => {
-    dispatch(deleteNoteAsync(note.nid));
+    if (window.confirm("Are you sure you want to delete this note?")) {
+      dispatch(deleteNoteAsync(note.nid));
+    }
   };
 
 
