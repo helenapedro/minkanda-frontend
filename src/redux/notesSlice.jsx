@@ -52,7 +52,11 @@ const notesSlice = createSlice({
     totalPages: 0,
     updateNoteStatus: 'idle',
   },
-  reducers: {},
+  reducers: {
+    resetUpdateStatus: (state) => {
+      state.updateNoteStatus = 'idle';
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotesAsync.pending, (state) => {

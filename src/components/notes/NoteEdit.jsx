@@ -20,12 +20,12 @@ const NoteEdit = () => {
   useEffect(() => {
     if (updateNoteStatus === 'fulfilled') {
       navigate('/notes'); 
+      dispatch({ type: 'notes/resetUpdateStatus' });
     }
-  }, [updateNoteStatus, navigate]);
+  }, [updateNoteStatus, navigate, dispatch]);
  
   useEffect(() => {
     if (id) {
-      console.log('Fetching note with id:', id);
       dispatch(fetchNoteByIdAsync(id)); 
     }
 
