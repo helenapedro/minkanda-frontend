@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { fetchNotesAsync } from '../../redux/notesSlice'; 
-import { fetchNotes } from '../../services/api'; 
+import { Link } from 'react-router-dom';
 import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
-
+import { fetchNotes } from '../../services/api'; 
+import { useDispatch, useSelector } from 'react-redux';
 import { CiSearch } from 'react-icons/ci';
 import { MdClose } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 
 const NotesList = () => {
   const dispatch = useDispatch();
