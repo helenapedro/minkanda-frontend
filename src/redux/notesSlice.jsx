@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchNotes, fetchNoteById, addNote, updateNote, deleteNote } from '../services/api';
 
-// Async actions using createAsyncThunk
 export const fetchNotesAsync = createAsyncThunk(
   'notes/fetchNotes', 
   async (page = 0) => {
@@ -27,8 +26,9 @@ export const addNoteAsync = createAsyncThunk(
 );
 
 export const updateNoteAsync = createAsyncThunk(
-  'notes/updateNote', async ({ nid, note }) => {
-    const response = await updateNote(nid, note);
+  'notes/updateNote', 
+  async ({ nid, ...restOfNote }) => {
+    const response = await updateNote(nid, { nid, ...restOfNote });
     return response;
   }
 );
@@ -49,6 +49,7 @@ const notesSlice = createSlice({
     selectedNote: null,
     loading: false,
     error: null,
+    totalPages: 0,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -104,5 +105,6 @@ const notesSlice = createSlice({
       
   },
 });
+
 
 export default notesSlice.reducer;

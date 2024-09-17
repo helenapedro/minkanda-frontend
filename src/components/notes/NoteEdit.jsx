@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-
 import { fetchNoteByIdAsync, updateNoteAsync } from '../../redux/notesSlice';
 
 const NoteEdit = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const note = useSelector((state) =>
     state.notes.selectedNote
-  ); 
+  );
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
+  const updateNoteStatus = useSelector(state => state.notes.updateNoteStatus);
+ 
   useEffect(() => {
     if (id) {
       dispatch(fetchNoteByIdAsync(id)); 
@@ -29,15 +30,16 @@ const NoteEdit = () => {
     }
   }, [note]);
 
+  useEffect(() => {
+    if (updateNoteStatus === 'fulfilled') {
+      navigate('/notes'); 
+    }
+  }, [updateNoteStatus, navigate]);
+
   const handleSave = () => {
-    dispatch(
-      updateNoteAsync({
-        nid: note.nid,
-        title,
-        body,
-      })
-    );
-    navigate('/notes');
+    const { nid, ...restOfNote } = note; 
+
+    dispatch(updateNoteAsync({ nid, ...restOfNote }));
   };
 
   return (
@@ -50,7 +52,8 @@ const NoteEdit = () => {
         <input
           type="text"
           className="form-control"
-          id="title"
+          id="title"   
+
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -64,7 +67,8 @@ const NoteEdit = () => {
           id="body"
           rows="3"
           value={body}
-          onChange={(e) => setBody(e.target.value)}
+          onChange={(e) => setBody(e.target.value)}   
+
         />
       </div>
       <button className="btn btn-primary" onClick={handleSave}>

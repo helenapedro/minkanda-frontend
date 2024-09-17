@@ -1,0 +1,73 @@
+{
+     "pipeline": {
+          "name": "NotesPipeline",
+          "roleArn": "arn:aws:iam::884127585546:role/service-role/notes-app-admin",
+          "artifactStore": {
+               "type": "S3",
+               "location": "codepipeline-us-east-2-130455864373"
+          },
+          "stages": [
+               {
+                    "name": "Source",
+                    "actions": [
+                         {
+                              "name": "Source",
+                              "actionTypeId": {
+                                   "category": "Source",
+                                   "owner": "AWS",
+                                   "provider": "CodeStarSourceConnection",
+                                   "version": "1"
+                              },
+                              "runOrder": 1,
+                              "configuration": {
+                                   "BranchName": "main",
+                                   "ConnectionArn": "arn:aws:codeconnections:ap-south-1:884127585546:connection/6bdcf12d-9c26-4dff-accd-d575bf72d00e",
+                                   "DetectChanges": "false",
+                                   "FullRepositoryId": "helenapedro/NotesAppAPI",
+                                   "OutputArtifactFormat": "CODE_ZIP"
+                              },
+                              "outputArtifacts": [
+                                   {
+                                        "name": "SourceArtifact"
+                                   }
+                              ],
+                              "inputArtifacts": [],
+                              "region": "us-east-2",
+                              "namespace": "SourceVariables"
+                         }
+                    ]
+               },
+               {
+                    "name": "Build", 
+                    "actions": [
+                         {
+                              "name": "CodeBuild", 
+                              "actionTypeId": {
+                                   "category": "Build",
+                                   "owner": "AWS",
+                                   "version": "1",
+                                   "provider": "CodeBuild" 
+                              },
+                              "configuration": {
+                                   "ProjectName": "MyCodeBuildProject" 
+                              },
+                              "inputArtifacts": [
+                                   {
+                                        "name": "SourceOutput" 
+                                   }
+                              ],
+                              "outputArtifacts": [
+                                   {
+                                        "name": "BuildOutput" 
+                                   }
+                              ],
+                              "runOrder": 1
+                         }
+                    ]
+               }
+                    
+          ]
+     }
+}
+
+

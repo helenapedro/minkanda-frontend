@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './../utils/tokenUtils';
 import { handleApiError } from './../utils/errorUtils';
 
-const API_URL = process.env.REACT_APP_API_URL_DEV;
+const API_URL = process.env.REACT_APP_API_URL_PROD;
 
 const api = axios.create({
   baseURL: API_URL,
@@ -52,11 +52,11 @@ export const addNote = async (note) => {
       },
     });
 
-    if (!response.data || !response.data.content) {
+    if (!response.data) {
       throw new Error('Unexpected response format from /notes.');
     }
 
-    return response.data.content;
+    return response.data;
   } catch (error) {
     handleApiError(error, '/notes'); 
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchNotesAsync } from '../../redux/notesSlice'; 
@@ -23,14 +23,14 @@ const NotesList = () => {
    // Pagination state
   const [page, setPage] = useState(0); 
   const [totalPages, setTotalPages] = useState(1); 
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     const getNotes = async () => {
       setLoading(true);
       try {
         const fetchedNotes = await fetchNotes(page, pageSize);
-        console.log('Fetched Notes:', fetchedNotes);
+        //console.log('Fetched Notes:', fetchedNotes);
 
         if (fetchedNotes && fetchedNotes.content && Array.isArray(fetchedNotes.content)) {
           setNotes(fetchedNotes.content);
@@ -49,7 +49,7 @@ const NotesList = () => {
     getNotes();
   }, [page, pageSize]);
 
-  const handleSearch = () => {
+  const handleSearch = useCallback( () => {
     if (text.trim() === '') {
       setFilteredNotes(notes);
     } else {
@@ -58,11 +58,11 @@ const NotesList = () => {
       );
       setFilteredNotes(filtered);
     }
-  };
+  }, [text, notes]);
 
   useEffect(() => {
     handleSearch();
-  }, [text, notes]);
+  }, [text, notes, handleSearch]);
 
   if (loading) {
     return <div>Loading...</div>;
