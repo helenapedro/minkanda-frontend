@@ -7,7 +7,6 @@ import { CiSearch } from 'react-icons/ci';
 import { MdClose } from 'react-icons/md';
 
 const NotesList = () => {
-  const dispatch = useDispatch();
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
