@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchNoteById } from '../../services/api';
 import getRandomColor from '../../components/notes/NoteColor';
+import { format } from 'date-fns';
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -44,8 +45,8 @@ const NoteDetails = () => {
         <div >
           <h2 >{note.title}</h2>
           <p >{note.body}</p>
-          <p className="card-text">Created at: {note.createdAt}</p>
-          <p className="card-text">Updated at: {note.updatedAt}</p>
+          <p className="card-text">Created at: {format (new Date (note.createdAt), 'PPpp')}</p>
+          <p className="card-text">Updated at: {format(new Date(note.updatedAt), 'PPpp')}</p>
         </div>
       ) : (
         <div>Note not found.</div>
