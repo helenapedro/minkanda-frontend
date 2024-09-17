@@ -16,8 +16,11 @@ const AddNote = () => {
         title,
         body
       })
-    );
-    navigate('/notes');
+    ).then(() => {
+      setTitle('');
+      setBody('');
+      navigate('/notes');
+    });
   };
 
   return (
