@@ -56,6 +56,9 @@ const notesSlice = createSlice({
     resetUpdateStatus: (state) => {
       state.updateNoteStatus = 'idle';
     },
+    clearSelectedNote: (state) => {
+      state.selectedNote = null;
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -44,6 +44,13 @@ const NoteEdit = () => {
     }
   }, [note]);
 
+  useEffect(() => {
+    return () => {
+      dispatch({ type: 'notes/clearSelectedNote' });
+    };
+  }, [dispatch]);
+  
+
 
   const handleSave = () => {
     if (!note) return;
