@@ -10,6 +10,7 @@ import NotesList from './pages/Notes/NotesList';
 import NoteDetails from './pages/Notes/NoteDetails';
 import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
+import PublicNotes from './pages/PublicNotes';
 import LogoutButton from './components/LogoutButton';
 
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="edit/:id" element={<NoteEdit />} />
           <Route path="add" element={<AddNote />} />
         </Route>
+        <Route path='/notes/public' element={<PublicNotes />} />
         <Route path="/logout" element={<LogoutButton />} />
       </Routes>
     </Router>

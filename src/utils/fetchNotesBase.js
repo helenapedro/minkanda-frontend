@@ -11,7 +11,8 @@ const api = axios.create({
   },
 });
 
-export const fetchNotesBase = async (url, page = 0, pageSize = 10) => {
+export const fetchNotesBase = async (url, page = 0, pageSize, publicOnly = false) => {
+  const endpoint = publicOnly ? '/notes/public' : '/notes';
   try {
     const token = getToken();
     const response = await api.get(url, {

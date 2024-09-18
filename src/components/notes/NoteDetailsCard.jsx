@@ -1,17 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteNoteAsync } from '../../redux/notesSlice';
+import { fetchNotesAsync , deleteNoteAsync } from '../../redux/notesSlice';
 import { useNavigate } from 'react-router-dom';
-
 import getRandomColor from './NoteColor';
-import { fetchNotesAsync } from '../../redux/notesSlice';
 
 const NoteDetailsCard = ({ note }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [deleteStatus, setDeleteStatus] = useState(null); 
-
   const [cardColor, setCardColor] = useState(getRandomColor());
+
   useEffect(() => {
     setCardColor(getRandomColor());
   }, [note]);
@@ -21,7 +19,6 @@ const NoteDetailsCard = ({ note }) => {
   };
 
   const handleEdit = () => {
-    console.log('Navigating to:', `/notes/edit/${note.nid}`);
     navigate(`/notes/edit/${note.nid}`);
   };
 
@@ -31,14 +28,18 @@ const NoteDetailsCard = ({ note }) => {
       if (!confirmed) {
         return;
       }
-  
-      dispatch(deleteNoteAsync(note.nid));
-  
-      setDeleteStatus('Note successfully deleted.');
 
+      const resultAction = await dispatch(deleteNoteAsync(note.nid)).unwrap();
+      
+    if (resultAction && resultAction.success) {
+      setDeleteStatus('Note successfully deleted.');
       dispatch(fetchNotesAsync());
+    } else {
+      setDeleteStatus('Note deletion failed.');
+    }
     } catch (error) {
       setDeleteStatus('Error deleting note.');
+      console.error('Delete failed:', error);
     }
   };
   
