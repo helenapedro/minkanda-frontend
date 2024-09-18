@@ -8,11 +8,9 @@ export const authSlice = createSlice({
   },
   reducers: {
     logoutUser: (state) => {
-      // Handle logout logic
       state.user = null;
       state.isAuthenticated = false;
     },
-    // Other actions...
   },
 });
 

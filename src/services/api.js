@@ -1,14 +1,9 @@
 import axios from 'axios';
 import { getToken } from '../utils/tokenUtils';
 import { handleApiError } from '../utils/errorUtils';
-import { createAction } from "@reduxjs/toolkit";
+import { fetchNotesBase } from '../utils/fetchNotesBase';
 
 const API_URL = process.env.REACT_APP_API_URL_PROD;
-
-// general http actions
-export const apiCallBegan = createAction("api/callBegan");
-export const apiCallSuccess = createAction("api/callSuccess");
-export const apiCallFailed = createAction("api/callFailed");
 
 const api = axios.create({
   baseURL: API_URL,
@@ -17,22 +12,12 @@ const api = axios.create({
   },
 });
 
+export const fetchPublicNotes = async (page = 0, pageSize = 10) => {
+  return fetchNotesBase('/notes/public', page, pageSize);
+};
+
 export const fetchNotes = async (page = 0, pageSize = 10) => {
-  try {
-    const token = getToken();
-    const response = await api.get('/notes', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        page,
-        size: pageSize,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    handleApiError(error, '/notes'); 
-  }
+  return fetchNotesBase('/notes', page, pageSize);
 };
 
 export const fetchNoteById = async (id) => {

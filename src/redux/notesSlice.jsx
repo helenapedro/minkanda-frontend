@@ -1,11 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchNotes, fetchNoteById, addNote, updateNote, deleteNote } from '../services/api';
+import { fetchNotes, fetchNoteById, fetchPublicNotes, addNote, updateNote, deleteNote } from '../services/api';
 
 export const fetchNotesAsync = createAsyncThunk(
   'notes/fetchNotes', 
   async (page = 0) => {
     const response = await fetchNotes(page);
-    console.log('Fetched Notes:', response);
+    return response;
+  }
+);
+
+export const fetchPublicNotesAsync = createAsyncThunk(
+  'notes/fetchPublicNotes',
+  async (page = 0) => {
+    const response = await fetchPublicNotes(page);
     return response;
   }
 );
@@ -50,6 +57,7 @@ const notesSlice = createSlice({
     loading: false,
     error: null,
     totalPages: 0,
+    publicTotalPages: 0,
     updateNoteStatus: 'idle',
   },
   reducers: {
@@ -72,6 +80,20 @@ const notesSlice = createSlice({
         state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchNotesAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(fetchPublicNotesAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPublicNotesAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.publicNotes = action.payload.content;
+        state.publicTotalPages = action.payload.totalPages;
+      })
+      .addCase(fetchPublicNotesAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
@@ -123,5 +145,6 @@ const notesSlice = createSlice({
   },
 });
 
+export const { resetUpdateStatus, clearSelectedNote } = notesSlice.actions;
 
 export default notesSlice.reducer;

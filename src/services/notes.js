@@ -5,7 +5,7 @@ export const fetchNotesList = async (
      pageSize, 
      setNotes, 
      setTotalPages, 
-     setError
+     setError,
 ) => {
      try {
      const fetchedNotes = await fetchNotes(page, pageSize);

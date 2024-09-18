@@ -4,7 +4,7 @@ import { loginUser, registerUser, fetchUserDetails } from '../services/auth';
 // Async actions using createAsyncThunk
 export const loginUserAsync = createAsyncThunk('user/login', async (credentials) => {
   const response = await loginUser(credentials);
-  return response; // Assume response contains user info and token
+  return response; 
 });
 
 export const registerUserAsync = createAsyncThunk('user/register', async (userDetails) => {
@@ -27,7 +27,10 @@ const userSlice = createSlice({
   },
   reducers: {
     logoutUser: (state) => {
-      state.userInfo = null; // Clear user info on logout
+      state.userInfo = null;
+      state.loading = false;
+      state.error = null;
+      localStorage.removeItem('userInfo');
     },
   },
   extraReducers: (builder) => {
@@ -38,14 +41,17 @@ const userSlice = createSlice({
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.userInfo = action.payload; // Assuming payload is user info
+        state.userInfo = action.payload;
+        localStorage.setItem('userInfo', JSON.stringify(action.payload));  
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
+
       .addCase(registerUserAsync.fulfilled, (state, action) => {
-        state.userInfo = action.payload; // Auto-login after registration
+        state.userInfo = action.payload;
+        localStorage.setItem('userInfo', JSON.stringify(action.payload));
       })
       .addCase(fetchUserDetailsAsync.fulfilled, (state, action) => {
         state.userInfo = action.payload;
