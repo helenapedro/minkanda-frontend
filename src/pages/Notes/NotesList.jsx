@@ -3,8 +3,8 @@ import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
 import { useDebouncedSearch } from '../../utils/search';
 import { fetchNotesList } from '../../services/notes';
 import { getPaginationControls } from '../../utils/pagination';
-import { CiSearch } from 'react-icons/ci';
-import { MdClose } from 'react-icons/md';
+import SearchForm from './../../forms/searchForm';
+import PaginationLayout from '../../components/notes/PaginationLayout';
 import { Link } from 'react-router-dom';
 
 const NotesList = () => {
@@ -33,7 +33,7 @@ const NotesList = () => {
 
   const handlePageSizeChange = (e) => {
     setPageSize(Number(e.target.value));
-    setPage(0); // Reset to first page when page size changes
+    setPage(0);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -42,39 +42,15 @@ const NotesList = () => {
   return (
     <div className="notes-list">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        {showSearch ? (
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by title..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={() => {
-                setShowSearch(false);
-                setText('');
-              }}
-            >
-              <MdClose />
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button
-              className="btn btn-outline-secondary me-2"
-              onClick={() => setShowSearch(true)}
-            >
-              <CiSearch /> Search
-            </button>
-            <Link to="/notes/add" className="btn btn-success">
-              Add Note
-            </Link>
-          </div>
-        )}
+        <SearchForm
+          text={text}
+          setText={setText}
+          showSearch={showSearch}
+          setShowSearch={setShowSearch}
+        />
+        <Link to="/notes/add" className="btn btn-success">
+          Add Note
+        </Link>
       </div>
 
       {filteredNotes.length === 0 ? (
@@ -82,30 +58,15 @@ const NotesList = () => {
       ) : (
         filteredNotes.map((note) => <NoteDetailsCard key={note.nid} note={note} />)
       )}
-
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </button>
-        <span>Page {page + 1} of {totalPages}</span>
-        <button onClick={handleNextPage} disabled={page === totalPages - 1}>
-          Next
-        </button>
-      </div>
-
-      <div className="pagination-controls mb-3">
-        <label htmlFor="pageSize" className="me-2">Notes per page:</label>
-        <select id="pageSize" value={pageSize} onChange={handlePageSizeChange}>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-        </select>
-      </div>
-
-      <div className="pagination-info">
-        <span>Showing {pageSize} notes per page</span>
-      </div>
+      
+      <PaginationLayout
+        page={page}
+        totalPages={totalPages}
+        handlePreviousPage={handlePreviousPage}
+        handleNextPage={handleNextPage}
+        pageSize={pageSize}
+        handlePageSizeChange={handlePageSizeChange}
+      />
     </div>
   );
 };

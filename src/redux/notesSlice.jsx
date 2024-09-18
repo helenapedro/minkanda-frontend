@@ -100,11 +100,9 @@ const notesSlice = createSlice({
         state.updateNoteStatus = 'pending'; 
       })
       .addCase(updateNoteAsync.fulfilled, (state, action) => {
-        console.log('Update note fulfilled with payload:', action.payload);
         state.updateNoteStatus = 'fulfilled';
         const index = state.notes.findIndex((note) => note.nid === action.payload.nid);
         if (index !== -1) {
-          console.log('Updating note at index:', index);
           state.notes[index] = action.payload;
         } else {
           console.warn('Note not found in state for update:', action.payload.nid);
