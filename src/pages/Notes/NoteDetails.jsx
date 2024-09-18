@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchNoteById } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
+import { fetchNoteById, deleteNote } from '../../services/api';
 import getRandomColor from '../../components/notes/NoteColor';
-import { format } from 'date-fns';
+
+import styles from '../../styles/NoteDetails.module.css';
 
 const NoteDetails = () => {
   const { id } = useParams();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cardColor, setCardColor] = useState(getRandomColor());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getNoteDetails = async () => {
@@ -26,10 +30,19 @@ const NoteDetails = () => {
     getNoteDetails();
   }, [id]);
 
-  const [cardColor, setCardColor] = useState(getRandomColor());
   useEffect(() => {
     setCardColor(getRandomColor());
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteNote(id);
+      navigate('/notes');
+    } catch (err) {
+      setError('Failed to delete note.');
+      console.error(err);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -40,13 +53,26 @@ const NoteDetails = () => {
   }
 
   return (
-    <div className='card card-body' style={{ backgroundColor: cardColor}}>
+    <div className={`${styles.card} container`} style={{ backgroundColor: cardColor}}>
       {note ? (
         <div >
-          <h2 >{note.title}</h2>
-          <p >{note.body}</p>
-          <p className="card-text">Created at: {format (new Date (note.createdAt), 'PPpp')}</p>
-          <p className="card-text">Updated at: {format(new Date(note.updatedAt), 'PPpp')}</p>
+          <div className={styles.header}>
+            <h2 className={styles.title}>{note.title}</h2>
+            <button className="btn btn-secondary" onClick={() => navigate('/notes')}>
+              Return
+            </button>
+          </div>
+          <div className={styles.body}>
+            <p className='card-text'>{note.body}</p>
+          </div>
+          <div className={styles.footer}>
+            <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}>
+              Edit Note
+            </button>
+            <button className="btn btn-danger" onClick={handleDelete}>
+              Delete Note
+            </button>
+          </div>
         </div>
       ) : (
         <div>Note not found.</div>

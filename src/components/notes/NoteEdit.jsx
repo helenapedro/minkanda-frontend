@@ -42,7 +42,7 @@ const NoteEdit = () => {
 
       dispatch({ type: 'notes/clearError' }); 
     }
-  }, [note]);
+  }, [note, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -50,8 +50,6 @@ const NoteEdit = () => {
     };
   }, [dispatch]);
   
-
-
   const handleSave = () => {
     if (!note) return;
 
@@ -71,9 +69,7 @@ const NoteEdit = () => {
       {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="mb-3">
-        <label htmlFor="title" className="form-label">
-          Title
-        </label>
+        <label htmlFor="title" className="form-label">Title</label>
         <input
           type="text"
           className="form-control"
@@ -84,9 +80,7 @@ const NoteEdit = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="body" className="form-label">
-          Body
-        </label>
+        <label htmlFor="body" className="form-label">Body</label>
         <textarea
           className="form-control"
           id="body"
@@ -96,9 +90,7 @@ const NoteEdit = () => {
 
         />
       </div>
-      <button className="btn btn-primary" onClick={handleSave} disabled={!note}> 
-        Save
-      </button>
+      <button className="btn btn-primary" onClick={handleSave} disabled={!note}>Save</button>
     </div>
   );
 };

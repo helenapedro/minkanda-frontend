@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { fetchNotesAsync , deleteNoteAsync } from '../../redux/notesSlice';
 import { useNavigate } from 'react-router-dom';
 import getRandomColor from './NoteColor';
+import notesStyles from '../../styles/NotesList.module.css'
 
 const NoteDetailsCard = ({ note }) => {
   const dispatch = useDispatch();
@@ -44,7 +45,8 @@ const NoteDetailsCard = ({ note }) => {
   };
   
   return (
-      <div className="card mb-3" style={{ backgroundColor: cardColor}}>
+    <div className='container'>
+      <div className= "card mb-3" style={{ backgroundColor: cardColor}}>
         <div className='card-body'>
           <h5 className="card-title">{note.title}</h5>
           <button className="btn btn-primary" onClick={handleView}>View</button>
@@ -53,6 +55,7 @@ const NoteDetailsCard = ({ note }) => {
           {deleteStatus && <div className="alert alert-info">{deleteStatus}</div>}
         </div>
       </div>
+    </div>
   );
 };
 

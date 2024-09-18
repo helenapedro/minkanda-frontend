@@ -7,6 +7,8 @@ import PublicNotesDetailsCard from '../components/notes/PublicNotesDetailsCard';
 import { getPaginationControls } from '../utils/pagination';
 import PaginationLayout from '../components/notes/PaginationLayout';
 
+import notesStyles from '../styles/NotesList.module.css';
+
 const PublicNotes = () => {
      const [notes, setNotes] = useState([]);
      const [loading, setLoading] = useState(true);
@@ -41,17 +43,21 @@ const PublicNotes = () => {
      if (error) return <p>{error}</p>;
 
      return (
-          <div className="notes-list">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <SearchForm
-                text={text}
-                setText={setText}
-                showSearch={showSearch}
-                setShowSearch={setShowSearch}
-              />
-              <button className='btn btn-outline-secondary' onClick={() => navigate("/notes/")}>
-                My Notes
-              </button>
+          <div className={`${notesStyles['notes-list']} container`}>
+            <div className={`${notesStyles.card} card`}>
+              <div className={`${notesStyles['card-body']} card-body`}>
+                <div className={notesStyles.actions}>
+                  <SearchForm
+                    text={text}
+                    setText={setText}
+                    showSearch={showSearch}
+                    setShowSearch={setShowSearch}
+                  />
+                  <button className='btn btn-outline-secondary' onClick={() => navigate("/notes/")}>
+                    My Notes
+                  </button> 
+                </div>
+              </div>
             </div>
       
             {filteredNotes.length === 0 ? (

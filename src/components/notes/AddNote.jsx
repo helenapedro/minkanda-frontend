@@ -9,16 +9,19 @@ const AddNote = () => {
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
 
   const handleSubmit = () => {
     dispatch(
       addNoteAsync({
         title,
-        body
+        body,
+        public: isPublic
       })
     ).then(() => {
       setTitle('');
       setBody('');
+      setIsPublic(false);
       navigate('/notes');
     });
   };
@@ -27,9 +30,7 @@ const AddNote = () => {
     <div>
       <h2>Add New Note</h2>
       <div className="mb-3">
-        <label htmlFor="title" className="form-label">
-          Title
-        </label>
+        <label htmlFor="title" className="form-label">Title</label>
         <input
           type="text"
           className="form-control"
@@ -40,9 +41,7 @@ const AddNote = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="body" className="form-label">
-          Body
-        </label>
+        <label htmlFor="body" className="form-label">Body</label>
         <textarea
           className="form-control"
           id="body"
@@ -51,6 +50,17 @@ const AddNote = () => {
           onChange={(e) => setBody(e.target.value)}   
 
         />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="public" className="form-label">
+          <input
+            type="checkbox"
+            id="public"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+          />
+          Public
+        </label>
       </div>
       <button className="btn btn-primary" onClick={handleSubmit}>
         Save
