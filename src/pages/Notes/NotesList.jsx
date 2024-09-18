@@ -48,6 +48,7 @@ const NotesList = () => {
           showSearch={showSearch}
           setShowSearch={setShowSearch}
         />
+        
         <Link to="/notes/add" className="btn btn-success">
           Add Note
         </Link>
