@@ -10,6 +10,7 @@ import NotesList from './pages/Notes/NotesList';
 import NoteDetails from './pages/Notes/NoteDetails';
 import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
+import LogoutButton from './components/LogoutButton';
 
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path='/login' element={<Login/>}/>
+        <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register />} />
         <Route path="/notes" >
           <Route index element={<NotesList />} />
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="edit/:id" element={<NoteEdit />} />
           <Route path="add" element={<AddNote />} />
         </Route>
+        <Route path="/logout" element={<LogoutButton />} />
       </Routes>
     </Router>
   );

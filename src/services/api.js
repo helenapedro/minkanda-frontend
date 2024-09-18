@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { getToken } from '../utils/tokenUtils';
 import { handleApiError } from '../utils/errorUtils';
+import { createAction } from "@reduxjs/toolkit";
 
 const API_URL = process.env.REACT_APP_API_URL_PROD;
+
+// general http actions
+export const apiCallBegan = createAction("api/callBegan");
+export const apiCallSuccess = createAction("api/callSuccess");
+export const apiCallFailed = createAction("api/callFailed");
 
 const api = axios.create({
   baseURL: API_URL,

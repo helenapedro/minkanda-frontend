@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 const NOTES_TAKING = "Notes Taking";
 const LOGIN = "Login";
 const REGISTER = "Register";
+const LOGOUT = "Logout";
 
 const NavBar = () => {
   return (
@@ -23,6 +24,9 @@ const NavBar = () => {
             </Nav.Link>
             <Nav.Link as={Link} to="/register">
               {REGISTER}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/logout">
+              {LOGOUT}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
