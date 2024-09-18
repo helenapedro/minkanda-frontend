@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
-import { fetchNotes } from '../../services/api';
-import { debounce } from '../../utils/debounce';
+import { useDebouncedSearch } from '../../utils/search';
+import { fetchNotesList } from '../../services/notes';
+import { getPaginationControls } from '../../utils/pagination';
 import { CiSearch } from 'react-icons/ci';
 import { MdClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -12,83 +13,36 @@ const NotesList = () => {
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
   const [filteredNotes, setFilteredNotes] = useState([]);
-
-  // Pagination state
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
-    const getNotes = async () => {
-      setLoading(true);
-      try {
-        const fetchedNotes = await fetchNotes(page, pageSize);
-        if (fetchedNotes && fetchedNotes.content) {
-          setNotes(fetchedNotes.content);
-          setFilteredNotes(fetchedNotes.content);
-          setTotalPages(fetchedNotes.totalPages);
-        } else {
-          throw new Error('Unexpected API response format');
-        }
-      } catch (err) {
-        setError('Failed to fetch notes.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getNotes();
+    fetchNotesList(page, pageSize, setNotes, setTotalPages, setError)
+      .finally(() => setLoading(false));
   }, [page, pageSize]);
 
-  const handleNextPage = () => {
-    if (page < totalPages - 1) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
+  const handleSearch = useDebouncedSearch(notes, text, setFilteredNotes);
 
-  const handlePreviousPage = () => {
-    if (page > 0) {
-      setPage((prevPage) => prevPage - 1);
-    }
-  };
+  useEffect(() => {
+    handleSearch();
+  }, [text, notes, handleSearch]);
+
+  const { handleNextPage, handlePreviousPage } = getPaginationControls(page, totalPages, setPage);
 
   const handlePageSizeChange = (e) => {
     setPageSize(Number(e.target.value));
     setPage(0); // Reset to first page when page size changes
   };
 
-  const handleSearch = useCallback(
-    debounce(() => {
-      if (text.trim() === '') {
-        setFilteredNotes(notes);
-      } else {
-        const filtered = notes.filter(note =>
-          note.title.toLowerCase().includes(text.toLowerCase())
-        );
-        setFilteredNotes(filtered);
-      }
-    }, 500), // 500ms delay for debounce
-    [text, notes]
-  );
-
-  useEffect(() => {
-    handleSearch();
-  }, [text, notes, handleSearch]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="notes-list">
-      {/* Search and Add Note UI */}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        {text ? (
+        {showSearch ? (
           <div className="input-group">
             <input
               type="text"
@@ -101,8 +55,8 @@ const NotesList = () => {
               className="btn btn-outline-secondary"
               type="button"
               onClick={() => {
+                setShowSearch(false);
                 setText('');
-                setFilteredNotes(notes); // Reset to all notes
               }}
             >
               <MdClose />
@@ -112,7 +66,7 @@ const NotesList = () => {
           <div>
             <button
               className="btn btn-outline-secondary me-2"
-              onClick={() => setText('')}
+              onClick={() => setShowSearch(true)}
             >
               <CiSearch /> Search
             </button>
@@ -129,6 +83,16 @@ const NotesList = () => {
         filteredNotes.map((note) => <NoteDetailsCard key={note.nid} note={note} />)
       )}
 
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={page === 0}>
+          Previous
+        </button>
+        <span>Page {page + 1} of {totalPages}</span>
+        <button onClick={handleNextPage} disabled={page === totalPages - 1}>
+          Next
+        </button>
+      </div>
+
       <div className="pagination-controls mb-3">
         <label htmlFor="pageSize" className="me-2">Notes per page:</label>
         <select id="pageSize" value={pageSize} onChange={handlePageSizeChange}>
@@ -140,17 +104,7 @@ const NotesList = () => {
       </div>
 
       <div className="pagination-info">
-        <span>Showing {filteredNotes.length} notes per page</span>
-      </div>
-
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </button>
-        <span>Page {page + 1} of {totalPages}</span>
-        <button onClick={handleNextPage} disabled={page === totalPages - 1}>
-          Next
-        </button>
+        <span>Showing {pageSize} notes per page</span>
       </div>
     </div>
   );

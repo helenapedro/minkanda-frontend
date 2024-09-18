@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { getToken } from './../utils/tokenUtils';
-import { handleApiError } from './../utils/errorUtils';
+import { getToken } from '../utils/tokenUtils';
+import { handleApiError } from '../utils/errorUtils';
 
 const API_URL = process.env.REACT_APP_API_URL_PROD;
 
