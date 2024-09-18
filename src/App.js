@@ -11,7 +11,7 @@ import NoteDetails from './pages/Notes/NoteDetails';
 import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
 import PublicNotes from './pages/PublicNotes';
-import LogoutButton from './components/LogoutButton';
+import LogoutButton from './components/LogoutButton'; 
 
 
 const App = () => {

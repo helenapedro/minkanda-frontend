@@ -78,5 +78,4 @@ const PublicNotes = () => {
      );
 };
    
-export default PublicNotes;
-   
+export default PublicNotes; 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { fetchNoteById, deleteNote } from '../../services/api';
+import { fetchNoteById } from '../../services/api';
 import getRandomColor from '../../components/notes/NoteColor';
-
+import { useNoteActions } from '../../actions/useNoteActions';
 import styles from '../../styles/NoteDetails.module.css';
 
 const NoteDetails = () => {
@@ -12,7 +12,8 @@ const NoteDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cardColor, setCardColor] = useState(getRandomColor());
-  const navigate = useNavigate();
+  const { handleDelete } = useNoteActions();
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const getNoteDetails = async () => {
@@ -33,16 +34,6 @@ const NoteDetails = () => {
   useEffect(() => {
     setCardColor(getRandomColor());
   }, [id]);
-
-  const handleDelete = async () => {
-    try {
-      await deleteNote(id);
-      navigate('/notes');
-    } catch (err) {
-      setError('Failed to delete note.');
-      console.error(err);
-    }
-  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -69,7 +60,7 @@ const NoteDetails = () => {
             <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}>
               Edit Note
             </button>
-            <button className="btn btn-danger" onClick={handleDelete}>
+            <button className="btn btn-danger" onClick={() => handleDelete(id, setError)}>
               Delete Note
             </button>
           </div>
