@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDebouncedSearch } from '../utils/search';
 import SearchForm from '../forms/searchForm';
 import { fetchPublicNotesList } from '../services/notes';
-import NoteDetailsCard from '../components/notes/NoteDetailsCard';
+import PublicNotesDetailsCard from '../components/notes/PublicNotesDetailsCard';
 import { getPaginationControls } from '../utils/pagination';
 import PaginationLayout from '../components/notes/PaginationLayout';
 
@@ -57,7 +57,7 @@ const PublicNotes = () => {
             {filteredNotes.length === 0 ? (
               <div>No notes match your search criteria.</div>
             ) : (
-              filteredNotes.map((note) => <NoteDetailsCard key={note.nid} note={note} />)
+              filteredNotes.map((note) => <PublicNotesDetailsCard key={note.nid} note={note} />)
             )}
             
             <PaginationLayout
@@ -67,7 +67,7 @@ const PublicNotes = () => {
               handleNextPage={handleNextPage}
               pageSize={pageSize}
               handlePageSizeChange={handlePageSizeChange}
-            />
+            /> 
           </div>
      );
 };
