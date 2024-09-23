@@ -18,7 +18,7 @@ const Login = () => {
       navigate('/notes'); 
     } catch (err) {
       console.log(err)
-      setError('Invalid credentials, please try again.');
+      setError('Network error, please try again.');
     }
   };
 
@@ -27,7 +27,7 @@ const Login = () => {
       <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-5 col-lg-6 col-xl-5">
-            <p className='h2 text-center'>Welcome to the Note App</p>
+            <p className='h2 text-center'>Welcome to the Notes App</p>
             <p className='lead text-center'>Create, manage, and access your notes securely.</p>
             <img 
               src="./hero.webp"

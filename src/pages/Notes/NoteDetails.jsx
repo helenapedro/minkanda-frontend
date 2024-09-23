@@ -5,6 +5,7 @@ import { fetchNoteById } from '../../services/api';
 import getRandomColor from '../../components/notes/NoteColor';
 import { useNoteActions } from '../../actions/useNoteActions';
 import styles from '../../styles/NoteDetails.module.css';
+import { useSelector } from 'react-redux';
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -14,6 +15,8 @@ const NoteDetails = () => {
   const [cardColor, setCardColor] = useState(getRandomColor());
   const { handleDelete } = useNoteActions();
   const navigate = useNavigate(); 
+
+  const userId = useSelector(state => state.user.id)
 
   useEffect(() => {
     const getNoteDetails = async () => {

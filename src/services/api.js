@@ -3,7 +3,7 @@ import { getToken } from '../utils/tokenUtils';
 import { handleApiError } from '../utils/errorUtils';
 import { fetchNotesBase } from '../utils/fetchNotesBase';
 
-const API_URL = process.env.REACT_APP_API_URL_PROD;
+const API_URL = process.env.REACT_APP_API_URL_HEROKU;
 
 const api = axios.create({
   baseURL: API_URL,
