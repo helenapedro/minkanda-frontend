@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUserAsync } from '../redux/userSlice'; 
 import UserDetails from '../components/user/UserDetails'; 
-import EditProfile from '../components/user/EditProfile'; 
 import Loading from './../components/common/Loading';
 import Error from './../components/common/Error';
 

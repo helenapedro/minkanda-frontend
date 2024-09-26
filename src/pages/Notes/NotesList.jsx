@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
 import { useDebouncedSearch } from '../../utils/search';
 import { fetchNotesList } from '../../services/notes';
@@ -19,7 +19,6 @@ const NotesList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [showSearch, setShowSearch] = useState(false); 
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchNotesList(page, pageSize, setNotes, setTotalPages, setError)
@@ -54,12 +53,12 @@ const NotesList = () => {
               setShowSearch={setShowSearch}
             />
             <div className={`${notesStyles['btn-group']} btn-group`}>
-              <Link to="/notes/add" className="btn btn-success">
+              <Link to="/notes/add" className="btn btn-outline-success">
                 Add Note
               </Link>
-              <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
+             {/*  <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
                 View Public Notes
-              </button>  
+              </button>   */}
             </div>
           </div>
         </div>

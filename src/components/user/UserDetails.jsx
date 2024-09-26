@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../common/Loading';
 import Error from '../common/Error';
 import { getCurrentUser } from '../../services/auth';
-import { useNavigate, Link } from 'react-router-dom';
-import EditProfile from './EditProfile';
+import { Link } from 'react-router-dom';
 
 const UserDetails = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserDetails = async () => {
