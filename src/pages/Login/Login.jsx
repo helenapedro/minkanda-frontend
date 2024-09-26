@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const resultAction = dispatch(loginUserAsync({ email, password }));
+      const resultAction = await dispatch(loginUserAsync({ email, password }));
       if (loginUserAsync.fulfilled.match(resultAction)) {
         navigate('/notes');
       } else {

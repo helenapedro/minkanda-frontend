@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserAsync } from '../redux/userSlice'; 
-import UserDetails from '../components/user/UserDetails'; // Certifique-se que o caminho está correto
+import { getCurrentUserAsync } from '../redux/userSlice'; 
+import UserDetails from '../components/user/UserDetails'; 
 import EditProfile from '../components/user/EditProfile'; 
+import Loading from './../components/common/Loading';
+import Error from './../components/common/Error';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const { userInfo, loading, error } = useSelector(state => state.user); 
 
   useEffect(() => {
-    dispatch(loginUserAsync()); 
+    dispatch(getCurrentUserAsync()); 
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Error message={error} />;
   }
 
   return (
