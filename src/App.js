@@ -12,6 +12,7 @@ import AddNote from './components/notes/AddNote';
 import PublicNotes from './pages/PublicNotes';
 import UserProfile from './pages/UserProfile';
 import ProtectedRoute from './components/ProtectedRoute'; 
+import { Outlet } from 'react-router-dom';
 
 const App = () => {
   return (
@@ -22,14 +23,25 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<ProtectedRoute element={<UserProfile />} />} />
-        <Route path="/notes" element={<ProtectedRoute element={<NotesList />} />}>
-          <Route path=":id" element={<ProtectedRoute element={<NoteDetails />} />} />
-          <Route path="edit/:id" element={<ProtectedRoute element={<NoteEdit />} />} />
-          <Route path="add" element={<ProtectedRoute element={<AddNote />} />} />
+        <Route path="/notes" element={<ProtectedRoute element={<NotesLayout />} />}>
+          <Route path="" element={<NotesList />} />
+          <Route path=":id" element={<NoteDetails />} />
+          <Route path="edit/:id" element={<NoteEdit />} />
+          <Route path="add" element={<AddNote />} />
+          <Route path="public" element={<PublicNotes />} />
         </Route>
-        <Route path="/notes/public" element={<PublicNotes />} />
       </Routes>
     </Router>
+  );
+};
+
+/* The Outlet component renders the nested routes within the NotesLayout */
+const NotesLayout = () => {
+  return (
+    <div>
+      <h2>Notes</h2>
+      <Outlet />
+    </div>
   );
 };
 

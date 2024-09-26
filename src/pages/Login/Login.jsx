@@ -1,26 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/auth';
+import { useDispatch } from 'react-redux';
+import { loginUserAsync } from '../../redux/userSlice';
 import styles from './Login.module.css';
 import loginForm from '../../forms/loginForm';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const data = await loginUser({ email, password });
-      console.log('Email: ', email);
-      console.log('Password: ', password);
-      localStorage.setItem('token', data.token);
-      navigate('/notes'); 
+      const resultAction = dispatch(loginUserAsync({ email, password }));
+      if (loginUserAsync.fulfilled.match(resultAction)) {
+        navigate('/notes');
+      } else {
+        setError('Login failed. Please check your credentials.');
+      }
     } catch (err) {
-      console.log(err)
-      setError('Network error, please try again.');
+      if (err.response && err.response.status === 401) {
+        setError('Invalid email or password.');
+      } else {
+        setError('Network error, please try again.');
+      }
+      console.log(err);
     }
   };
   
