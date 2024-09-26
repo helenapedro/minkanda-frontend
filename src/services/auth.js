@@ -11,11 +11,19 @@ const authApi = axios.create({
 
 export const loginUser = async (credentials) => {
   try {
-    console.log(credentials)
-    const response = await authApi.post('/users/authenticate', credentials);
+    const response = await authApi.post('/auth/login', credentials);
     return response.data;
   } catch (error) {
     console.error('Error logging in:', error);
+    throw error;
+  }
+};
+
+export const authUser = async (credentials) => {
+  try {
+    const response = await authApi.post('/users/authenticate', credentials);
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };
@@ -30,7 +38,6 @@ export const registerUser = async (userData) => {
   }
 };
 
-
 export const fetchUserDetails = async (userId) => {
   try {
     const response = await authApi.get(`/users/${userId}`);
@@ -40,4 +47,3 @@ export const fetchUserDetails = async (userId) => {
     throw error;
   }
 };
-

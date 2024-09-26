@@ -1,10 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { loginUser, registerUser, fetchUserDetails } from '../services/auth';
+import { 
+  loginUser, 
+  authUser,
+  registerUser, 
+  fetchUserDetails,
+} from '../services/auth';
 
 // Async actions using createAsyncThunk
 export const loginUserAsync = createAsyncThunk('user/login', async (credentials) => {
-  const response = await loginUser(credentials);
-  return response; 
+  try {
+    // First try to log in
+    const response = await loginUser(credentials);
+    return response; 
+  } catch (error) {
+     // If login fails, try to authenticate the user with authUser
+    const authResponse = await authUser(credentials);
+    return authResponse;
+  }
+  
 });
 
 export const registerUserAsync = createAsyncThunk('user/register', async (userDetails) => {
