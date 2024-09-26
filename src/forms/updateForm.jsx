@@ -68,7 +68,7 @@ const updateForm = (
                               <label className="form-label" htmlFor="birthdayDate">Birthday</label>
                          </div>  
                     </div>
-                    <div className="col-md-6 mb-4">
+                    {/* <div className="col-md-6 mb-4">
                          <i className="fas fa-venus-mars fa-lg me-3 fa-fw"></i>
                          <h6 class="mb-2 pb-1">Gender: </h6>
                          <div className="form-check form-check-inline">
@@ -107,7 +107,7 @@ const updateForm = (
                               />
                               <label className="form-check-label" htmlFor="otherGender">Other</label>
                          </div>
-                    </div>
+                    </div> */}
                </div>
                <div className="d-flex flex-row align-items-center mb-4">
                <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -168,7 +168,7 @@ const updateForm = (
                     </div>
                </div>
                <div className="text-center text-lg-start mt-4 pt-2">
-               <button type="submit" className={`${styles.button} btn btn-primary btn-lg`}>Register</button>
+               <button type="submit" className={`${styles.button} btn btn-primary btn-lg`}>Save Changes</button>
           </div>
         </form> 
      );

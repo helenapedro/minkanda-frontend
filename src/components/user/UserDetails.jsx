@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../common/Loading';
 import Error from '../common/Error';
 import { getCurrentUser } from '../../services/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import EditProfile from './EditProfile';
 
 const UserDetails = () => {
   const [user, setUser] = useState(null);
@@ -44,7 +45,7 @@ const UserDetails = () => {
           <div className="card-header">
             <h2>Hello, {user.firstname}!</h2>
           </div>
-          
+
           <div className='card-body'>
             <p><strong>First Name:</strong> {user.firstname}</p>
             <p><strong>Last Name:</strong> {user.lastname}</p>
@@ -54,10 +55,9 @@ const UserDetails = () => {
             <p><strong>Address:</strong> {user.address}</p>
             <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
             
-            <button className="btn btn-secondary mt-3" onClick={() => navigate('/profile/edit')}>
+            <Link to="/profile/edit" className="btn btn-secondary mt-3">
               Edit Profile
-            </button>
-
+            </Link> 
           </div>
       </div>
     </div>

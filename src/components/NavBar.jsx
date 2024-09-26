@@ -11,6 +11,8 @@ const NOTES_TAKING = "Notes Taking";
 const LOGIN = "Login";
 const REGISTER = "Register";
 const PROFILE = "View Profile";
+const NOTES = "My Notes";
+const PUBLIC_NOTES = "Public Notes";
 
 const NavBar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated); 
@@ -36,6 +38,12 @@ const NavBar = () => {
             )}
             {isAuthenticated && (
               <>
+                <Nav.Link as={Link} to="/notes">
+                  {NOTES}
+                </Nav.Link>
+                <Nav.Link as={Link} to="/notes/public">
+                  {PUBLIC_NOTES}
+                </Nav.Link>
                 <Nav.Link as={Link} to="/profile">
                   {PROFILE}
                 </Nav.Link>

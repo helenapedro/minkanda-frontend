@@ -32,9 +32,9 @@ const App = () => {
           <Route path="public" element={<PublicNotes />} />
         </Route>
         <Route path="/profile" element={<ProtectedRoute element={<ProfileLayout />} />}>
-          <Route path="" element={<UserProfile />} />
+          <Route index element={<UserProfile />} />
           <Route path="view" element={<UserDetails />} />
-          <Route path="edit/me" element={<EditProfile />} />
+          <Route path="edit" element={<EditProfile />} />
         </Route>
       </Routes>
     </Router>

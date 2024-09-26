@@ -91,8 +91,6 @@ const EditProfile = () => {
               address,
               setAddress
             )}
-            
-            <button>Save Changes</button>
           </div>
         </div>
       </div>
