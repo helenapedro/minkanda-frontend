@@ -15,18 +15,20 @@ const TOKEN_KEY = 'token';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-      userInfo: null,
-      allUsers: [], 
-      loading: false,
-      error: null,
+    isAuthenticated: false,
+    userInfo: null,
+    allUsers: [], 
+    loading: false,
+    error: null,
   },
   reducers: {
       logoutUser: (state) => {
-          state.userInfo = null;
-          state.loading = false;
-          state.error = null;
-          localStorage.removeItem('userInfo');
-          localStorage.removeItem(TOKEN_KEY); 
+        state.userInfo = null;
+        state.isAuthenticated = false;
+        state.loading = false;
+        state.error = null;
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem(TOKEN_KEY); 
       },
   },
   extraReducers: (builder) => {
@@ -38,8 +40,8 @@ const userSlice = createSlice({
           .addCase(loginUserAsync.fulfilled, (state, action) => {
               state.loading = false;
               state.userInfo = action.payload;
+              state.isAuthenticated = true;
               localStorage.setItem('userInfo', JSON.stringify(action.payload));   
-
               localStorage.setItem(TOKEN_KEY, action.payload.token);
           })
           .addCase(loginUserAsync.rejected, (state, action) => {
@@ -160,5 +162,10 @@ export const {
   currentUserReceived,
   currentUserUpdated,
 } = userSlice.actions;
+
+// Selector to get authentication status
+//export const selectIsAuthenticated = (state) => !!state.user.userInfo;
+export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
+
 
 export default userSlice.reducer;

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+//import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/auth';
+//import { loginUserAsync } from '../../redux/userSlice';
 import styles from './Login.module.css';
 import loginForm from '../../forms/loginForm';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+ // const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const data = await loginUser({ email, password });
@@ -21,6 +24,7 @@ const Login = () => {
       setError('Network error, please try again.');
     }
   };
+  
 
   return (
     <section className="vh-100">
@@ -38,7 +42,7 @@ const Login = () => {
           <div className="col-md-7 col-lg-6 col-xl-4">
             <h2 className="text-center">Login</h2>
             {error && <div className="alert alert-danger">{error}</div>}
-            {loginForm(handleSubmit, email, setEmail, password, setPassword)}
+            {loginForm(handleLogin, email, setEmail, password, setPassword)}
           </div>
         </div>
         <div className={`${styles.copyright} flex-md-row text-md-start py-4 px-4 px-xl-5`}>

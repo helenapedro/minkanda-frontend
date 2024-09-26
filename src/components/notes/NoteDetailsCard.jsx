@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import getRandomColor from './NoteColor';
 
 const NoteDetailsCard = ({ note }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [deleteStatus, setDeleteStatus] = useState(null); 
   const [cardColor, setCardColor] = useState(getRandomColor());
 
   useEffect(() => {

@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 
-
 import NavBar from './components/NavBar';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
@@ -11,9 +10,8 @@ import NoteDetails from './pages/Notes/NoteDetails';
 import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
 import PublicNotes from './pages/PublicNotes';
-import LogoutButton from './components/LogoutButton'; 
 import UserProfile from './pages/UserProfile';
-
+import ProtectedRoute from './components/ProtectedRoute'; 
 
 const App = () => {
   return (
@@ -21,20 +19,18 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/notes" >
-          <Route index element={<NotesList />} />
-          <Route path=":id" element={<NoteDetails />} />
-          <Route path="edit/:id" element={<NoteEdit />} />
-          <Route path="add" element={<AddNote />} />
+        <Route path="/profile" element={<ProtectedRoute element={<UserProfile />} />} />
+        <Route path="/notes" element={<ProtectedRoute element={<NotesList />} />}>
+          <Route path=":id" element={<ProtectedRoute element={<NoteDetails />} />} />
+          <Route path="edit/:id" element={<ProtectedRoute element={<NoteEdit />} />} />
+          <Route path="add" element={<ProtectedRoute element={<AddNote />} />} />
         </Route>
-        <Route path='/notes/public' element={<PublicNotes />} />
-        <Route path="/logout" element={<LogoutButton />} />
+        <Route path="/notes/public" element={<PublicNotes />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

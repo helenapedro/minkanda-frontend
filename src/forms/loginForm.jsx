@@ -1,8 +1,8 @@
 import styles from './Forms.module.css';
 
-const loginForm = (handleSubmit, email, setEmail, password, setPassword) => {
+const loginForm = (handleLogin, email, setEmail, password, setPassword) => {
      return (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
                <div className="form-outline mb-4">
                     <input
                          type="email"

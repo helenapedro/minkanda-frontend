@@ -1,6 +1,10 @@
 import React from 'react';
 
 const UserDetails = ({ user }) => {
+  if (!user) {
+    return <div className="error-message">User details not found. Please log in again.</div>; 
+  }
+
   return (
     <div className="user-details">
       <p><strong>Email:</strong> {user.email}</p>
