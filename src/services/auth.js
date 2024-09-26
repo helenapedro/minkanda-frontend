@@ -33,7 +33,6 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
-    console.log('Sending credentials:', credentials);
     const response = await api.post('/auth/login', credentials);
     return response.data;
   } catch (error) {
