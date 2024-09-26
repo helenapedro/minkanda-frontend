@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-//import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/auth';
-//import { loginUserAsync } from '../../redux/userSlice';
 import styles from './Login.module.css';
 import loginForm from '../../forms/loginForm';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
- // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
@@ -17,6 +14,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await loginUser({ email, password });
+      console.log('Email: ', email);
+      console.log('Password: ', password);
       localStorage.setItem('token', data.token);
       navigate('/notes'); 
     } catch (err) {
