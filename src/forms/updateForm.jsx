@@ -1,6 +1,6 @@
 import styles from './Forms.module.css';
 
-const registerForm = (
+const updateForm = (
      handleSubmit, 
      email, 
      setEmail, 
@@ -14,6 +14,10 @@ const registerForm = (
      setBirthday,
      gender,
      setGender,
+     phoneNumber,
+     setPhoneNumber,
+     address,
+     setAddress
 ) => {
      return (
           <form className='mx-1 mx-md-4' onSubmit={handleSubmit}>
@@ -50,7 +54,7 @@ const registerForm = (
                     </div>
                </div>
                <div  className='row'>
-                    <div className="col-md-6 mb-4 align-items-center">
+                    <div className="col-md-6 mb-4 d-flex align-items-center">
                          <i className="fas fa-calendar fa-lg me-3 fa-fw"></i>
                          <div className="form-outline datepicker w-100">
                               <input
@@ -106,33 +110,61 @@ const registerForm = (
                     </div>
                </div>
                <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+               <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+               <div className="form-outline flex-fill mb-0">
+               <input
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    autoComplete="email"
+               />
+               <label className="form-label" htmlFor="email">Your Email</label>
+               </div>
+               </div>
+               <div className="d-flex flex-row align-items-center mb-4">
+               <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+               <div className="form-outline flex-fill mb-0">
+               <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="new-password"
+               />
+               <label className="form-label" htmlFor="password">Password</label>
+               </div>
+               </div>
+               <div className="d-flex flex-row align-items-center mb-4">
+                    <i className="fas fa-phone fa-lg me-3 fa-fw"></i>
                     <div className="form-outline flex-fill mb-0">
                          <input
-                              type="email"
-                              id="email"
+                              type="text"
+                              id="phoneNumber"
                               className="form-control"
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
+                              value={phoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
                               required
-                              autoComplete="email"
                          />
-                         <label className="form-label" htmlFor="email">Your Email</label>
+                         <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
                     </div>
                </div>
                <div className="d-flex flex-row align-items-center mb-4">
-                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <i className="fas fa-home fa-lg me-3 fa-fw"></i>
                     <div className="form-outline flex-fill mb-0">
                          <input
-                              type="password"
-                              id="password"
+                              type="text"
+                              id="address"
                               className="form-control"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
+                              value={address}
+                              onChange={(e) => setAddress(e.target.value)}
                               required
-                              autoComplete="new-password"
                          />
-                         <label className="form-label" htmlFor="password">Password</label>
+                         <label className="form-label" htmlFor="address">Address</label>
                     </div>
                </div>
                <div className="text-center text-lg-start mt-4 pt-2">
@@ -142,4 +174,4 @@ const registerForm = (
      );
 }
 
-export default registerForm;
+export default updateForm;

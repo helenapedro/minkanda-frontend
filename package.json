@@ -25,6 +25,8 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
     "reactstrap": "^9.2.2",
+    "redux-persist": "^6.0.0",
+    "underscore": "^1.13.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

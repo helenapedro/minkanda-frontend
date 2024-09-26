@@ -6,7 +6,6 @@ import { fetchNotesList } from '../../services/notes';
 import { getPaginationControls } from '../../utils/pagination';
 import SearchForm from './../../forms/searchForm';
 import PaginationLayout from '../../components/notes/PaginationLayout';
-import LogoutButton from '../../components/LogoutButton';
 
 import notesStyles from '../../styles/NotesList.module.css';
 
@@ -60,8 +59,7 @@ const NotesList = () => {
               </Link>
               <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
                 View Public Notes
-              </button> 
-              <LogoutButton /> 
+              </button>  
             </div>
           </div>
         </div>
