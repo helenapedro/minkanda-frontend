@@ -10,7 +10,7 @@ import { selectIsAuthenticated } from '../redux/userSlice';
 const NOTES_TAKING = "Notes Taking";
 const LOGIN = "Login";
 const REGISTER = "Register";
-const PROFILE = "Profile";
+const PROFILE = "View Profile";
 
 const NavBar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated); 

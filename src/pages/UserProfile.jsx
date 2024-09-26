@@ -8,11 +8,15 @@ import Error from './../components/common/Error';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { userInfo, loading, error } = useSelector(state => state.user); 
+  const { userInfo, loading, error } = useSelector(state => state.user);
 
   useEffect(() => {
-    dispatch(getCurrentUserAsync()); 
+    dispatch(getCurrentUserAsync());
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log('User Info:', userInfo);
+  }, [userInfo]);
 
   if (loading) {
     return <Loading />;
@@ -26,9 +30,8 @@ const UserProfile = () => {
     <div className="container mt-4"> 
       <div className="row">
         <div className="col-md-8 offset-md-2"> 
-          <h2>My Profile</h2>
           <UserDetails user={userInfo} />
-          <EditProfile user={userInfo} /> 
+          {/* <EditProfile user={userInfo} /> */} 
         </div>
       </div>
     </div>

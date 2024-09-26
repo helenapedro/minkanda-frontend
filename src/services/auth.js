@@ -30,10 +30,15 @@ export const registerUser = async (userData) => {
   }
 };
 
+const ap = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await api.post('/auth/login', credentials);
+    const response = await ap.post('http://localhost:80/auth/login', credentials);
     return response.data;
   } catch (error) {
     console.error('Error logging in:', error);
@@ -77,7 +82,6 @@ export const updateCurrentUser = async (userId, updatedData) => {
       'firstname',
       'lastname',
       'birthday',
-      'gender',
       'phoneNumber',
       'address'
     ];

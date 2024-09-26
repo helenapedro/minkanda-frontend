@@ -1,7 +1,7 @@
 import styles from './Forms.module.css';
 
 const updateForm = (
-     handleSubmit, 
+     handleUpdate, 
      email, 
      setEmail, 
      password, 
@@ -20,7 +20,7 @@ const updateForm = (
      setAddress
 ) => {
      return (
-          <form className='mx-1 mx-md-4' onSubmit={handleSubmit}>
+          <form className='mx-1 mx-md-4' onSubmit={handleUpdate}>
                <div className='row'>
                     <div className="col-md-6 mb-4">
                          <i className="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -124,21 +124,21 @@ const updateForm = (
                <label className="form-label" htmlFor="email">Your Email</label>
                </div>
                </div>
-               <div className="d-flex flex-row align-items-center mb-4">
-               <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-               <div className="form-outline flex-fill mb-0">
-               <input
-                    type="password"
-                    id="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    autoComplete="new-password"
-               />
-               <label className="form-label" htmlFor="password">Password</label>
-               </div>
-               </div>
+               {/* <div className="d-flex flex-row align-items-center mb-4">
+                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div className="form-outline flex-fill mb-0">
+                         <input
+                              type="password"
+                              id="password"
+                              className="form-control"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                              autoComplete="new-password"
+                         />
+                         <label className="form-label" htmlFor="password">Password</label>
+                    </div>
+               </div> */}
                <div className="d-flex flex-row align-items-center mb-4">
                     <i className="fas fa-phone fa-lg me-3 fa-fw"></i>
                     <div className="form-outline flex-fill mb-0">

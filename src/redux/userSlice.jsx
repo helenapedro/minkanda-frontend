@@ -18,6 +18,7 @@ const userSlice = createSlice({
     isAuthenticated: false,
     userInfo: null,
     allUsers: [], 
+    updateUserStatus: 'idle',
     loading: false,
     error: null,
   },
@@ -29,6 +30,13 @@ const userSlice = createSlice({
         state.error = null;
         localStorage.removeItem('userInfo');
         localStorage.removeItem(TOKEN_KEY); 
+      },
+      clearError: (state) => {
+        state.error = null;
+      },
+
+      resetUpdateStatus(state) {
+        state.updateUserStatus = 'idle';
       },
   },
   extraReducers: (builder) => {
@@ -56,11 +64,12 @@ const userSlice = createSlice({
 
           .addCase(getCurrentUserAsync.pending, (state) => {
               state.loading = true;
+              state.error = null;
           })
-          .addCase(getCurrentUserAsync.fulfilled, (state, action) => {
-              state.loading = false;   
-
-              state.userInfo = action.payload;
+          .addCase(getCurrentUserAsync.fulfilled, (state, action) => { 
+            state.loading = false;
+            state.userInfo = action.payload;
+            state.isAuthenticated = true;
           })
           .addCase(getCurrentUserAsync.rejected, (state, action) => {
               state.loading = false;
@@ -92,6 +101,8 @@ const userSlice = createSlice({
           .addCase(updateCurrentUserAsync.fulfilled, (state, action) => {
               state.loading = false;
               state.userInfo = action.payload; 
+              state.updateUserStatus = 'fulfilled';
+              state.error = null;
               localStorage.setItem('userInfo', JSON.stringify(action.payload));
           })
           .addCase(updateCurrentUserAsync.rejected, (state, action) => {
@@ -161,10 +172,11 @@ export const {
   loggedInWithJwt,
   currentUserReceived,
   currentUserUpdated,
+  clearError,
+  resetUpdateStatus
 } = userSlice.actions;
 
 // Selector to get authentication status
-//export const selectIsAuthenticated = (state) => !!state.user.userInfo;
 export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
 
 
