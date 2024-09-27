@@ -33,7 +33,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await api.post('/auth/login', credentials);
+    const response = await api.post('/api/users/authenticate', credentials);
     return response.data;
   } catch (error) {
     console.error('Error logging in:', error);
