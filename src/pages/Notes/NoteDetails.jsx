@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { fetchNoteById } from '../../services/api';
 import getRandomColor from '../../components/notes/NoteColor';
 import { useNoteActions } from '../../actions/useNoteActions';
+import Loading from '../../components/common/Loading';
+import Error from '../../components/common/Error';
 import styles from '../../styles/NoteDetails.module.css';
 
 const NoteDetails = () => {
@@ -36,11 +38,11 @@ const NoteDetails = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <Error/>; 
   }
 
   return (

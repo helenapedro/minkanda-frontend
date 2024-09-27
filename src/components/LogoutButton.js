@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../redux/userSlice'; 
+import Button from 'react-bootstrap/Button';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,9 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={handleLogout} className="btn btn-danger">
+    <Button variant="danger" onClick={handleLogout}>
       Logout
-    </button>
+    </Button>
   );
 };
 

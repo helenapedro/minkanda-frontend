@@ -13,6 +13,7 @@ const REGISTER = "Register";
 const PROFILE = "View Profile";
 const NOTES = "My Notes";
 const PUBLIC_NOTES = "Public Notes";
+const ABOUT = "About";
 
 const NavBar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated); 
@@ -28,6 +29,9 @@ const NavBar = () => {
           <Nav className="ml-auto my-2 my-lg-0" style={{ maxHeight: '100px' }}>
             {!isAuthenticated && (
               <>
+                <Nav.Link as={Link} to="/about">
+                  {ABOUT}
+                </Nav.Link>
                 <Nav.Link as={Link} to="/login">
                   {LOGIN}
                 </Nav.Link>
@@ -47,10 +51,8 @@ const NavBar = () => {
                 <Nav.Link as={Link} to="/profile">
                   {PROFILE}
                 </Nav.Link>
-                <Nav.Item>
-                  <Nav.Link as="div">
-                    <LogoutButton />
-                  </Nav.Link>
+                <Nav.Item className="d-flex align-items-center">
+                  <LogoutButton />
                 </Nav.Item>
               </>
             )}

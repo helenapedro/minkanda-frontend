@@ -26,11 +26,10 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="container mt-4"> 
-      <div className="row">
-        <div className="col-md-8 offset-md-2"> 
+    <div className="vh-100"> 
+      <div className="container-fluid h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100"> 
           <UserDetails user={userInfo} />
-          {/* <EditProfile user={userInfo} /> */} 
         </div>
       </div>
     </div>

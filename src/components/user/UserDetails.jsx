@@ -52,7 +52,6 @@ const UserDetails = () => {
             <p><strong>Gender:</strong> {user.gender}</p>
             <p><strong>Address:</strong> {user.address}</p>
             <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
-            
             <Link to="/profile/edit" className="btn btn-secondary mt-3">
               Edit Profile
             </Link> 

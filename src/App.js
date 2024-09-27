@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { Outlet } from 'react-router-dom';
 import UserDetails from './components/user/UserDetails';
 import EditProfile from './components/user/EditProfile';
+import About from './components/About';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/notes" element={<ProtectedRoute element={<NotesLayout />} />}>
@@ -44,19 +46,13 @@ const App = () => {
 /* The Outlet component renders the nested routes within the NotesLayout */
 const NotesLayout = () => {
   return (
-    <div>
-      <h2>Notes</h2>
       <Outlet />
-    </div>
   );
 };
 
 const ProfileLayout = () => {
   return (
-    <div>
-      <h2>User Profile</h2>
       <Outlet />
-    </div>
   );
 };
 

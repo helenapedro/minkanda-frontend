@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
 import { useDebouncedSearch } from '../../utils/search';
 import { fetchNotesList } from '../../services/notes';
 import { getPaginationControls } from '../../utils/pagination';
 import SearchForm from './../../forms/searchForm';
-import PaginationLayout from '../../components/notes/PaginationLayout';
+import PaginationLayout from '../../components/common/PaginationLayout';
 
 import notesStyles from '../../styles/NotesList.module.css';
+import FloatingButton from '../../components/common/FloatingButton';
 
 const NotesList = () => {
   const [notes, setNotes] = useState([]);
@@ -52,14 +52,11 @@ const NotesList = () => {
               showSearch={showSearch}
               setShowSearch={setShowSearch}
             />
-            <div className={`${notesStyles['btn-group']} btn-group`}>
-              <Link to="/notes/add" className="btn btn-outline-success">
-                Add Note
-              </Link>
-             {/*  <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
+            {/* <div className={`${notesStyles['btn-group']} btn-group`}>
+              <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
                 View Public Notes
-              </button>   */}
-            </div>
+              </button>  
+            </div> */}
           </div>
         </div>
       </div>
@@ -78,6 +75,8 @@ const NotesList = () => {
         pageSize={pageSize}
         handlePageSizeChange={handlePageSizeChange}
       />
+
+      <FloatingButton to="/notes/add"/>
     </div>
   );
 };
