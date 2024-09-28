@@ -11,21 +11,25 @@ import {
 
 const TOKEN_KEY = 'token'; 
 
+const initialState = {
+  isAuthenticated: !!localStorage.getItem(TOKEN_KEY), 
+  token: localStorage.getItem(TOKEN_KEY),
+  userInfo: JSON.parse(localStorage.getItem('userInfo')) || null,
+  allUsers: [], 
+  updateUserStatus: 'idle',
+  loading: false,
+  error: null,
+};
+
 // Create a slice for user
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    isAuthenticated: false,
-    userInfo: null,
-    allUsers: [], 
-    updateUserStatus: 'idle',
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
       logoutUser: (state) => {
         state.userInfo = null;
         state.isAuthenticated = false;
+        state.token = null;
         state.loading = false;
         state.error = null;
         localStorage.removeItem('userInfo');
@@ -54,12 +58,15 @@ const userSlice = createSlice({
           })
           .addCase(loginUserAsync.rejected, (state, action) => {
               state.loading = false;
-              state.error = action.error.message;
+              state.error = action.payload || action.error.message;
           })
 
           .addCase(registerUserAsync.fulfilled, (state, action) => {
               state.userInfo = action.payload;
+              state.token = action.payload.token;
+              state.isAuthenticated = true;
               localStorage.setItem('userInfo', JSON.stringify(action.payload));
+              localStorage.setItem(TOKEN_KEY, action.payload.token);
           })
 
           .addCase(getCurrentUserAsync.pending, (state) => {
@@ -70,6 +77,7 @@ const userSlice = createSlice({
             state.loading = false;
             state.userInfo = action.payload;
             state.isAuthenticated = true;
+            localStorage.setItem('userInfo', JSON.stringify(action.payload));
           })
           .addCase(getCurrentUserAsync.rejected, (state, action) => {
               state.loading = false;
@@ -119,6 +127,7 @@ const userSlice = createSlice({
               state.allUsers = state.allUsers.filter(user => user.id !== action.payload);
               if (state.userInfo && state.userInfo.id === action.payload) {
                   state.userInfo = null;
+                  state.isAuthenticated = false;
                   localStorage.removeItem('userInfo'); 
                   localStorage.removeItem(TOKEN_KEY); 
               }
@@ -136,6 +145,15 @@ export const registerUserAsync = createAsyncThunk('user/register', async (userDe
   return response;
 });
 
+export const loginUserAsync = createAsyncThunk('user/login', async (credentials, { rejectWithValue }) => {
+  try {
+    const response = await loginUser(credentials);
+    return response;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
 export const updateCurrentUserAsync = createAsyncThunk('user/updateCurrentUser', async (data) => {
   const response = await updateCurrentUser(data); 
   return response.data; 
@@ -146,19 +164,9 @@ export const getCurrentUserAsync = createAsyncThunk('user/getCurrentUser', async
   return response.data;
 });
 
-export const getAllUsersAsync = createAsyncThunk('user/getAllUsers', async () => {
-  const response = await getAllUsers();
-  return response.data;
-});
-
 export const fetchUserDetailsAsync = createAsyncThunk('user/fetchDetails', async (userId) => {
   const response = await fetchUserDetails(userId);
   return response;
-});
-
-export const loginUserAsync = createAsyncThunk('user/login', async (credentials) => {
-  const response = await loginUser(credentials);
-  return response; 
 });
 
 export const deleteUserAsync = createAsyncThunk('user/delete', async (userId) => {
@@ -166,18 +174,17 @@ export const deleteUserAsync = createAsyncThunk('user/delete', async (userId) =>
   return userId; 
 });
 
+export const getAllUsersAsync = createAsyncThunk('user/getAllUsers', async () => {
+  const response = await getAllUsers();
+  return response;
+});
 
-export const { 
-  logoutUser,
-  loggedInWithJwt,
-  currentUserReceived,
-  currentUserUpdated,
-  clearError,
-  resetUpdateStatus
-} = userSlice.actions;
+
+export const { logoutUser, clearError, resetUpdateStatus } = userSlice.actions;
 
 // Selector to get authentication status
 export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
+export const selectUserInfo = (state) => state.user.userInfo;
 
 
 export default userSlice.reducer;

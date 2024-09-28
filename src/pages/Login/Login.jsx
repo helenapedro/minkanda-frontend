@@ -8,30 +8,38 @@ import loginForm from '../../forms/loginForm';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setError('');
+
     try {
-      const resultAction = await dispatch(loginUserAsync({ email, password }));
-      if (loginUserAsync.fulfilled.match(resultAction)) {
+      const resultAction = await dispatch(loginUserAsync({ email, password })).unwrap();
+
+      if (resultAction && resultAction.token) {
+
+        localStorage.setItem('token', resultAction.token);
+
         navigate('/notes');
       } else {
         setError('Login failed. Please check your credentials.');
       }
     } catch (err) {
+      console.error('Login error:', err);
+
       if (err.response && err.response.status === 401) {
         setError('Invalid email or password.');
       } else {
         setError('Network error, please try again.');
       }
-      console.log(err);
+      console.error('Login error:', err);
     }
   };
-  
-
+    
   return (
     <section className="vh-100">
       <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
@@ -42,13 +50,17 @@ const Login = () => {
             <img 
               src="./hero.webp"
               className={`${styles['img-fluid ']} img-fluid w-100`}
-              alt=""
+              alt="Login Illustration"
             />
           </div>
           <div className="col-md-7 col-lg-6 col-xl-4">
             <h2 className="text-center">Login</h2>
+
+            {/* Display error message if present */}
             {error && <div className="alert alert-danger">{error}</div>}
-            {loginForm(handleLogin, email, setEmail, password, setPassword)}
+
+            {/* Login form */}
+            {loginForm(handleSubmit, email, setEmail, password, setPassword)}
           </div>
         </div>
         <div className={`${styles.copyright} flex-md-row text-md-start py-4 px-4 px-xl-5`}>

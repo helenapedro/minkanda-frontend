@@ -30,14 +30,21 @@ export const registerUser = async (userData) => {
   }
 };
 
-
 export const loginUser = async (credentials) => {
   try {
-    const response = await api.post('/api/users/authenticate', credentials);
-    return response.data;
+    const response = await axios.post(`${API_URL}/auth/login`, credentials, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data; // Return the response data
   } catch (error) {
-    console.error('Error logging in:', error);
-    throw error;
+    // Ensure error handling for 401 or other errors
+    if (error.response && error.response.status === 401) {
+      throw new Error('Invalid credentials');
+    } else {
+      throw error; // Let other errors bubble up
+    }
   }
 };
 
