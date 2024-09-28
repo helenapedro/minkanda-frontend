@@ -4,13 +4,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useSelector } from 'react-redux';
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "./common/LogoutButton";
 import { selectIsAuthenticated } from '../redux/userSlice'; 
 
-const NOTES_TAKING = "Notes Taking";
+const NOTES_TAKING = "Minkanda";
 const LOGIN = "Login";
 const REGISTER = "Register";
-const PROFILE = "View Profile";
+const PROFILE = "Profile";
 const NOTES = "My Notes";
 const PUBLIC_NOTES = "Public Notes";
 const ABOUT = "About";

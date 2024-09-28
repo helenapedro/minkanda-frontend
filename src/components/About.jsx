@@ -8,7 +8,7 @@ const About = () => {
       <Card.Header as="h3">About This Application</Card.Header>
       <Card.Body>
         <Card.Text>
-          Welcome to the Notes Taking app! This application helps you manage your personal and public notes with ease.
+          Welcome to the Minkanda (a kikongo word that means "Notes") app! This application helps you manage your personal and public notes with ease.
         </Card.Text>
 
         <Card.Title as="h5">Login Information for Testing</Card.Title>

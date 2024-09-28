@@ -4,6 +4,7 @@ import Error from '../common/Error';
 import { getCurrentUser } from '../../services/auth';
 import { Link } from 'react-router-dom';
 import UserDetailsForm from '../../forms/UserDetailsForm';
+import ReturnButton from '../common/ReturnButton';
 
 const UserDetails = () => {
   const [user, setUser] = useState(null);
@@ -41,8 +42,12 @@ const UserDetails = () => {
   return (
     <div className='container mt-4'>
       <div className='card'>
-        <div className="card-header text-center">
-          <h2>User Details</h2>
+        <div 
+          className="card-header"
+          style={{ display: 'flex', alignItems: 'center', position: 'relative' }}
+        >
+          <ReturnButton url="/notes" style={{ marginRight: '10px' }}  />
+          <h2 style={{ margin: 0, marginLeft: '10px' }}>User Details</h2>
           {/* <h2>Hello, {user.firstname}!</h2> */}
         </div>
         <div className='card-body'>
