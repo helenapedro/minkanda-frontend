@@ -11,10 +11,13 @@ const EditProfile = () => {
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
+    email: '',
     birthday: '',
     phoneNumber: '',
     address: '',
   });
+
+  const [gender, setGender] = useState('');
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,12 +30,14 @@ const EditProfile = () => {
         if (response.payload) {
           setUser(response.payload);
           setFormData({
-            firstname: response.payload.firstname,
-            lastname: response.payload.lastname,
-            birthday: response.payload.birthday,
-            phoneNumber: response.payload.phoneNumber,
-            address: response.payload.address,
+            firstname: response.payload.firstname || '',
+            lastname: response.payload.lastname || '',
+            email: response.payload.email || '',
+            birthday: response.payload.birthday ? new Date(response.payload.birthday).toISOString().split('T')[0]: '',
+            phoneNumber: response.payload.phoneNumber || '',
+            address: response.payload.address || '',
           });
+          setGender(response.payload.gender || '');
         } else {
           console.error('Failed to fetch user data:', response.error);
         }
@@ -61,7 +66,7 @@ const EditProfile = () => {
   const handleUpdate = () => {
     if (!user) return;
 
-    const updatedUser = { ...user, ...formData };
+    const updatedUser = { ...user, ...formData, gender };
 
     dispatch(updateCurrentUserAsync({ uid: user.uid, ...updatedUser }))
       .then(response => {
@@ -81,7 +86,7 @@ const EditProfile = () => {
             <h2 className="text-center">Edit User Information</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
-            {updateForm(handleUpdate, formData, handleChange)}
+            {updateForm(handleUpdate, formData, handleChange, gender, setGender)}
           </div>
         </div>
       </div>
