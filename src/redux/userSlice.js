@@ -14,7 +14,15 @@ const TOKEN_KEY = 'token';
 const initialState = {
   isAuthenticated: !!localStorage.getItem(TOKEN_KEY), 
   token: localStorage.getItem(TOKEN_KEY),
-  userInfo: JSON.parse(localStorage.getItem('userInfo')) || null,
+  userInfo: (() => {
+    const userInfo = localStorage.getItem('userInfo');
+    try {
+      return userInfo ? JSON.parse(userInfo) : null; 
+    } catch (e) {
+      console.error("Error parsing userInfo from localStorage:", e);
+      return null;
+    }
+  })(),
   allUsers: [], 
   updateUserStatus: 'idle',
   loading: false,
