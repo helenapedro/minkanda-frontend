@@ -167,9 +167,10 @@ export const updateCurrentUserAsync = createAsyncThunk('user/updateCurrentUser',
   return response.data; 
 });
 
-export const getCurrentUserAsync = createAsyncThunk('user/getCurrentUser', async () => {
+export const getCurrentUserAsync = createAsyncThunk('user/getCurrentUser', 
+  async () => {
   const response = await getCurrentUser();
-  return response.data;
+  return response;
 });
 
 export const fetchUserDetailsAsync = createAsyncThunk('user/fetchDetails', async (userId) => {
