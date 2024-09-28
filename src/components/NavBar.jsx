@@ -51,9 +51,9 @@ const NavBar = () => {
                 <Nav.Link as={Link} to="/profile">
                   {PROFILE}
                 </Nav.Link>
-                <Nav.Item className="d-flex align-items-center">
+                <Nav.Link>
                   <LogoutButton />
-                </Nav.Item>
+                </Nav.Link>
               </>
             )}
           </Nav>
