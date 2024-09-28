@@ -3,6 +3,7 @@ const Gender = ({ gender, setGender }) => {
     <div className="col-md-6 mb-4">
       <i className="fas fa-venus-mars fa-lg me-3 fa-fw"></i>
       <h6 className="mb-2 pb-1">Gender: </h6>
+      
       <div className="form-check form-check-inline">
         <input 
           className="form-check-input" 

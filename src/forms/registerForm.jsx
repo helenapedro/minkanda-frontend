@@ -1,3 +1,4 @@
+import Gender from './Gender';
 import styles from './Forms.module.css';
 
 const registerForm = (
@@ -14,6 +15,11 @@ const registerForm = (
      setBirthday,
      gender,
      setGender,
+     phoneNumber,
+     setPhoneNumber,
+     address,
+     setAddress,
+     isLoading
 ) => {
      return (
           <form className='mx-1 mx-md-4' onSubmit={handleSubmit}>
@@ -64,46 +70,7 @@ const registerForm = (
                               <label className="form-label" htmlFor="birthdayDate">Birthday</label>
                          </div>  
                     </div>
-                    <div className="col-md-6 mb-4">
-                         <i className="fas fa-venus-mars fa-lg me-3 fa-fw"></i>
-                         <h6 class="mb-2 pb-1">Gender: </h6>
-                         <div className="form-check form-check-inline">
-                              <input 
-                                   class="form-check-input" 
-                                   type="radio" 
-                                   name="inlineRadioOptions" 
-                                   id="femaleGender"
-                                   value={gender} checked
-                                   onChange={(e) => setGender(e.target.value)}
-                                   required
-                              />
-                              <label className="form-check-label" htmlFor="femaleGender">Female</label>
-                         </div>
-                         <div className="form-check form-check-inline">
-                              <input 
-                                   className="form-check-input" 
-                                   type="radio" 
-                                   name="inlineRadioOptions" 
-                                   id="maleGender"
-                                   value={gender} checked
-                                   onChange={(e) => setGender(e.target.value)}
-                                   required
-                              />
-                              <label className="form-check-label" htmlFor="maleGender">Male</label>
-                         </div>
-                         <div className="form-check form-check-inline">
-                              <input 
-                                   className="form-check-input" 
-                                   type="radio" 
-                                   name="inlineRadioOptions" 
-                                   id="otherGender"
-                                   value={gender} checked
-                                   onChange={(e) => setGender(e.target.value)}
-                                   required
-                              />
-                              <label className="form-check-label" htmlFor="otherGender">Other</label>
-                         </div>
-                    </div>
+                    <Gender gender={gender} setGender={setGender} />
                </div>
                <div className="d-flex flex-row align-items-center mb-4">
                     <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -135,10 +102,48 @@ const registerForm = (
                          <label className="form-label" htmlFor="password">Password</label>
                     </div>
                </div>
+               <div className="d-flex flex-row align-items-center mb-4">
+                    <i className="fas fa-phone fa-lg me-3 fa-fw"></i>
+                    <div className="form-outline flex-fill mb-0">
+                         <input
+                         type="tel"
+                         id="phoneNumber"
+                         className="form-control"
+                         placeholder="Phone Number"
+                         value={phoneNumber || ''}
+                         onChange={(e) => setPhoneNumber(e.target.value)}
+                         required
+                         autoComplete="tel"
+                         />
+                         <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
+                    </div>
+               </div>
+               <div className="d-flex flex-row align-items-center mb-4">
+                    <i className="fas fa-home fa-lg me-3 fa-fw"></i>
+                    <div className="form-outline flex-fill mb-0">
+                         <input
+                         type="text"
+                         id="address"
+                         className="form-control"
+                         placeholder="Address"
+                         value={address || ''}
+                         onChange={(e) => setAddress(e.target.value)}
+                         required
+                         autoComplete="address-line1"
+                         />
+                         <label className="form-label" htmlFor="address">Address</label>
+                    </div>
+               </div>
                <div className="text-center text-lg-start mt-4 pt-2">
-               <button type="submit" className={`${styles.button} btn btn-primary btn-lg`}>Register</button>
-          </div>
-        </form> 
+                    <button 
+                         type="submit" 
+                         className={`${styles.button} btn btn-primary btn-lg`}  
+                         disabled={isLoading}
+                    >
+                         {isLoading ? 'Registering' : 'Register'}
+                    </button>
+               </div>
+          </form> 
      );
 }
 
