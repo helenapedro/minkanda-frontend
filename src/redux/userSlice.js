@@ -162,28 +162,33 @@ export const loginUserAsync = createAsyncThunk('user/login', async (credentials,
   }
 });
 
-export const updateCurrentUserAsync = createAsyncThunk('user/updateCurrentUser', async (data) => {
+export const updateCurrentUserAsync = createAsyncThunk(
+  'user/updateCurrentUser', async (data) => {
   const response = await updateCurrentUser(data); 
   return response.data; 
 });
 
-export const getCurrentUserAsync = createAsyncThunk('user/getCurrentUser', 
+export const getCurrentUserAsync = createAsyncThunk(
+  'user/getCurrentUser', 
   async () => {
   const response = await getCurrentUser();
   return response;
 });
 
-export const fetchUserDetailsAsync = createAsyncThunk('user/fetchDetails', async (userId) => {
+export const fetchUserDetailsAsync = createAsyncThunk(
+  'user/fetchDetails', async (userId) => {
   const response = await fetchUserDetails(userId);
   return response;
 });
 
-export const deleteUserAsync = createAsyncThunk('user/delete', async (userId) => {
+export const deleteUserAsync = createAsyncThunk(
+  'user/delete', async (userId) => {
   await deleteUser(userId); 
   return userId; 
 });
 
-export const getAllUsersAsync = createAsyncThunk('user/getAllUsers', async () => {
+export const getAllUsersAsync = createAsyncThunk(
+  'user/getAllUsers', async () => {
   const response = await getAllUsers();
   return response;
 });

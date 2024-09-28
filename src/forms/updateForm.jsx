@@ -1,7 +1,6 @@
-import styles from './Forms.module.css';
 import Gender from './Gender';
 
-const updateForm = (handleUpdate, formData, handleChange, gender, setGender) => {
+const UpdateForm = ({handleUpdate, formData, handleChange, gender, setGender, isLoading}) => {
   return (
     <form className='mx-1 mx-md-4' onSubmit={handleUpdate}>
       <div className='row'>
@@ -50,7 +49,7 @@ const updateForm = (handleUpdate, formData, handleChange, gender, setGender) => 
             />
             <label className="form-label" htmlFor="birthday">Birthday</label>
           </div>  
-          <Gender gender={gender} setGender={setGender} /> 
+          <Gender gender={gender} setGender={setGender} />
         </div>
       </div>
       <div className="d-flex flex-row align-items-center mb-4">
@@ -98,13 +97,14 @@ const updateForm = (handleUpdate, formData, handleChange, gender, setGender) => 
       <div className="text-center text-lg-start mt-4 pt-2">
         <button 
           type="submit" 
-          className={`${styles.button} btn btn-primary btn-lg`}
-          onClick={handleUpdate}
-          >Save Changes
-          </button>
+          className="btn btn-primary btn-lg"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Saving...' : 'Save Changes'}
+        </button>
       </div>
     </form>
   );
 }
 
-export default updateForm;
+export default UpdateForm;

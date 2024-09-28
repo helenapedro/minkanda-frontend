@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUserAsync, updateCurrentUserAsync } from '../../redux/userSlice';
-import updateForm from '../../forms/updateForm';
 import styles from './User.module.css';
+import UpdateForm from './../../forms/UpdateForm';
 
 const EditProfile = () => {
   const [user, setUser] = useState(null);
@@ -22,6 +22,7 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const error = useSelector(state => state.user.error);
+  const [isLoading, setIsLoading] = useState(false);
   const updateUserStatus = useSelector(state => state.user.updateUserStatus);
 
   useEffect(() => {
@@ -63,13 +64,16 @@ const EditProfile = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (e) => {
+    e.preventDefault(); 
     if (!user) return;
 
+    setIsLoading(true);
     const updatedUser = { ...user, ...formData, gender };
 
     dispatch(updateCurrentUserAsync({ uid: user.uid, ...updatedUser }))
       .then(response => {
+        setIsLoading(false);
         if (response.error) {
           console.error('Failed to update user:', response.error);
         } else {
@@ -77,7 +81,7 @@ const EditProfile = () => {
         }
       });
   };
-
+  
   return (
     <section className="vh-100">
       <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
@@ -86,7 +90,14 @@ const EditProfile = () => {
             <h2 className="text-center">Edit User Information</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
-            {updateForm(handleUpdate, formData, handleChange, gender, setGender)}
+            <UpdateForm
+              handleUpdate={handleUpdate}
+              formData={formData}
+              handleChange={handleChange}
+              gender={gender}
+              setGender={setGender}
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </div>

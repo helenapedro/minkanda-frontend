@@ -79,10 +79,11 @@ export const updateCurrentUser = async (userId, updatedData) => {
       'firstname',
       'lastname',
       'birthday',
+      'gender',
       'phoneNumber',
       'address'
     ];
-    const response = await api.put(`/api/users/${userId}`, _.pick(updatedData, userFields)); // Using api instance
+    const response = await api.put(`/api/users/${userId.uid}`, _.pick(updatedData, userFields));
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
