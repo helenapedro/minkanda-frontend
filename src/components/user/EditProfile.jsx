@@ -8,33 +8,31 @@ import styles from './User.module.css';
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [formData, setFormData] = useState({
+    firstname: '',
+    lastname: '',
+    birthday: '',
+    phoneNumber: '',
+    address: '',
+  });
+  
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const error = useSelector(state => state.user.error);
-
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
-
   const updateUserStatus = useSelector(state => state.user.updateUserStatus);
-
-  useEffect(() => {
-    if (updateUserStatus === 'fulfilled') {
-      setSuccessMessage('Profile updated successfully!');
-      setTimeout(() => {
-        navigate('/profile'); 
-        dispatch({ type: 'users/resetUpdateStatus' });
-      }, 2000); // Redirect after 2 seconds
-    }
-  }, [updateUserStatus, navigate, dispatch]);
 
   useEffect(() => {
     dispatch(getCurrentUserAsync())
       .then(response => {
         if (response.payload) {
           setUser(response.payload);
+          setFormData({
+            firstname: response.payload.firstname,
+            lastname: response.payload.lastname,
+            birthday: response.payload.birthday,
+            phoneNumber: response.payload.phoneNumber,
+            address: response.payload.address,
+          });
         } else {
           console.error('Failed to fetch user data:', response.error);
         }
@@ -46,37 +44,26 @@ const EditProfile = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
-      console.log('Received user data:', user);
-      setFirstname(user.firstname);
-      setLastname(user.lastname);
-      setBirthday(user.birthday);
-      setPhoneNumber(user.phoneNumber);
-      setAddress(user.address);
-
-      dispatch({ type: 'users/clearError' }); 
+    if (updateUserStatus === 'fulfilled') {
+      setSuccessMessage('Profile updated successfully!');
+      setTimeout(() => {
+        navigate('/profile'); 
+        dispatch({ type: 'users/resetUpdateStatus' });
+      }, 2000); 
     }
-  }, [user, dispatch]);
+  }, [updateUserStatus, navigate, dispatch]);
 
-  useEffect(() => {
-    return () => {
-      dispatch({ type: 'users/clearSelectedNote' });
-    };
-  }, [dispatch]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleUpdate = () => {
     if (!user) return;
 
-    const updateUser = {
-      ...user,
-      firstname,
-      lastname,
-      birthday,
-      phoneNumber,
-      address,
-    };
+    const updatedUser = { ...user, ...formData };
 
-    dispatch(updateCurrentUserAsync({ uid: user.uid, ...updateUser }))
+    dispatch(updateCurrentUserAsync({ uid: user.uid, ...updatedUser }))
       .then(response => {
         if (response.error) {
           console.error('Failed to update user:', response.error);
@@ -94,19 +81,7 @@ const EditProfile = () => {
             <h2 className="text-center">Edit User Information</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
-            {updateForm(
-              handleUpdate, 
-              firstname, 
-              setFirstname, 
-              lastname, 
-              setLastname,
-              birthday,
-              setBirthday,
-              phoneNumber,
-              setPhoneNumber,
-              address,
-              setAddress
-            )}
+            {updateForm(handleUpdate, formData, handleChange)}
           </div>
         </div>
       </div>

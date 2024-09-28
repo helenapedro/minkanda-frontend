@@ -37,13 +37,12 @@ export const loginUser = async (credentials) => {
         'Content-Type': 'application/json',
       },
     });
-    return response.data; // Return the response data
+    return response.data; 
   } catch (error) {
-    // Ensure error handling for 401 or other errors
     if (error.response && error.response.status === 401) {
       throw new Error('Invalid credentials');
     } else {
-      throw error; // Let other errors bubble up
+      throw error; 
     }
   }
 };
