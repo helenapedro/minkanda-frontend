@@ -32,7 +32,6 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="App">
       <Router>
         <NavBar />
         <Routes>
@@ -54,7 +53,6 @@ const App = () => {
           </Route>
         </Routes>
       </Router> 
-    </div>
   );
 };
 
