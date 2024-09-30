@@ -110,9 +110,8 @@ const registerForm = (
                          id="phoneNumber"
                          className="form-control"
                          placeholder="Phone Number"
-                         value={phoneNumber || ''}
+                         value={phoneNumber}
                          onChange={(e) => setPhoneNumber(e.target.value)}
-                         required
                          autoComplete="tel"
                          />
                          <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
@@ -126,7 +125,7 @@ const registerForm = (
                          id="address"
                          className="form-control"
                          placeholder="Address"
-                         value={address || ''}
+                         value={address}
                          onChange={(e) => setAddress(e.target.value)}
                          required
                          autoComplete="address-line1"

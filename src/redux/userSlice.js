@@ -1,13 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { 
-  loginUser, 
-  getCurrentUser,
-  registerUser, 
-  fetchUserDetails,
-  getAllUsers,
-  updateCurrentUser,
-  deleteUser
-} from '../services/auth';
+import { loginUser, registerUser, getCurrentUser, updateCurrentUser, deleteUser } from '../services/auth';
+import { getAllUsers, fetchUserDetails } from '../services/admin'
 
 const TOKEN_KEY = 'token'; 
 

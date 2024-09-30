@@ -35,7 +35,7 @@ const Login = () => {
       if (err.response && err.response.status === 401) {
         setError('Invalid email or password.');
       } else {
-        setError('Network error, please try again.');
+        setError('Authentication failed. Please check your email and password.');
       }
       console.error('Login error:', err);
     }
