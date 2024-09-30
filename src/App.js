@@ -18,6 +18,7 @@ import { Outlet } from 'react-router-dom';
 import UserDetails from './components/user/UserDetails';
 import EditProfile from './components/user/EditProfile';
 import About from './components/About';
+import Logout from './components/logout';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="view" element={<UserDetails />} />
             <Route path="edit" element={<EditProfile />} />
           </Route>
+          <Route path="/logout" element={<ProtectedRoute element={<Logout />} />}></Route>
         </Routes>
       </Router> 
   );

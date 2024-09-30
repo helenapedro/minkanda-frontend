@@ -1,14 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faSignIn, 
+  faSignOutAlt, 
+  faInfoCircle, 
+  faUserPlus,
+  faStickyNote, 
+  faUser,
+  faBook,
+  faPenNib
+} from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useSelector } from 'react-redux';
-import LogoutButton from "./common/LogoutButton";
 import { selectIsAuthenticated } from '../redux/userSlice'; 
 
-const NOTES_TAKING = "Minkanda";
+const MINKANDA = "Minkanda";
 const LOGIN = "Login";
+const LOGOUT = "Logout";
 const REGISTER = "Register";
 const PROFILE = "Profile";
 const NOTES = "My Notes";
@@ -22,7 +33,7 @@ const NavBar = () => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand as={Link} to="/">
-          {NOTES_TAKING}
+        {MINKANDA} <FontAwesomeIcon icon={faPenNib} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -30,30 +41,30 @@ const NavBar = () => {
             {!isAuthenticated && (
               <>
                 <Nav.Link as={Link} to="/about">
-                  {ABOUT}
+                  <FontAwesomeIcon icon={faInfoCircle} /> {ABOUT}
                 </Nav.Link>
-                <Nav.Link as={Link} to="/login">
-                  {LOGIN}
+                <Nav.Link as={Link} to="/login"> 
+                  <FontAwesomeIcon icon={faSignIn} /> {LOGIN}
                 </Nav.Link>
                 <Nav.Link as={Link} to="/register">
-                  {REGISTER}
+                  <FontAwesomeIcon icon={faUserPlus} /> {REGISTER}
                 </Nav.Link>
               </>
             )}
             {isAuthenticated && (
               <>
                 <Nav.Link as={Link} to="/notes">
-                  {NOTES}
+                  <FontAwesomeIcon icon={faStickyNote} /> {NOTES}
                 </Nav.Link>
                 <Nav.Link as={Link} to="/notes/public">
-                  {PUBLIC_NOTES}
+                <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
                 </Nav.Link>
-                <Nav.Link as={Link} to="/profile">
-                  {PROFILE}
+                <Nav.Link as={Link} to="/profile"> 
+                  <FontAwesomeIcon icon={faUser} />  {PROFILE}
                 </Nav.Link>
-                <Nav.Link>
-                  <LogoutButton />
-                </Nav.Link>
+                <NavLink className="nav-item nav-link font-weight-bold text-dark" to="/logout"
+                > <FontAwesomeIcon icon={faSignOutAlt} />  {LOGOUT}
+                </NavLink>
               </>
             )}
           </Nav>
