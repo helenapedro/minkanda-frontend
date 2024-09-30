@@ -1,5 +1,5 @@
 .notes-list {
-  padding: 20px;
+  padding-top: 80px;
 }
 
 .card {
@@ -28,4 +28,7 @@
 }
 
 @media (max-width: 768px) {
+  .notes-list {
+    padding-top: 90px;
+  }
 }

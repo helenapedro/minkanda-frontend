@@ -46,31 +46,33 @@ const NoteDetails = () => {
   }
 
   return (
-    <div className={`${styles.card} container`} style={{ backgroundColor: cardColor}}>
-      {note ? (
-        <div >
-          <div className={styles.header}>
-            <h2 className={styles.title}>{note.title}</h2>
-            <button className="btn btn-secondary" onClick={() => navigate('/notes')}>
-              Return
-            </button>
+    <section className="vh-100">
+      <div className={`${styles.card} container`} style={{ backgroundColor: cardColor}}>
+        {note ? (
+          <div >
+            <div className={styles.header}>
+              <h2 className={styles.title}>{note.title}</h2>
+              <button className="btn btn-secondary" onClick={() => navigate('/notes')}>
+                Return
+              </button>
+            </div>
+            <div className={styles.body}>
+              <p className='card-text'>{note.body}</p>
+            </div>
+            <div className={styles.footer}>
+              <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}>
+                Edit Note
+              </button>
+              <button className="btn btn-danger" onClick={() => handleDelete(id, setError)}>
+                Delete Note
+              </button>
+            </div>
           </div>
-          <div className={styles.body}>
-            <p className='card-text'>{note.body}</p>
-          </div>
-          <div className={styles.footer}>
-            <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}>
-              Edit Note
-            </button>
-            <button className="btn btn-danger" onClick={() => handleDelete(id, setError)}>
-              Delete Note
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>Note not found.</div>
-      )}
-    </div>
+        ) : (
+          <div>Note not found.</div>
+        )}
+      </div>
+    </section>
   );
 };
 

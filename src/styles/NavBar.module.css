@@ -1,0 +1,33 @@
+@import "../vars.css";
+
+.navbar {
+  background-color: var(--primary-bg);
+  color: var(--primary-color);
+  height: var(--navbar-height);
+}
+
+.navbar-brand {
+  display: flex;
+}
+
+.navbar-toggler {
+  background-color: var(--secondary-bg);
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: var(--primary-color);
+}
+
+.nav-dropdown {
+  display: flex;
+  align-items: center;
+}
