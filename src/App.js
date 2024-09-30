@@ -51,8 +51,8 @@ const App = () => {
             <Route index element={<UserProfile />} />
             <Route path="view" element={<UserDetails />} />
             <Route path="edit" element={<EditProfile />} />
+            <Route path="logout" element={<Logout />} />
           </Route>
-          <Route path="/logout" element={<ProtectedRoute element={<Logout />} />}></Route>
         </Routes>
       </Router> 
   );

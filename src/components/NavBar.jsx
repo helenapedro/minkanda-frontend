@@ -57,13 +57,13 @@ const NavBar = () => {
                   <FontAwesomeIcon icon={faStickyNote} /> {NOTES}
                 </Nav.Link>
                 <Nav.Link as={Link} to="/notes/public">
-                <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
+                  <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
                 </Nav.Link>
                 <Nav.Link as={Link} to="/profile"> 
                   <FontAwesomeIcon icon={faUser} />  {PROFILE}
                 </Nav.Link>
-                <NavLink className="nav-item nav-link font-weight-bold text-dark" to="/logout"
-                > <FontAwesomeIcon icon={faSignOutAlt} />  {LOGOUT}
+                <NavLink className="nav-item nav-link font-weight-bold text-dark" to="/logout"> 
+                  <FontAwesomeIcon icon={faSignOutAlt} />  {LOGOUT}
                 </NavLink>
               </>
             )}

@@ -27,7 +27,7 @@ const About = () => {
         </Card.Text>
 
         <Card.Text className="mt-4">
-          For any support inquiries, please send an email to <a href="mailto:notesapp@mtcambrosio.com">notesapp@mtcambrosio.com</a>.
+          For any support inquiries, please send an email to <a href="mailto:minkanda@mtcambrosio.com">minkanda@mtcambrosio.com</a>.
         </Card.Text>
       </Card.Body>
     </Card>
