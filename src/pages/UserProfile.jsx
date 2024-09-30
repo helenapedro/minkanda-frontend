@@ -13,10 +13,6 @@ const UserProfile = () => {
     dispatch(getCurrentUserAsync());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log('User Info:', userInfo);
-  }, [userInfo]);
-
   if (loading) {
     return <Loading />;
   }

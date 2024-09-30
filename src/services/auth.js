@@ -57,7 +57,9 @@ export const loginUser = async (credentials) => {
 
 export const getCurrentUser = async () => { 
   try {
+    console.log('Fetching current user...'); 
     const response = await api.get('/api/users/me'); 
+    console.log('Current user data:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching authenticated user:', error);
@@ -73,10 +75,15 @@ export const updateCurrentUser = async (userId, updatedData) => {
       'lastname',
       'birthday',
       'gender',
+      'address',
       'phoneNumber',
-      'address'
+      'password'
     ];
-    const response = await api.put(`/api/users/${userId.uid}`, _.pick(updatedData, userFields));
+
+    const filteredData = _.pick(updatedData, userFields);
+    
+    const response = await api.put(`/api/users/${userId.uid}`, filteredData);
+    console.log('UserId:', userId);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);

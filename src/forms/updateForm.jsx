@@ -94,6 +94,34 @@ const UpdateForm = ({handleUpdate, formData, handleChange, gender, setGender, is
           <label className="form-label" htmlFor="address">Address</label>
         </div>
       </div>
+      <div className="d-flex flex-row align-items-center mb-4">
+        <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+        <div className="form-outline flex-fill mb-0">
+          <input
+            type="password"
+            id="currentPassword"
+            className="form-control"
+            value={formData.currentPassword}
+            onChange={handleChange}
+            name="currentPassword"
+          />
+          <label className="form-label" htmlFor="currentPassword">Current Password</label>
+        </div>
+      </div>
+      <div className="d-flex flex-row align-items-center mb-4">
+        <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
+        <div className="form-outline flex-fill mb-0">
+          <input
+            type="password"
+            id="password"
+            className="form-control"
+            value={formData.password}
+            onChange={handleChange}
+            name="password"
+          />
+          <label className="form-label" htmlFor="password">New Password</label>
+        </div>
+      </div>
       <div className="text-center text-lg-start mt-4 pt-2">
         <button 
           type="submit" 

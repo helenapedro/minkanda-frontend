@@ -15,6 +15,8 @@ const EditProfile = () => {
     birthday: '',
     phoneNumber: '',
     address: '',
+    password: '',
+    currentPassword: '',
   });
 
   const [gender, setGender] = useState('');
@@ -37,6 +39,7 @@ const EditProfile = () => {
             birthday: response.payload.birthday ? new Date(response.payload.birthday).toISOString().split('T')[0]: '',
             phoneNumber: response.payload.phoneNumber || '',
             address: response.payload.address || '',
+            password: response.payload.password || '',
           });
           setGender(response.payload.gender || '');
         } else {
