@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUserAsync, updateCurrentUserAsync } from '../../redux/userSlice';
 import styles from './User.module.css';
-import UpdateForm from './../../forms/UpdateForm';
+import UpdateForm from './../../forms/updateForm';
 
 const EditProfile = () => {
   const [user, setUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const error = useSelector(state => state.user.error);
+
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -18,14 +23,19 @@ const EditProfile = () => {
     password: '',
     currentPassword: '',
   });
-
-  const [gender, setGender] = useState('');
   
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const error = useSelector(state => state.user.error);
-  const [isLoading, setIsLoading] = useState(false);
+  const [gender, setGender] = useState('');
   const updateUserStatus = useSelector(state => state.user.updateUserStatus);
+
+  useEffect(() => {
+    if (updateUserStatus === 'fulfilled') {
+      setSuccessMessage('Profile updated successfully!');
+      setTimeout(() => {
+        navigate('/profile'); // Navigates to the profile page after updating
+        dispatch({ type: 'users/resetUpdateStatus' });
+      }, 2000); 
+    }
+  }, [updateUserStatus, navigate, dispatch]);
 
   useEffect(() => {
     dispatch(getCurrentUserAsync())
@@ -39,7 +49,8 @@ const EditProfile = () => {
             birthday: response.payload.birthday ? new Date(response.payload.birthday).toISOString().split('T')[0]: '',
             phoneNumber: response.payload.phoneNumber || '',
             address: response.payload.address || '',
-            password: response.payload.password || '',
+            password: '',
+            currentPassword: '',
           });
           setGender(response.payload.gender || '');
         } else {
@@ -52,15 +63,7 @@ const EditProfile = () => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    if (updateUserStatus === 'fulfilled') {
-      setSuccessMessage('Profile updated successfully!');
-      setTimeout(() => {
-        navigate('/profile'); 
-        dispatch({ type: 'users/resetUpdateStatus' });
-      }, 2000); 
-    }
-  }, [updateUserStatus, navigate, dispatch]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -57,9 +57,7 @@ export const loginUser = async (credentials) => {
 
 export const getCurrentUser = async () => { 
   try {
-    console.log('Fetching current user...'); 
     const response = await api.get('/api/users/me'); 
-    console.log('Current user data:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching authenticated user:', error);

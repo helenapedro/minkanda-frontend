@@ -9,9 +9,22 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const { userInfo, loading, error } = useSelector(state => state.user);
 
-  useEffect(() => {
+  const fetchUserData = () => {
     dispatch(getCurrentUserAsync());
+  };
+
+  useEffect(() => {
+    fetchUserData();
   }, [dispatch]);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      fetchUserData();
+    };
+
+    window.addEventListener('focus', handleRouteChange); 
+    return () => window.removeEventListener('focus', handleRouteChange);
+  }, []);
 
   if (loading) {
     return <Loading />;

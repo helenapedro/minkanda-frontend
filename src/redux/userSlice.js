@@ -20,6 +20,7 @@ const initialState = {
   updateUserStatus: 'idle',
   loading: false,
   error: null,
+  successMessage: '',
 };
 
 // Create a slice for user
@@ -43,6 +44,10 @@ const userSlice = createSlice({
       resetUpdateStatus(state) {
         state.updateUserStatus = 'idle';
       },
+
+      clearSuccessMessage: (state) => {
+        state.successMessage = '';
+      },      
   },
   extraReducers: (builder) => {
       builder
@@ -112,6 +117,7 @@ const userSlice = createSlice({
               state.userInfo = action.payload; 
               state.updateUserStatus = 'fulfilled';
               state.error = null;
+              state.successMessage = 'Profile updated successfully';
               localStorage.setItem('userInfo', JSON.stringify(action.payload));
           })
           .addCase(updateCurrentUserAsync.rejected, (state, action) => {
@@ -156,10 +162,18 @@ export const loginUserAsync = createAsyncThunk('user/login', async (credentials,
 });
 
 export const updateCurrentUserAsync = createAsyncThunk(
-  'user/updateCurrentUser', async (data) => {
-  const response = await updateCurrentUser(data); 
-  return response.data; 
-});
+  'user/updateCurrentUser',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await updateCurrentUser(data); 
+      return response.data; 
+    } catch (error) {
+      console.error('Error in updateCurrentUserAsync:', error);
+      return rejectWithValue(error.response ? error.response.data : 'Error updating user');
+    }
+  }
+);
+
 
 export const getCurrentUserAsync = createAsyncThunk(
   'user/getCurrentUser', 
@@ -187,7 +201,7 @@ export const getAllUsersAsync = createAsyncThunk(
 });
 
 
-export const { logoutUser, clearError, resetUpdateStatus } = userSlice.actions;
+export const { logoutUser, clearError, resetUpdateStatus, clearSuccessMessage } = userSlice.actions;
 
 // Selector to get authentication status
 export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
