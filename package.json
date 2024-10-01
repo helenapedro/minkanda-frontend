@@ -1,5 +1,5 @@
 {
-  "name": "notes-frontend-app",
+  "name": "minkanda",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +17,7 @@
     "dotenv": "^16.4.5",
     "jquery": "^3.7.1",
     "mdb-react-ui-kit": "^8.0.0",
-    "notes-frontend-app": "file:",
+    "minkanda": "file:",
     "popper.js": "^1.16.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
