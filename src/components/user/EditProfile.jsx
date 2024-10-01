@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './User.module.css';
+import ReturnButton from '../common/ReturnButton';
 import UpdateForm from './../../forms/updateForm';
 import { 
   updateCurrentUserAsync, 
@@ -102,18 +103,15 @@ const EditProfile = () => {
       });
   };
 
-  /* const handleClear = () => {
-    dispatch(resetUpdateStatus());
-    dispatch(clearError());
-    dispatch(clearSuccessMessage());
-  }; */
-
   return (
     <section className="vh-100">
       <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-7 col-lg-6 col-xl-4">
-            <h2 className="text-center">Edit User Information</h2>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ReturnButton url="/profile" style={{ marginRight: '10px' }} />
+              <h2 style={{ margin: 0, marginLeft: '10px' }}>Edit User Information</h2>
+            </div>
             {error && <div className="alert alert-danger">{error}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
             <UpdateForm
