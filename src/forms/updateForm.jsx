@@ -19,10 +19,11 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
           />
           <label className="form-label" htmlFor="birthday">Birthday</label>
         </div>  
-        <div className="col mb-4">
+        
+        <div className="col">
           <Gender gender={gender} setGender={setGender} />
-          
-          <div className="form-outline flex-fill mb-4">
+
+          <div className="form-outline flex-fill mb-2">
             <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
             <input
               type="email"
@@ -36,7 +37,7 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
             <label className="form-label" htmlFor="email">Your Email</label>
           </div>
 
-          <div className="form-outline flex-fill mb-4">
+          <div className="form-outline">
             <input
               type="text"
               id="phoneNumber"
@@ -48,7 +49,7 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
             <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
           </div>
 
-          <div className="form-outline flex-fill mb-4">
+          <div className="form-outline flex-fill">
             <i className="fas fa-home fa-lg me-3 fa-fw"></i>
             <input
               type="text"
@@ -67,17 +68,18 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
           showPasswordFields={showPasswordFields} 
           setShowPasswordFields={setShowPasswordFields} 
         />
+        
+        <div className="text-center text-lg-start pt-2">
+          <button 
+            type="submit" 
+            className="btn btn-primary btn-lg"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
       </div>
      
-      <div className="text-center text-lg-start mt-4 pt-2">
-        <button 
-          type="submit" 
-          className="btn btn-primary btn-lg"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Saving...' : 'Save Changes'}
-        </button>
-      </div>
     </form>
   );
 }

@@ -14,7 +14,7 @@ const UserProfile = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('User Info:', userInfo);
+    
   }, [userInfo]);
 
   if (loading) {
