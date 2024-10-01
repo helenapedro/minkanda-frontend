@@ -1,26 +1,25 @@
-import { Component } from "react";
 import { logoutUser } from "../redux/userSlice";
 import { connect } from "react-redux";
+import { useNavigate } from 'react-router-dom'; 
+import { useEffect } from 'react'; 
 
-// this route calls the redux logout action for dispatch 
-class Logout extends Component {
-     render() {
-          this.props.logoutUser();
+const Logout = ({ logoutUser }) => {
+  const navigate = useNavigate(); 
 
-          setTimeout(() => {
-               window.location = "/";
-          }, 1);
+  useEffect(() => {
+    try {
+      logoutUser();
+      navigate("/"); 
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  }, [logoutUser, navigate]); // Include logoutUser and navigate in the dependency array
 
-          return null;
-     }
-}
+  return null;
+};
 
-const mapStateToProps = (state) => ({});
-
-// map redux store dispatch functions to this.props
 const mapDispatchToProps = (dispatch) => ({
-     logoutUser: () => dispatch(logoutUser()),
+  logoutUser: () => dispatch(logoutUser()),
 });
 
-// wrap component with react-redux connect wrapper
-export default connect(mapStateToProps, mapDispatchToProps)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);
