@@ -7,9 +7,7 @@ import UpdateForm from './../../forms/updateForm';
 import { 
   updateCurrentUserAsync, 
   selectUserInfo, 
-  resetUpdateStatus, 
-  /* clearError, 
-  clearSuccessMessage  */
+  resetUpdateStatus,
 } from '../../redux/userSlice';
 
 const EditProfile = () => {
@@ -56,7 +54,7 @@ const EditProfile = () => {
         phoneNumber: userInfo.phoneNumber || '',
         address: userInfo.address || '',
       });
-      setGender(userInfo.gender ? userInfo.gender.toLowerCase() : '');
+      setGender(userInfo.gender || '');
     } else {
       console.error('Failed to fetch user data:', error);
     }
