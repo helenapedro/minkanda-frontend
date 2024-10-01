@@ -2,12 +2,9 @@ import React from 'react';
 import paginationStyles from '../../styles/pagination.module.css';
 
 const PaginationLayout = ({ 
-     page, 
-     totalPages, 
-     handlePreviousPage, 
-     handleNextPage, 
-     pageSize, 
-     handlePageSizeChange 
+  page, totalPages, 
+  handlePreviousPage, handleNextPage, 
+  pageSize, handlePageSizeChange 
 }) => {
   return (
     <div>
