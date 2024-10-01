@@ -163,10 +163,10 @@ export const loginUserAsync = createAsyncThunk('user/login', async (credentials,
 
 export const updateCurrentUserAsync = createAsyncThunk(
   'user/updateCurrentUser',
-  async (data, { rejectWithValue }) => {
+  async (updatedData, { rejectWithValue }) => {
     try {
-      const response = await updateCurrentUser(data); 
-      return response.data; 
+      const response = await updateCurrentUser(updatedData); 
+      return response; 
     } catch (error) {
       console.error('Error in updateCurrentUserAsync:', error);
       return rejectWithValue(error.response ? error.response.data : 'Error updating user');

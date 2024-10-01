@@ -21,7 +21,12 @@ api.interceptors.request.use((config) => {
 
 export const registerUser = async (userData) => {
   try {
-    const { email, password, firstname, lastname, birthday, gender, address, phoneNumber } = userData; 
+    const { 
+      email, password, 
+      firstname, lastname, 
+      birthday, gender, 
+      address, phoneNumber 
+    } = userData; 
 
     const response = await api.post('/register', { 
       email, password, 
@@ -66,28 +71,19 @@ export const getCurrentUser = async () => {
 };
 
 
-export const updateCurrentUser = async (userId, updatedData) => {
+export const updateCurrentUser = async (updatedData) => {
   try {
-    const userFields = [
-      'firstname',
-      'lastname',
-      'birthday',
-      'gender',
-      'address',
-      'phoneNumber',
-      'password'
-    ];
-
-    const filteredData = _.pick(updatedData, userFields);
+    const { userId, ...userDetails } = updatedData;
     
-    const response = await api.put(`/api/users/${userId.uid}`, filteredData);
-    console.log('UserId:', userId);
+    const response = await api.put(`/api/users/${userId}`, userDetails);
     return response.data;
+
   } catch (error) {
     console.error('Error updating user:', error);
     throw error; 
   }
 };
+
 
 export const deleteUser = async (userId) => {
   try {

@@ -1,113 +1,162 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { getCurrentUserAsync, updateCurrentUserAsync } from '../../redux/userSlice';
-import styles from './User.module.css';
-import UpdateForm from './../../forms/updateForm';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCurrentUserAsync, selectUserInfo, resetUpdateStatus, clearError, clearSuccessMessage } from '../../redux/userSlice';
+//import { fetchUserDetailsAsync } from '../../redux/userSlice';
 
 const EditProfile = () => {
-  const [user, setUser] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const error = useSelector(state => state.user.error);
+  const userInfo = useSelector(selectUserInfo);
+  const updateUserStatus = useSelector((state) => state.user.updateUserStatus);
+  const error = useSelector((state) => state.user.error);
+  const successMessage = useSelector((state) => state.user.successMessage);
 
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
-    email: '',
     birthday: '',
-    phoneNumber: '',
+    gender: '',
     address: '',
-    password: '',
-    currentPassword: '',
+    phoneNumber: '',
+    password: ''
   });
-  
-  const [gender, setGender] = useState('');
-  const updateUserStatus = useSelector(state => state.user.updateUserStatus);
 
   useEffect(() => {
-    if (updateUserStatus === 'fulfilled') {
-      setSuccessMessage('Profile updated successfully!');
-      setTimeout(() => {
-        navigate('/profile'); // Navigates to the profile page after updating
-        dispatch({ type: 'users/resetUpdateStatus' });
-      }, 2000); 
-    }
-  }, [updateUserStatus, navigate, dispatch]);
-
-  useEffect(() => {
-    dispatch(getCurrentUserAsync())
-      .then(response => {
-        if (response.payload) {
-          setUser(response.payload);
-          setFormData({
-            firstname: response.payload.firstname || '',
-            lastname: response.payload.lastname || '',
-            email: response.payload.email || '',
-            birthday: response.payload.birthday ? new Date(response.payload.birthday).toISOString().split('T')[0]: '',
-            phoneNumber: response.payload.phoneNumber || '',
-            address: response.payload.address || '',
-            password: '',
-            currentPassword: '',
-          });
-          setGender(response.payload.gender || '');
-        } else {
-          console.error('Failed to fetch user data:', response.error);
-        }
+    if (userInfo) {
+      setFormData({
+        firstname: userInfo.firstname,
+        lastname: userInfo.lastname || '',
+        birthday: userInfo.birthday ? new Date(userInfo.birthday).toISOString().split('T')[0]: '',
+        gender: userInfo.gender ? userInfo.gender.toLowerCase() : '',
+        address: userInfo.address || '',
+        phoneNumber: userInfo.phoneNumber || '',
+        password: ''
       });
-
-    return () => {
-      dispatch({ type: 'users/clearError' });
-    };
-  }, [dispatch]);
-
-  
+    }
+  }, [userInfo]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault(); 
-    if (!user) return;
-
-    setIsLoading(true);
-    const updatedUser = { ...user, ...formData, gender };
-
-    dispatch(updateCurrentUserAsync({ uid: user.uid, ...updatedUser }))
-      .then(response => {
-        setIsLoading(false);
-        if (response.error) {
-          console.error('Failed to update user:', response.error);
-        } else {
-          console.log('User updated successfully:', response.payload);
-        }
-      });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    const updatedUserData = {
+      userId: userInfo.uid,
+      ...formData,
+      birthday: formData.birthday ? formData.birthday + 'T00:00:00.000+00:00' : null, // Handle null birthday
+    };
+  
+    console.log('Sending update with data:', updatedUserData);
+    dispatch(updateCurrentUserAsync(updatedUserData));
   };
   
+
+  const handleClear = () => {
+    dispatch(resetUpdateStatus());
+    dispatch(clearError());
+    dispatch(clearSuccessMessage());
+  };
+
   return (
-    <section className="vh-100">
-      <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
-        <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col-md-7 col-lg-6 col-xl-4">
-            <h2 className="text-center">Edit User Information</h2>
-            {error && <div className="alert alert-danger">{error}</div>}
-            {successMessage && <div className="alert alert-success">{successMessage}</div>}
-            <UpdateForm
-              handleUpdate={handleUpdate}
-              formData={formData}
-              handleChange={handleChange}
-              gender={gender}
-              setGender={setGender}
-              isLoading={isLoading}
-            />
-          </div>
+    <div className="user-profile-update">
+      <h2>Update Your Profile</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="firstname">First Name:</label>
+          <input
+            type="text"
+            id="firstname"
+            name="firstname"
+            value={formData.firstname}
+            onChange={handleChange}
+          />
         </div>
-      </div>
-    </section>
+
+        <div>
+          <label htmlFor="lastname">Last Name:</label>
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            value={formData.lastname}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="birthday">Birthday:</label>
+          <input
+            type="date"
+            id="birthday"
+            name="birthday"
+            value={formData.birthday}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="gender">Gender:</label>
+          <select
+            id="gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="address">Address:</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="phoneNumber">Phone Number:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit">Update Profile</button>
+        {updateUserStatus === 'fulfilled' && (
+          <button type="button" onClick={handleClear}>
+            Clear Messages
+          </button>
+        )}
+      </form>
+    </div>
   );
 };
 
