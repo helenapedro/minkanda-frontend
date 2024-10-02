@@ -33,7 +33,7 @@ const NavBar = () => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand as={Link} to="/">
-        {MINKANDA} <FontAwesomeIcon icon={faPenNib} />
+          {MINKANDA} <FontAwesomeIcon icon={faPenNib} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">

@@ -7,6 +7,7 @@ import Loading from '../common/Loading';
 import Error from '../common/Error';
 import ReturnButton from '../common/ReturnButton';
 import UserDetailsForm from '../../forms/UserDetailsForm';
+import styles from './User.module.css'
 
 const UserDetails = () => {
   const [user, setUser] = useState(null);
@@ -61,26 +62,28 @@ const UserDetails = () => {
 
   
   return (
-    <div className="container mt-4">
-      <div className="card">
-        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <ReturnButton url="/notes" style={{ marginRight: '10px' }} />
-            <h2 style={{ margin: 0, marginLeft: '10px' }}>{user.firstname}'s profile</h2>
+    <section className="vh-100">
+      <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ReturnButton url="/notes" style={{ marginLeft: '10px' }} />
+              <h2 style={{ margin: 0, marginLeft: '10px' }}>{user.firstname}'s profile</h2>
+            </div>
+            <Link to="/profile/edit" className="btn btn-secondary mt-3" style={{ marginRight: '12px' }}>
+              Edit
+            </Link>
           </div>
-          <Link to="/profile/edit" className="btn btn-secondary mt-3">
-            Edit
-          </Link>
-        </div>
-        <div className="card-body">
-          {successMessage && <div className="alert alert-success">{successMessage}</div>}
-          <UserDetailsForm user={user} />
-          <button className="btn btn-danger" onClick={handleDelete}>
-            Delete Profile
-          </button>
+          <div className="card-body">
+            {successMessage && <div className="alert alert-success">{successMessage}</div>}
+            <UserDetailsForm user={user} />
+            <button className="btn btn-danger" onClick={handleDelete}>
+              Delete Profile
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
