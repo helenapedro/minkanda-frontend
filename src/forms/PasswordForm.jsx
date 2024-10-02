@@ -2,7 +2,6 @@ const PasswordForm = ({ formData, handleChange, showPasswordFields, setShowPassw
      return (
           <div className="row">
                <div className="col">
-                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div className="form-outline flex-fill">
                          <input
                               type="password"
@@ -16,7 +15,6 @@ const PasswordForm = ({ formData, handleChange, showPasswordFields, setShowPassw
                     </div>
                </div>
                <div className="col">
-                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div className="form-outline flex-fill">
                          <button
                          type="button"
@@ -31,7 +29,6 @@ const PasswordForm = ({ formData, handleChange, showPasswordFields, setShowPassw
                {showPasswordFields && (
                <>
                     <div className="d-flex flex-row align-items-center mb-4">
-                         <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                          <div className="form-outline flex-fill mb-0">
                               <input
                               type="password"
@@ -48,7 +45,6 @@ const PasswordForm = ({ formData, handleChange, showPasswordFields, setShowPassw
                     </div>
 
                     <div className="d-flex flex-row align-items-center">
-                         <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                          <div className="form-outline flex-fill">
                               <input
                               type="password"

@@ -1,6 +1,7 @@
 import Gender from './Gender';
 import NameForm from './NameForm';
 import PasswordForm from './PasswordForm';
+import ContactForm from './ContactForm';
 
 const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, showPasswordFields, setShowPasswordFields, isLoading}) => {
   return (
@@ -19,12 +20,9 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
           />
           <label className="form-label" htmlFor="birthday">Birthday</label>
         </div>  
-        
         <div className="col">
           <Gender gender={gender} setGender={setGender} />
-
           <div className="form-outline flex-fill mb-2">
-            <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
             <input
               type="email"
               id="email"
@@ -36,31 +34,7 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
             />
             <label className="form-label" htmlFor="email">Your Email</label>
           </div>
-
-          <div className="form-outline">
-            <input
-              type="text"
-              id="phoneNumber"
-              className="form-control"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              name="phoneNumber"
-            />
-            <label className="form-label" htmlFor="phoneNumber">Phone Number</label>
-          </div>
-
-          <div className="form-outline flex-fill">
-            <i className="fas fa-home fa-lg me-3 fa-fw"></i>
-            <input
-              type="text"
-              id="address"
-              className="form-control"
-              value={formData.address}
-              onChange={handleChange}
-              name="address"
-            />
-            <label className="form-label" htmlFor="address">Address</label>
-          </div>
+          <ContactForm formData={formData} handleChange={handleChange} />
         </div>
         <PasswordForm 
           formData={formData} 
@@ -68,14 +42,9 @@ const UpdateForm = ({handleSubmit, formData, handleChange, gender, setGender, sh
           showPasswordFields={showPasswordFields} 
           setShowPasswordFields={setShowPasswordFields} 
         />
-        
-        <div className="text-center text-lg-start pt-2">
-          <button 
-            type="submit" 
-            className="btn btn-primary btn-lg"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Saving...' : 'Save Changes'}
+        <div className="text-center pt-2">
+          <button type="submit" className="btn btn-primary btn-sm" disabled={isLoading}
+          > {isLoading ? 'Saving...' : 'Save Changes'}
           </button>
         </div>
       </div>

@@ -1,7 +1,6 @@
 const Gender = ({ gender, setGender }) => {
   return (
-    <div className="col">
-      <i className="fas fa-venus-mars fa-lg me-3 fa-fw"></i>
+    <div className="col mb-4">
       <h6 className="mb-2 pb-1">Gender: </h6>
       
       <div className="form-check form-check-inline">

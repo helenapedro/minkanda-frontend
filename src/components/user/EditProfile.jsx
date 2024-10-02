@@ -108,10 +108,13 @@ const EditProfile = () => {
           <div className="col-md-7 col-lg-6 col-xl-4">
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <ReturnButton url="/profile" style={{ marginRight: '10px' }} />
-              <h2 style={{ margin: 0, marginLeft: '10px' }}>Edit User Information</h2>
+              <h2 style={{ margin: 0, marginLeft: '10px' }}>Edit Profile</h2>
             </div>
+
             {error && <div className="alert alert-danger">{error}</div>}
+            
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
+            
             <UpdateForm
               handleSubmit={handleSubmit}
               formData={formData}
