@@ -19,8 +19,13 @@ const notesSlice = createSlice({
     resetUpdateStatus: (state) => {
       state.updateNoteStatus = 'idle';
     },
+
     clearSelectedNote: (state) => {
       state.selectedNote = null;
+    },
+
+    clearSuccessMessage: (state) => {
+      state.successMessage = '';
     },
   },
   extraReducers: (builder) => {
@@ -77,7 +82,11 @@ const notesSlice = createSlice({
         state.updateNoteStatus = 'pending'; 
       })
       .addCase(updateNoteAsync.fulfilled, (state, action) => {
+        state.loading = false;
         state.updateNoteStatus = 'fulfilled';
+        state.error = null;
+        state.successMessage = 'Note updated successfully.';
+        
         const index = state.notes.findIndex((note) => note.nid === action.payload.nid);
         if (index !== -1) {
           state.notes[index] = action.payload;
