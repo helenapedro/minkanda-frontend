@@ -21,6 +21,6 @@ export const fetchPublicNotesList = async (
   setTotalPages, 
   setError
 ) => {
-  const fetchPublicNotes = (page, pageSize) => fetchNotesBase('/notes/public', page, pageSize);
+  const fetchPublicNotes = (page, pageSize) => fetchNotesBase('/api/notes/public', page, pageSize);
   await fetchNotesData(fetchPublicNotes, page, pageSize, setNotes, setTotalPages, setError);
 };

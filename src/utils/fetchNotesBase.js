@@ -17,7 +17,7 @@ export const fetchNotesBase = async (
   pageSize, 
   publicOnly = false
 ) => {
-  const endpoint = publicOnly ? '/notes/public' : url;
+  const endpoint = publicOnly ? '/api/notes/public' : url;
   try {
     const token = getToken();
     const response = await api.get(endpoint, {

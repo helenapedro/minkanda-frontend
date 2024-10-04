@@ -36,7 +36,6 @@ const NoteEdit = () => {
 
   useEffect(() => {
     if (note) {
-      console.log('Received note data:', note);
       setTitle(note.title);
       setBody(note.body);
 

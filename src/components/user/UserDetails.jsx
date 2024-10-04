@@ -67,10 +67,10 @@ const UserDetails = () => {
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <ReturnButton url="/notes" style={{ marginLeft: '10px' }} />
+              <ReturnButton url="/notes" style={{ marginRight: '10px' }} />
               <h2 style={{ margin: 0, marginLeft: '10px' }}>{user.firstname}'s profile</h2>
             </div>
-            <Link to="/profile/edit" className="btn btn-secondary mt-3" style={{ marginRight: '12px' }}>
+            <Link to="/profile/edit" className="btn btn-secondary mt-3" >
               Edit
             </Link>
           </div>
