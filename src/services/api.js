@@ -1,24 +1,17 @@
-import axios from 'axios';
 import { getToken } from '../utils/tokenUtils';
 import { handleApiError } from '../utils/errorUtils';
 import { fetchNotesBase } from '../utils/fetchNotesBase';
+import api from '../utils/fetchApiBase';
 
-const API_URL = process.env.REACT_APP_API_URL_HEROKU;
 
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+export const fetchNotes = async (page = 0, pageSize = 10) => {
+  return fetchNotesBase('/api/notes', page, pageSize);
+};
 
 export const fetchPublicNotes = async (page = 0, pageSize = 10) => {
   return fetchNotesBase('/api/notes/public', page, pageSize);
 };
 
-export const fetchNotes = async (page = 0, pageSize = 10) => {
-  return fetchNotesBase('/api/notes', page, pageSize);
-};
 
 export const fetchNoteById = async (id) => {
   try {
@@ -53,11 +46,11 @@ export const addNote = async (note) => {
   }
 };
 
-export const updateNote = async (id, note) => {
+export const updateNote = async (nid, note) => {
   try {
     const token = getToken();
     console.log('Sending request to update note:', note);
-    const response = await api.patch(`/api/notes/${id}`, note, {
+    const response = await api.patch(`/api/notes/${nid}`, note, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -65,7 +58,7 @@ export const updateNote = async (id, note) => {
     console.log('Response received:', response.data);
     return response.data;
   } catch (error) {
-    handleApiError(error, `/api/notes/${id}`);
+    handleApiError(error, `/api/notes/${nid}`);
   }
 };
 

@@ -1,65 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchNotes, fetchNoteById, fetchPublicNotes, addNote, updateNote, deleteNote } from '../services/api';
 
-export const fetchNotesAsync = createAsyncThunk(
-  'notes/fetchNotes', 
-  async (page = 0) => {
-    const response = await fetchNotes(page);
-    return response;
-  }
-);
+const initialState = {
+  notes: [],
+  selectedNote: null,
+  totalPages: 0,
+  publicTotalPages: 0,
+  updateNoteStatus: 'idle',
+  loading: false,
+  error: null,
+  successMessage: '',
+}
 
-export const fetchPublicNotesAsync = createAsyncThunk(
-  'notes/fetchPublicNotes',
-  async (page = 0) => {
-    const response = await fetchPublicNotes(page);
-    return response;
-  }
-);
-
-export const fetchNoteByIdAsync = createAsyncThunk(
-  'notes/fetchNoteById',
-  async (nid) => {
-    const response = await fetchNoteById(nid);
-    return response;
-  }
-);
- 
-export const addNoteAsync = createAsyncThunk(
-  'notes/addNote', async (note) => {
-    const response = await addNote(note);
-    return response;
-  }
-);
-
-export const updateNoteAsync = createAsyncThunk(
-  'notes/updateNote', 
-  async ({ nid, ...restOfNote }) => {
-    const response = await updateNote(nid, { nid, ...restOfNote });
-    return response;
-  }
-);
-
-export const deleteNoteAsync = createAsyncThunk(
-  'notes/deleteNote', 
-  async (nid) => {
-    await deleteNote(nid);
-    return nid;
-  }
-);
-
-// Create a slice for notes
 const notesSlice = createSlice({
   name: 'notes',
-  initialState: {
-    notes: [],
-    selectedNote: null,
-    loading: false,
-    error: null,
-    totalPages: 0,
-    publicTotalPages: 0,
-    updateNoteStatus: 'idle',
-  },
+  initialState,
   reducers: {
     resetUpdateStatus: (state) => {
       state.updateNoteStatus = 'idle';
@@ -145,6 +100,56 @@ const notesSlice = createSlice({
   },
 });
 
-export const { resetUpdateStatus, clearSelectedNote } = notesSlice.actions;
+
+export const fetchNotesAsync = createAsyncThunk('notes/fetchNotes', 
+  async (page = 0) => {
+    const response = await fetchNotes(page);
+    return response;
+  }
+);
+
+export const fetchPublicNotesAsync = createAsyncThunk(
+  'notes/fetchPublicNotes',
+  async (page = 0) => {
+    const response = await fetchPublicNotes(page);
+    return response;
+  }
+);
+
+export const fetchNoteByIdAsync = createAsyncThunk(
+  'notes/fetchNoteById',
+  async (nid) => {
+    const response = await fetchNoteById(nid);
+    return response;
+  }
+);
+ 
+export const addNoteAsync = createAsyncThunk(
+  'notes/addNote', async (note) => {
+    const response = await addNote(note);
+    return response;
+  }
+);
+
+export const updateNoteAsync = createAsyncThunk(
+  'notes/updateNote', 
+  async ({ nid, title, body, ...restOfNote }) => {
+    const updateData = { nid, title, body, ...restOfNote };
+    const response = await updateNote(nid, updateData);
+    return response;
+  }
+);
+
+export const deleteNoteAsync = createAsyncThunk(
+  'notes/deleteNote', 
+  async (nid) => {
+    await deleteNote(nid);
+    return nid;
+  }
+);
+
+// Create a slice for notes
+
+export const { resetUpdateStatus, clearSelectedNote, clearSuccessMessage } = notesSlice.actions;
 
 export default notesSlice.reducer;

@@ -147,7 +147,8 @@ const userSlice = createSlice({
 });
 
 // Async thunks
-export const registerUserAsync = createAsyncThunk('user/register', async (userDetails) => {
+export const registerUserAsync = createAsyncThunk('user/register', 
+  async (userDetails) => {
   const response = await registerUser(userDetails);
   return response;
 });
