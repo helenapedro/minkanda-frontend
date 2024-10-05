@@ -2,20 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { fetchNoteByIdAsync, updateNoteAsync } from '../../redux/notesSlice';
+import { fetchNoteByIdAsync, updateNoteAsync, toggleNotePrivacyAsync } from '../../redux/notesSlice';
 
 const NoteEdit = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
-
-  const note = useSelector((state) => state.notes.selectedNote);
+  const [loading, setLoading] = useState(true);
   const error = useSelector(state => state.notes.error) 
+  const note = useSelector((state) => state.notes.selectedNote);
+  const updateNoteStatus = useSelector(state => state.notes.updateNoteStatus);
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-
-  const updateNoteStatus = useSelector(state => state.notes.updateNoteStatus);
 
   useEffect(() => {
     if (updateNoteStatus === 'fulfilled') {
@@ -61,6 +60,24 @@ const NoteEdit = () => {
     dispatch(updateNoteAsync({ nid: note.nid, ...updateNote }));
   };
 
+  useEffect(() => {
+    if (updatedNote) {
+      const index = state.notes.findIndex((note) => note.nid === updatedNote.nid);
+      if (index !== -1) {
+        dispatch(updateNoteInState(updatedNote));
+      }
+    }
+  }, [updatedNote, state.notes, dispatch]); 
+  
+  const handleTogglePrivacy = async (noteId) => {
+    try {
+      const updatedNote = await dispatch(toggleNotePrivacyAsync(noteId));
+     
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h2>Edit Note</h2>
@@ -89,6 +106,9 @@ const NoteEdit = () => {
 
         />
       </div>
+      <button onClick={() => handleTogglePrivacy(note.id)}>
+        Toggle Privacy
+      </button>
       <button className="btn btn-primary" onClick={handleSave} disabled={!note}>Save</button>
     </div>
   );

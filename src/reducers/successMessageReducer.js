@@ -19,4 +19,4 @@ const successMessageReducer = (state = initialState, action) => {
      }
 };
    
-export default successMessageReducer;
+export default successMessageReducer; 

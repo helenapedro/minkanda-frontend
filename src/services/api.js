@@ -9,7 +9,7 @@ export const fetchNotes = async (page = 0, pageSize = 10) => {
 };
 
 export const fetchPublicNotes = async (page = 0, pageSize = 10) => {
-  return fetchNotesBase('/api/notes/public', page, pageSize);
+  return fetchNotesBase('/api/notes/public', page, pageSize, true);
 };
 
 
@@ -24,6 +24,7 @@ export const fetchNoteById = async (id) => {
     return response.data;
   } catch (error) {
     handleApiError(error, `/api/notes/${id}`); 
+    throw error; 
   }
 };
 
@@ -43,6 +44,7 @@ export const addNote = async (note) => {
     return response.data;
   } catch (error) {
     handleApiError(error, '/api/notes'); 
+    throw error; 
   }
 };
 
@@ -59,6 +61,7 @@ export const updateNote = async (nid, note) => {
     return response.data;
   } catch (error) {
     handleApiError(error, `/api/notes/${nid}`);
+    throw error; 
   }
 };
 
@@ -73,6 +76,7 @@ export const toggleNotePrivacy = async (noteId) => {
     return response.data;
   } catch (error) {
     handleApiError(error, `/api/notes/${noteId}/togglePrivacy`); 
+    throw error; 
   }
 }
 
@@ -86,5 +90,6 @@ export const deleteNote = async (nid) => {
     });
   } catch (error) {
     handleApiError(error, `/api/notes/${nid}`); 
+    throw error; 
   }
 };

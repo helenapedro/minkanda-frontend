@@ -6,7 +6,6 @@ import { addNoteAsync } from '../../redux/notesSlice';
 const AddNote = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isPublic, setIsPublic] = useState(false);
@@ -15,7 +14,7 @@ const AddNote = () => {
     dispatch(
       addNoteAsync({
         title,
-        body,
+        body, 
         public: isPublic
       })
     ).then(() => {

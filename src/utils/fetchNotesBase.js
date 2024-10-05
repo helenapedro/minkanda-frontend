@@ -2,9 +2,7 @@ import { getToken } from './tokenUtils';
 import { handleApiError } from './errorUtils';
 import api from './fetchApiBase';
 
-export const fetchNotesBase = async (
-  url, page = 0, pageSize, publicOnly = false
-) => {
+export const fetchNotesBase = async ( url, page = 0, pageSize = 10, publicOnly = false) => {
   const endpoint = publicOnly ? '/api/notes/public' : url;
   try {
     const token = getToken();
