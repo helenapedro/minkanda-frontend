@@ -32,7 +32,7 @@ const NavBar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to={isAuthenticated ? "/notes" : "/"}>
           {MINKANDA} <FontAwesomeIcon icon={faPenNib} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
