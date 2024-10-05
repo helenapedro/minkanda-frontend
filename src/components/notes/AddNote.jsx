@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addNoteAsync } from '../../redux/notesSlice';
+import { addNoteAsync, toggleNotePrivacyAsync } from '../../redux/notesSlice';
 
 const AddNote = () => {
   const dispatch = useDispatch();
@@ -10,19 +10,26 @@ const AddNote = () => {
   const [body, setBody] = useState('');
   const [isPublic, setIsPublic] = useState(false);
 
-  const handleSubmit = () => {
-    dispatch(
-      addNoteAsync({
-        title,
-        body, 
-        public: isPublic
-      })
-    ).then(() => {
+  const handleSubmit = async () => {
+    try {
+      const note = await dispatch(
+        addNoteAsync({
+          title,
+          body,
+        })
+      ).unwrap(); 
+
+      if (isPublic) {
+        await dispatch(toggleNotePrivacyAsync(note.nid)).unwrap();
+      }
+
       setTitle('');
       setBody('');
       setIsPublic(false);
       navigate('/notes');
-    });
+    } catch (error) {
+      console.error('Error adding note:', error);
+    }
   };
 
   return (
@@ -33,8 +40,7 @@ const AddNote = () => {
         <input
           type="text"
           className="form-control"
-          id="title"   
-
+          id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -46,8 +52,7 @@ const AddNote = () => {
           id="body"
           rows="3"
           value={body}
-          onChange={(e) => setBody(e.target.value)}   
-
+          onChange={(e) => setBody(e.target.value)}
         />
       </div>
       <div className="mb-3">

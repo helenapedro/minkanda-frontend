@@ -1,15 +1,16 @@
-import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchNotes, fetchNoteById, fetchPublicNotes, addNote, updateNote, toggleNotePrivacy, deleteNote } from '../services/api';
 import { setLoadingState, setErrorState, setNotesSuccessState, setPublicNotesSuccessState } from '../utils/stateUtils';
 
 const initialState = {
   notes: [],
   selectedNote: null,
+  updateNoteStatus: 'idle',
   totalPages: 0,
   publicTotalPages: 0,
-  updateNoteStatus: 'idle',
   loading: false,
   error: null,
+  successMessage: '',
 };
 
 const notesSlice = createSlice({
@@ -18,6 +19,7 @@ const notesSlice = createSlice({
   reducers: {
     resetUpdateStatus: (state) => {
       state.updateNoteStatus = 'idle';
+      state.successMessage = '';
     },
     clearSelectedNote: (state) => {
       state.selectedNote = null;
@@ -67,29 +69,21 @@ const notesSlice = createSlice({
         state.updateNoteStatus = 'pending';
       })
       .addCase(updateNoteAsync.fulfilled, (state, action) => {
-        state.loading = false;
         state.updateNoteStatus = 'fulfilled';
+        state.selectedNote = action.payload;
         state.successMessage = 'Note updated successfully.';
-
-        const index = state.notes.findIndex((note) => note.nid === action.payload.nid);
-        if (index !== -1) {
-          state.notes[index] = action.payload;
-        }
       })
       .addCase(updateNoteAsync.rejected, (state, action) => {
         state.updateNoteStatus = 'rejected';
-        state.error = action.error.message;
+        state.error = action.payload;
       });
 
     // Toggle note privacy
     builder
       .addCase(toggleNotePrivacyAsync.pending, setLoadingState)
       .addCase(toggleNotePrivacyAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        const index = state.notes.findIndex((note) => note.nid === action.payload.nid);
-        if (index !== -1) {
-          state.notes[index].isPublic = action.payload.isPublic;
-        }
+        state.selectedNote.isPublic = action.payload.isPublic;
+        state.successMessage = 'Privacy toggled successfully!';
       })
       .addCase(toggleNotePrivacyAsync.rejected, setErrorState);
 
@@ -113,26 +107,46 @@ export const fetchPublicNotesAsync = createAsyncThunk('notes/fetchPublicNotes', 
   return response;
 });
 
-export const fetchNoteByIdAsync = createAsyncThunk('notes/fetchNoteById', async (nid) => {
-  const response = await fetchNoteById(nid);
+export const fetchNoteByIdAsync = createAsyncThunk(
+  'notes/fetchNoteById', async (noteId) => {
+  const response = await fetchNoteById(noteId);
   return response;
 });
 
-export const addNoteAsync = createAsyncThunk('notes/addNote', async (note) => {
-  const response = await addNote(note);
-  return response;
+export const addNoteAsync = createAsyncThunk(
+  'notes/addNote', async (note, {rejectWithValue}) => {
+    try {
+      return await addNote(note);
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
 });
 
-export const updateNoteAsync = createAsyncThunk('notes/updateNote', async ({ nid, title, body, ...restOfNote }) => {
-  const updateData = { nid, title, body, ...restOfNote };
-  const response = await updateNote(nid, updateData);
-  return response;
-});
+export const updateNoteAsync = createAsyncThunk(
+  'notes/updateNote', 
+  async (noteData, { rejectWithValue }) => {
+    try {
+      const response = await updateNote(noteData);
+      return response
 
-export const toggleNotePrivacyAsync = createAsyncThunk('notes/togglePrivacy', async (noteId) => {
-  const response = await toggleNotePrivacy(noteId);
-  return response;
-});
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Error updating note');
+    }
+  }
+);
+
+export const toggleNotePrivacyAsync = createAsyncThunk(
+  'notes/togglePrivacy', 
+  async (noteId, { rejectWithValue }) => {
+    try {
+      const response = await toggleNotePrivacy(noteId);
+      return response;
+    } 
+    catch (error) {
+      return rejectWithValue(error.response?.data || 'Error toggling privacy');
+    }
+  }
+);
 
 export const deleteNoteAsync = createAsyncThunk('notes/deleteNote', async (nid) => {
   await deleteNote(nid);

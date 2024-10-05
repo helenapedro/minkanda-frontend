@@ -4,8 +4,8 @@ export const setLoadingState = (state) => {
 };
    
 export const setErrorState = (state, action) => {
-state.loading = false;
-state.error = action.error.message;
+     state.updateNoteStatus = 'rejected';
+     state.error = action.payload;
 };
 
 export const setNotesSuccessState = (state, action) => {

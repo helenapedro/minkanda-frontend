@@ -13,17 +13,17 @@ export const fetchPublicNotes = async (page = 0, pageSize = 10) => {
 };
 
 
-export const fetchNoteById = async (id) => {
+export const fetchNoteById = async (noteId) => {
   try {
     const token = getToken();
-    const response = await api.get(`/api/notes/${id}`, {
+    const response = await api.get(`/api/notes/${noteId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    handleApiError(error, `/api/notes/${id}`); 
+    handleApiError(error, `/api/notes/${noteId}`); 
     throw error; 
   }
 };
@@ -68,6 +68,12 @@ export const updateNote = async (nid, note) => {
 export const toggleNotePrivacy = async (noteId) => {
   try {
     const token = getToken();
+    console.log('Token:', token);
+
+    if (!token) {
+      throw new Error('Authorization token is missing');
+    }
+
     const response = await api.put(`/api/notes/${noteId}/togglePrivacy`, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -4,11 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './User.module.css';
 import ReturnButton from '../common/ReturnButton';
 import UpdateForm from './../../forms/updateForm';
-import { 
-  updateCurrentUserAsync, 
-  selectUserInfo, 
-  resetUpdateStatus,
-} from '../../redux/userSlice';
+import { updateCurrentUserAsync, selectUserInfo, resetUpdateStatus } from '../../redux/userSlice';
 
 const EditProfile = () => {
   const dispatch = useDispatch();
