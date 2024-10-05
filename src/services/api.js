@@ -62,6 +62,20 @@ export const updateNote = async (nid, note) => {
   }
 };
 
+export const toggleNotePrivacy = async (noteId) => {
+  try {
+    const token = getToken();
+    const response = await api.put(`/api/notes/${noteId}/togglePrivacy`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    handleApiError(error, `/api/notes/${noteId}/togglePrivacy`); 
+  }
+}
+
 export const deleteNote = async (nid) => {
   try {
     const token = getToken();

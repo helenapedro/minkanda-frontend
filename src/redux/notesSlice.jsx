@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchNotes, fetchNoteById, fetchPublicNotes, addNote, updateNote, deleteNote } from '../services/api';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
+import { fetchNotes, fetchNoteById, fetchPublicNotes, addNote, updateNote, toggleNotePrivacy, deleteNote } from '../services/api';
 
 const initialState = {
   notes: [],
@@ -9,7 +9,6 @@ const initialState = {
   updateNoteStatus: 'idle',
   loading: false,
   error: null,
-  successMessage: '',
 }
 
 const notesSlice = createSlice({
@@ -99,6 +98,25 @@ const notesSlice = createSlice({
         state.error = action.error.message;
       })
 
+      .addCase(toggleNotePrivacyAsync.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(toggleNotePrivacyAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+
+        // Update the note's `isPublic` property in the state
+        const index = state.notes.findIndex((note) => note.nid === action.payload.nid);
+        if (index !== -1) {
+          state.notes[index].isPublic = action.payload.isPublic;
+        }
+      })
+      .addCase(toggleNotePrivacyAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
       .addCase(deleteNoteAsync.fulfilled, (state, action) => {
         state.notes = state.notes.filter((note) => note.nid !== action.payload);
       })
@@ -149,6 +167,14 @@ export const updateNoteAsync = createAsyncThunk(
   }
 );
 
+export const toggleNotePrivacyAsync = createAsyncThunk(
+  'notes/togglePrivacy', 
+  async (noteId) => {
+    const response = await toggleNotePrivacy(noteId);
+    return response;
+  }
+);
+
 export const deleteNoteAsync = createAsyncThunk(
   'notes/deleteNote', 
   async (nid) => {
@@ -157,7 +183,8 @@ export const deleteNoteAsync = createAsyncThunk(
   }
 );
 
-// Create a slice for notes
+
+export const togglePrivacySuccess = createAction('notes/togglePrivacySuccess');
 
 export const { resetUpdateStatus, clearSelectedNote, clearSuccessMessage } = notesSlice.actions;
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import _ from 'underscore';
 
 const API_URL = process.env.REACT_APP_API_URL_HEROKU;
 const TOKEN_KEY = 'token'; 
