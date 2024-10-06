@@ -48,11 +48,11 @@ export const addNote = async (note) => {
   }
 };
 
-export const updateNote = async (nid, note) => {
+export const updateNote = async (noteId, note) => {
   try {
     const token = getToken();
     console.log('Sending request to update note:', note);
-    const response = await api.patch(`/api/notes/${nid}`, note, {
+    const response = await api.patch(`/api/notes/${noteId.nid}`, note, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -60,7 +60,7 @@ export const updateNote = async (nid, note) => {
     console.log('Response received:', response.data);
     return response.data;
   } catch (error) {
-    handleApiError(error, `/api/notes/${nid}`);
+    handleApiError(error, `/api/notes/${noteId}`);
     throw error; 
   }
 };

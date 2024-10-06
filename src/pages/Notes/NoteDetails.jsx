@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNoteActions } from '../../actions/useNoteActions';
 import { fetchNoteById } from '../../services/api';
 import getRandomColor from '../../components/notes/NoteColor';
-import { useNoteActions } from '../../actions/useNoteActions';
+import ReturnButton from '../../components/common/ReturnButton';
 import Loading from '../../components/common/Loading';
 import Error from '../../components/common/Error';
 import styles from '../../styles/NoteDetails.module.css';
@@ -16,6 +17,10 @@ const NoteDetails = () => {
   const [cardColor, setCardColor] = useState(getRandomColor());
   const { handleDelete } = useNoteActions();
   const navigate = useNavigate(); 
+
+  const user = useSelector((state) => state.user.userInfo);
+  const isAdmin = user?.roles?.some(role => role.name === "ROLE_ADMIN");
+  const isOwner = note?.uid === user?.uid;
 
   useEffect(() => {
     const getNoteDetails = async () => {
@@ -47,25 +52,27 @@ const NoteDetails = () => {
 
   return (
     <section className="vh-100">
-      <div className={`${styles.card} container`} style={{ backgroundColor: cardColor}}>
+      <div className={`${styles.card} container`} style={{ backgroundColor: cardColor }}>
         {note ? (
-          <div >
+          <div>
             <div className={styles.header}>
               <h2 className={styles.title}>{note.title}</h2>
-              <button className="btn btn-secondary" onClick={() => navigate('/notes')}>
-                Return
-              </button>
+              <ReturnButton url="/notes" style={{ marginRight: '10px' }} />
             </div>
             <div className={styles.body}>
-              <p className='card-text'>{note.body}</p>
+              <p className="card-text">{note.body}</p>
             </div>
             <div className={styles.footer}>
-              <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}>
-                Edit Note
-              </button>
-              <button className="btn btn-danger" onClick={() => handleDelete(id, setError)}>
-                Delete Note
-              </button>
+              {(isOwner || isAdmin) && (
+                <>
+                  <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}
+                  > Edit Note
+                  </button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(id, setError)}
+                  > Delete Note
+                  </button>
+                </>
+              )}
             </div>
           </div>
         ) : (

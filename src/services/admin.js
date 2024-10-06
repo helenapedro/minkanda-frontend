@@ -1,14 +1,6 @@
-import axios from 'axios';
+import api from "../utils/fetchApiBase";
 
-const API_URL = process.env.REACT_APP_API_URL_HEROKU;
 const TOKEN_KEY = 'token'; 
-
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN_KEY); 
