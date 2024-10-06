@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useNoteActions } from '../../actions/useNoteActions';
 import { fetchNoteById } from '../../services/api';
+import { isAdmin, isOwner } from '../../utils/roleUtils';
 import getRandomColor from '../../components/notes/NoteColor';
 import ReturnButton from '../../components/common/ReturnButton';
 import Loading from '../../components/common/Loading';
@@ -20,11 +21,8 @@ const NoteDetails = () => {
   const navigate = useNavigate(); 
 
   const user = useSelector((state) => state.user.userInfo);
-  //console.log("user: ", user);
-  const isAdmin = user?.roles?.some(role => role.name === "ROLE_ADMIN");
-  console.log("isAdmin: ", isAdmin);
-  const isOwner = note?.uid === user?.uid;
-  console.log("isOwner: ", isOwner);
+  const admin = isAdmin(user);
+  const owner = isOwner(note, user);
 
   useEffect(() => {
     const getNoteDetails = async () => {
@@ -67,7 +65,7 @@ const NoteDetails = () => {
               <p className="card-text">{note.body}</p>
             </div>
             <div className={styles.footer}>
-              {(isOwner || isAdmin) && (
+              {(owner || admin) && (
                 <>
                   <button
                     className="btn btn-primary"
