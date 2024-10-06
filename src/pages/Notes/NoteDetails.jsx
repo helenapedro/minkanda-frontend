@@ -14,13 +14,15 @@ const NoteDetails = () => {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const [cardColor, setCardColor] = useState(getRandomColor());
   const { handleDelete } = useNoteActions();
   const navigate = useNavigate(); 
 
   const user = useSelector((state) => state.user.userInfo);
+  //console.log("user: ", user);
   const isAdmin = user?.roles?.some(role => role.name === "ROLE_ADMIN");
-  console.log("isAdmin: ", isAdmin)
+  console.log("isAdmin: ", isAdmin);
   const isOwner = note?.uid === user?.uid;
   console.log("isOwner: ", isOwner);
 
@@ -49,7 +51,7 @@ const NoteDetails = () => {
   }
 
   if (error) {
-    return <Error/>; 
+    return <Error />;
   }
 
   return (
@@ -67,11 +69,18 @@ const NoteDetails = () => {
             <div className={styles.footer}>
               {(isOwner || isAdmin) && (
                 <>
-                  <button className="btn btn-primary" onClick={() => navigate(`/notes/edit/${id}`)}
-                  > Edit Note
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => navigate(`/notes/edit/${id}`)}
+                  >
+                    Edit Note
                   </button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(id, setError)}
-                  > Delete Note
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(id, setError, setDeleting)} 
+                    disabled={deleting} 
+                  >
+                    {deleting ? 'Deleting...' : 'Delete Note'} 
                   </button>
                 </>
               )}

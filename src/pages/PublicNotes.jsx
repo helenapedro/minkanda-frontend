@@ -6,7 +6,6 @@ import { fetchPublicNotesList } from '../services/notes';
 import PublicNotesDetailsCard from '../components/notes/PublicNotesDetailsCard';
 import { getPaginationControls } from '../utils/pagination';
 import PaginationLayout from '../components/common/PaginationLayout';
-
 import notesStyles from '../styles/NotesList.module.css';
 
 const PublicNotes = () => {

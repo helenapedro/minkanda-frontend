@@ -64,7 +64,7 @@ const NoteEdit = () => {
       setIsLoading(false); 
     } catch (error) {
       setIsLoading(false); 
-      console.error('Error updating note:', error);
+      console.error('Oops! Something went wrong on our end. Please try again later.', error);
     }
   };
   

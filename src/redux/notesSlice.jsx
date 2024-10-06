@@ -124,9 +124,9 @@ export const addNoteAsync = createAsyncThunk(
 
 export const updateNoteAsync = createAsyncThunk(
   'notes/updateNote', 
-  async (note, { rejectWithValue }) => {
+  async ({ nid, ...noteData }, { rejectWithValue }) => {
     try {
-      const response = await updateNote(note);
+      const response = await updateNote(nid, noteData);
       return response
 
     } catch (error) {
