@@ -20,7 +20,9 @@ const NoteDetails = () => {
 
   const user = useSelector((state) => state.user.userInfo);
   const isAdmin = user?.roles?.some(role => role.name === "ROLE_ADMIN");
+  console.log("isAdmin: ", isAdmin)
   const isOwner = note?.uid === user?.uid;
+  console.log("isOwner: ", isOwner);
 
   useEffect(() => {
     const getNoteDetails = async () => {
