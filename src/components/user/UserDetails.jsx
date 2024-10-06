@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getCurrentUser } from '../../services/auth';
 import { useUserActions } from '../../actions/useUserActions';
 import { useSelector } from 'react-redux';
-import { isAdmin, isTester } from '../../utils/roleUtils';
+import { isTester } from '../../utils/roleUtils';
 import Loading from '../common/Loading';
 import Error from '../common/Error';
 import ReturnButton from '../common/ReturnButton';
