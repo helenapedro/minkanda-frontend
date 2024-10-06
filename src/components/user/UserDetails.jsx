@@ -19,7 +19,6 @@ const UserDetails = () => {
   const { handleDeleteUser } = useUserActions();
 
   const currentUser = useSelector((state) => state.user.userInfo);
-  const admin = isAdmin(currentUser);
   const tester = isTester(currentUser);
 
   useEffect(() => {
