@@ -1,30 +1,18 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faSignIn, 
-  faSignOutAlt, 
-  faInfoCircle, 
-  faUserPlus,
-  faStickyNote, 
-  faUser,
-  faBook,
-  faPenNib
+  faSignIn, faSignOutAlt, 
+  faInfoCircle, faUserPlus, 
+  faStickyNote, faUser, 
+  faBook, faPenNib
 } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../redux/userSlice'; 
-
-const MINKANDA = "Minkanda: Notes Taking";
-const LOGIN = "Login";
-const LOGOUT = "Logout";
-const REGISTER = "Register";
-const PROFILE = "Profile";
-const NOTES = "My Notes";
-const PUBLIC_NOTES = "Public Notes";
-const ABOUT = "About";
+import { selectIsAuthenticated } from '../redux/userSlice';
+import { MINKANDA, ABOUT, LOGIN, LOGOUT, REGISTER, PROFILE, NOTES, PUBLIC_NOTES } from "../utils/constantsUtil"; 
 
 const NavBar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated); 
