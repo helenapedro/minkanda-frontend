@@ -17,7 +17,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../redux/userSlice'; 
 
-const MINKANDA = "Minkanda";
+const MINKANDA = "Minkanda: Notes Taking";
 const LOGIN = "Login";
 const LOGOUT = "Logout";
 const REGISTER = "Register";

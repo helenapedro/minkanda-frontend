@@ -47,7 +47,7 @@ const Login = () => {
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-5 col-lg-6 col-xl-5">
             <p className='h2 text-center'>Minkanda</p>
-            <p className='lead text-center'>Create, manage, and access your minkanda (notes) securely.</p>
+            <p className='lead text-center'>Create, manage, and access your private and public notes securely.</p>
             <img 
               src="./hero.webp"
               className={`${styles['img-fluid ']} img-fluid w-100`}
