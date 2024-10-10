@@ -27,7 +27,6 @@ const PaginationLayout = ({
         </select>
       </div>
       <div className="pagination-info">
-        <span>Showing {pageSize} notes per page</span>
       </div>
     </div>
   );

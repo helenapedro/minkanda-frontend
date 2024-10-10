@@ -5,11 +5,13 @@ import { fetchNotesList } from '../../services/notes';
 import { getPaginationControls } from '../../utils/pagination';
 import SearchForm from './../../forms/searchForm';
 import PaginationLayout from '../../components/common/PaginationLayout';
-
 import notesStyles from '../../styles/NotesList.module.css';
 import FloatingButton from '../../components/common/FloatingButton';
+import MainScreen from '../../components/MainScreen';
+import useFetchUserDetails from '../../actions/useFetchUserDetails';
 
 const NotesList = () => {
+  const { user, loading: userLoading, error: userError } = useFetchUserDetails(); 
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,46 +40,47 @@ const NotesList = () => {
     setPage(0);
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading || userLoading) return <div>Loading...</div>;
+  if (error || userError) return <div>{error || userError}</div>;
 
-  return ( 
-    <div className={`${notesStyles['notes-list']}`}>
-      <div className={`${notesStyles.card} card`}>
-        <div className={`${notesStyles['card-body']} card-body`}>
-          <div className={notesStyles.actions}>
-            <SearchForm
-              text={text}
-              setText={setText}
-              showSearch={showSearch}
-              setShowSearch={setShowSearch}
-            />
-            {/* <div className={`${notesStyles['btn-group']} btn-group`}>
-              <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
-                View Public Notes
-              </button>  
-            </div> */}
+  return (
+    <MainScreen title={`Welcome, ${user ? user.firstname : 'Guest'}!`}>
+      <div >
+        <div className={`${notesStyles.card} card`}>
+          <div className={`${notesStyles['card-body']} card-body`}>
+            <div className={notesStyles.actions}>
+              <SearchForm
+                text={text}
+                setText={setText}
+                showSearch={showSearch}
+                setShowSearch={setShowSearch}
+              />
+              {/* <div className={`${notesStyles['btn-group']} btn-group`}>
+                <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/public")}>
+                  View Public Notes
+                </button>  
+              </div> */}
+            </div>
           </div>
         </div>
+        {filteredNotes.length === 0 ? (
+          <div>No notes match your search criteria.</div>
+        ) : (
+          filteredNotes.map((note) => <NoteDetailsCard key={note.nid} note={note} />)
+        )}
+        
+        <PaginationLayout
+          page={page}
+          totalPages={totalPages}
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+          pageSize={pageSize}
+          handlePageSizeChange={handlePageSizeChange}
+        />
+
+        <FloatingButton to="/notes/add"/>
       </div>
-
-      {filteredNotes.length === 0 ? (
-        <div>No notes match your search criteria.</div>
-      ) : (
-        filteredNotes.map((note) => <NoteDetailsCard key={note.nid} note={note} />)
-      )}
-      
-      <PaginationLayout
-        page={page}
-        totalPages={totalPages}
-        handlePreviousPage={handlePreviousPage}
-        handleNextPage={handleNextPage}
-        pageSize={pageSize}
-        handlePageSizeChange={handlePageSizeChange}
-      />
-
-      <FloatingButton to="/notes/add"/>
-    </div>
+    </MainScreen> 
   );
 };
 

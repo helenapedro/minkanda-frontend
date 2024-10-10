@@ -47,7 +47,7 @@ const NavBar = () => {
                 <Nav.Link as={Link} to="/notes/public">
                   <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
                 </Nav.Link>
-                <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="navbarScrollingDropdown" >
+                <NavDropdown title={<span>User <FontAwesomeIcon icon={faUser} /></span>} id="navbarScrollingDropdown" >
                   <NavDropdown.Item as={Link} to="/profile">
                     <FontAwesomeIcon icon={faUser} /> {PROFILE}
                   </NavDropdown.Item>
