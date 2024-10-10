@@ -73,7 +73,6 @@ export const updateNote = async (noteId, noteData) => {
 export const toggleNotePrivacy = async (noteId) => {
   try {
     const token = getToken();
-    console.log('Token:', token);
 
     if (!token) {
       throw new Error('Authorization token is missing');
