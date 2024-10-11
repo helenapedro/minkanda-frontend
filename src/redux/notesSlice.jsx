@@ -59,8 +59,10 @@ const notesSlice = createSlice({
     // Add a new note
     builder
       .addCase(addNoteAsync.fulfilled, (state, action) => {
-        state.notes.push(action.payload);
-      })
+        const newNote = action.payload;
+        const { nid, public: isPublic, ...rest } = newNote;
+        state.notes.push({ ...rest, nid, isPublic });
+      })
       .addCase(addNoteAsync.rejected, setErrorState);
 
     // Update note

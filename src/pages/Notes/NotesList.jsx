@@ -5,7 +5,7 @@ import { fetchNotesList } from '../../services/notes';
 import { getPaginationControls } from '../../utils/pagination';
 import SearchForm from './../../forms/searchForm';
 import PaginationLayout from '../../components/common/PaginationLayout';
-import FloatingButton from '../../components/common/FloatingButton';
+//import FloatingButton from '../../components/common/FloatingButton';
 import MainScreen from '../../components/MainScreen';
 import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
 import useFetchUserDetails from '../../actions/useFetchUserDetails';
@@ -88,8 +88,7 @@ const NotesList = () => {
           pageSize={pageSize}
           handlePageSizeChange={handlePageSizeChange}
         />
-
-        <FloatingButton to="/notes/add"/>
+        {/* <FloatingButton to="/notes/add"/> */}
       </div>
     </MainScreen> 
   );

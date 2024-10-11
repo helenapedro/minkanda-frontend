@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addNoteAsync, toggleNotePrivacyAsync } from '../../redux/notesSlice';
+import NoteForm from '../../forms/NoteForm';
 
 const AddNote = () => {
   const dispatch = useDispatch();
@@ -9,67 +10,44 @@ const AddNote = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
-      const note = await dispatch(
-        addNoteAsync({
-          title,
-          body,
-        })
-      ).unwrap(); 
-
-      if (isPublic) {
-        await dispatch(toggleNotePrivacyAsync(note.nid)).unwrap();
+      const { nid } = await dispatch( addNoteAsync({ title, body })).unwrap();
+          
+      if (!nid) {
+        throw new Error('Note creation failed.');
       }
 
+      if (isPublic) {
+        await dispatch(toggleNotePrivacyAsync(nid)).unwrap();
+      }
+      
+      navigate('/notes');
       setTitle('');
       setBody('');
       setIsPublic(false);
-      navigate('/notes');
     } catch (error) {
       console.error('Error adding note:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  
   return (
-    <div>
-      <h2>Add New Note</h2>
-      <div className="mb-3">
-        <label htmlFor="title" className="form-label">Title</label>
-        <input
-          type="text"
-          className="form-control"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="body" className="form-label">Body</label>
-        <textarea
-          className="form-control"
-          id="body"
-          rows="3"
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="public" className="form-label">
-          <input
-            type="checkbox"
-            id="public"
-            checked={isPublic}
-            onChange={(e) => setIsPublic(e.target.checked)}
-          />
-          Public
-        </label>
-      </div>
-      <button className="btn btn-primary" onClick={handleSubmit}>
-        Save
-      </button>
-    </div>
+    <NoteForm
+      title={title}
+      setTitle={setTitle}
+      body={body}
+      setBody={setBody}
+      isPublic={isPublic}
+      setIsPublic={setIsPublic}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      
+    />
   );
 };
 

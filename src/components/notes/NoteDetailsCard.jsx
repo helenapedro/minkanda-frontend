@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import getRandomColor from './NoteColor';
 import useFetchUserDetails from '../../actions/useFetchUserDetails';
 import formatDate from '../common/FormateDate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const NoteDetailsCard = ({ note }) => {
   const navigate = useNavigate();
@@ -27,19 +29,22 @@ const NoteDetailsCard = ({ note }) => {
   if (error) return <div>{error}</div>;
 
   return (
-    <Card style={{ backgroundColor: cardColor }}>
-      <Card.Header as="h5">{note.title}</Card.Header>
-      <Card.Body>
+    <Card style={{ backgroundColor: cardColor, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '10px' }}>
+      <Card.Header as="h5" style={{ fontWeight: 'bold', color: '#fff' }}>{note.title}</Card.Header>
+      <Card.Body style={{ padding: '20px', color: '#333' }}>
         <blockquote className="blockquote mb-0">
           <footer className="blockquote-footer">{`Created by ${user.firstname}`}</footer>
         </blockquote>
-        <Button variant="primary" onClick={handleView}>View</Button>
-        <Button variant="warning mx-2" onClick={handleEdit}>Edit</Button>
+        <div style={{ marginTop: '10px', fontSize: 'smaller', color: '#6c757d' }}>{`Created at ${formatDate(note.createdAt)}`}</div>
+        <div style={{ marginTop: '10px' }}>
+          <Button variant="primary" onClick={handleView} style={{ marginRight: '10px' }}>
+            <FontAwesomeIcon icon={faEye} /> View
+          </Button>
+          <Button variant="warning" onClick={handleEdit}>
+            <FontAwesomeIcon icon={faEdit} /> Edit
+          </Button>
+        </div>
       </Card.Body>
-      <Card.Footer className="text-muted">{formatDate(note.createdAt)}</Card.Footer>
-      <blockquote className="blockquote mb-0">
-          <footer className="blockquote-footer">{`Created by ${user.firstname}`}</footer>
-        </blockquote>
     </Card>
   );
 };
