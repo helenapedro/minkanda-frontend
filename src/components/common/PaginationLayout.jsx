@@ -1,4 +1,7 @@
 import React from 'react';
+import { Pagination, Form, Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import paginationStyles from '../../styles/pagination.module.css';
 
 const PaginationLayout = ({ 
@@ -7,28 +10,34 @@ const PaginationLayout = ({
   pageSize, handlePageSizeChange 
 }) => {
   return (
-    <div>
-      <div className={paginationStyles.pagination}>
-        <button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </button>
-        <span>Page {page + 1} of {totalPages}</span>
-        <button onClick={handleNextPage} disabled={page === totalPages - 1}>
-          Next
-        </button>
-      </div>
-      <div className="pagination-controls mb-3">
-        <label htmlFor="pageSize" className="me-2">Notes per page:</label>
-        <select id="pageSize" value={pageSize} onChange={handlePageSizeChange}>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-        </select>
-      </div>
-      <div className="pagination-info">
-      </div>
-    </div>
+    <Container>
+      <Row className="justify-content-center mb-3">
+        <Col xs="auto">
+          <Pagination className={paginationStyles.pagination}>
+            <Pagination.Prev onClick={handlePreviousPage} disabled={page === 0}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </Pagination.Prev>
+            <Pagination.Item active>{page + 1}</Pagination.Item>
+            <Pagination.Next onClick={handleNextPage} disabled={page === totalPages - 1}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </Pagination.Next>
+          </Pagination>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col xs="auto">
+          <Form.Group controlId="pageSize" className="d-flex align-items-center">
+            <Form.Label className="me-2 mb-0">Notes per page:</Form.Label>
+            <Form.Select value={pageSize} onChange={handlePageSizeChange}>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
