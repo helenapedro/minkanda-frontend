@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import getRandomColor from './NoteColor';
 import useFetchUserDetails from '../../actions/useFetchUserDetails';
+import formatDate from '../common/FormateDate';
 
 const NoteDetailsCard = ({ note }) => {
   const navigate = useNavigate();
@@ -35,7 +36,10 @@ const NoteDetailsCard = ({ note }) => {
         <Button variant="primary" onClick={handleView}>View</Button>
         <Button variant="warning mx-2" onClick={handleEdit}>Edit</Button>
       </Card.Body>
-      <Card.Footer className="text-muted">2 days ago</Card.Footer>
+      <Card.Footer className="text-muted">{formatDate(note.createdAt)}</Card.Footer>
+      <blockquote className="blockquote mb-0">
+          <footer className="blockquote-footer">{`Created by ${user.firstname}`}</footer>
+        </blockquote>
     </Card>
   );
 };

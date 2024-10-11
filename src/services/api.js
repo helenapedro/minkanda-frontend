@@ -51,17 +51,12 @@ export const addNote = async (note) => {
 export const updateNote = async (noteId, noteData) => {
   try {
     const token = getToken();
-    console.log('Sending request to update note:', noteData);
-    console.log("noteID:", noteId);
 
     const response = await api.patch(`/api/notes/${noteId}`, noteData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log('Response received:', response.data);
-
     return response.data;
     
   } catch (error) {

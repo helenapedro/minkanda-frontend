@@ -1,5 +1,7 @@
 import Gender from './Gender';
 import styles from './Forms.module.css';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faUser, faCalendar, faGenderless,  } from '@fortawesome/free-solid-svg-icons';
 
 const registerForm = (
      handleSubmit, 
@@ -17,7 +19,7 @@ const registerForm = (
           <form className='mx-1 mx-md-4' onSubmit={handleSubmit}>
                <div className='row'>
                     <div className="col-md-6 mb-4">
-                         {/* <i className="fas fa-user fa-lg me-3 fa-fw"></i> */}
+                         {/* <FontAwesomeIcon className='fa-lg fa-fw' icon={faUser} /> */}
                          <div data-mdb-input-init className="form-outline flex-fill mb-0">
                               <input
                               type="text"
@@ -32,7 +34,7 @@ const registerForm = (
                          </div>
                     </div>
                     <div className="col-md-6 mb-4">
-                         {/* <i className="fas fa-user fa-lg me-3 fa-fw"></i> */}
+                         {/* <FontAwesomeIcon className='fa-lg me-3 fa-fw' icon={faUser} /> */}
                          <div className="form-outline flex-fill mb-0">
                               <input
                               type="text"
@@ -49,7 +51,7 @@ const registerForm = (
                </div>
                <div  className='row'>
                     <div className="col-md-6 mb-4 align-items-center">
-                         {/* <i className="fas fa-calendar fa-lg me-3 fa-fw"></i> */}
+                         {/* <FontAwesomeIcon className='fa-lg fa-fw' icon={faCalendar} /> */}
                          <h6 className="mb-2 pb-1">Birthday: </h6>
                          <div className="form-outline datepicker w-100">
                               <input
@@ -62,6 +64,7 @@ const registerForm = (
                               />
                          </div>  
                     </div>
+                    {/* <FontAwesomeIcon className='fa-lg fa-fw' icon={faGenderless} /> */}
                     <Gender gender={gender} setGender={setGender} />
                </div>
                <div className="d-flex flex-row align-items-center mb-4">
