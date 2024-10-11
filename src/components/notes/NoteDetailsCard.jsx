@@ -1,10 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import getRandomColor from './NoteColor';
+import useFetchUserDetails from '../../actions/useFetchUserDetails';
 
 const NoteDetailsCard = ({ note }) => {
   const navigate = useNavigate();
   const [cardColor, setCardColor] = useState(getRandomColor());
+  const { user, loading, error } = useFetchUserDetails(); 
 
   useEffect(() => {
     setCardColor(getRandomColor());
@@ -18,16 +22,21 @@ const NoteDetailsCard = ({ note }) => {
     navigate(`/notes/edit/${note.nid}`);
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
-    <div className='container'>
-      <div className= "card mb-3" style={{ backgroundColor: cardColor}}>
-        <div className='card-body'>
-          <h5 className="card-title">{note.title}</h5>
-          <button className="btn btn-primary" onClick={handleView}>View</button>
-          <button className="btn btn-warning mx-2" onClick={handleEdit}>Edit</button>
-        </div>
-      </div>
-    </div>
+    <Card style={{ backgroundColor: cardColor }}>
+      <Card.Header as="h5">{note.title}</Card.Header>
+      <Card.Body>
+        <blockquote className="blockquote mb-0">
+          <footer className="blockquote-footer">{`Created by ${user.firstname}`}</footer>
+        </blockquote>
+        <Button variant="primary" onClick={handleView}>View</Button>
+        <Button variant="warning mx-2" onClick={handleEdit}>Edit</Button>
+      </Card.Body>
+      <Card.Footer className="text-muted">2 days ago</Card.Footer>
+    </Card>
   );
 };
 
