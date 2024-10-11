@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import {fetchNoteByIdAsync, updateNoteAsync, toggleNotePrivacyAsync, resetUpdateStatus } from '../../redux/notesSlice';
+import { fetchNoteByIdAsync, updateNoteAsync, toggleNotePrivacyAsync, resetUpdateStatus } from '../../redux/notesSlice';
+import { Container, Form, Button, Spinner, Alert } from 'react-bootstrap';
+import ReturnButton from '../common/ReturnButton';
 
 const NoteEdit = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 
-   // State for handling form inputs
+  // State for handling form inputs
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isPublic, setIsPublic] = useState(false);
@@ -27,7 +29,7 @@ const NoteEdit = () => {
       setTimeout(() => {
         navigate('/notes'); 
         dispatch(resetUpdateStatus());
-      }, 2000)
+      }, 2000);
     }
   }, [updateNoteStatus, navigate, dispatch]);
 
@@ -43,7 +45,7 @@ const NoteEdit = () => {
     if (note) {
       setTitle(note.title);
       setBody(note.body);
-      setIsPublic(note.isPublic)
+      setIsPublic(note.isPublic);
     }
   }, [note]);
   
@@ -59,12 +61,12 @@ const NoteEdit = () => {
 
     setIsLoading(true);
 
-     try {
+    try {
       await dispatch(updateNoteAsync(updatedNote)).unwrap(); 
-      setIsLoading(false); 
     } catch (error) {
-      setIsLoading(false); 
       console.error('Oops! Something went wrong on our end. Please try again later.', error);
+    } finally {
+      setIsLoading(false); 
     }
   };
   
@@ -76,50 +78,59 @@ const NoteEdit = () => {
     try {
       await dispatch(toggleNotePrivacyAsync(note.nid)).unwrap();
       setIsPublic((prev) => !prev);
-      setIsLoading(false); 
     } catch (error) {
-      setIsLoading(false);
       console.error('Error toggling privacy:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Edit Note</h2>
-
-      {error && <div className="alert alert-danger">{error}</div>}
-      {successMessage && <div className="alert alert-success">{successMessage}</div>}
-
-      <div className="mb-3">
-        <label htmlFor="title" className="form-label">Title</label>
-        <input
-          type="text"
-          className="form-control"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+    <Container>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+        <ReturnButton url="/notes" style={{ marginRight: '10px' }} />
+        <h2>Edit Note</h2>
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="body" className="form-label">Body</label>
-        <textarea
-          className="form-control"
-          id="body"
-          rows="3"
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        />
-      </div>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
-      <button onClick={handleTogglePrivacy} className="btn btn-secondary" disabled={isLoading}>
-        {isPublic ? 'Make Private' : 'Make Public'}
-      </button>
-      
-      <button className="btn btn-primary" onClick={handleSave} disabled={isLoading || !note}>
-        {isLoading ? 'Saving...' : 'Save'}
-      </button>
-    </div>
+      <Form>
+        <Form.Group className="mb-3" controlId="title">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="body">
+          <Form.Label>Body</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows="10"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+          />
+        </Form.Group>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button 
+            onClick={handleTogglePrivacy} 
+            variant="secondary" 
+            disabled={isLoading}
+          >
+            {isPublic ? 'Make Private' : 'Make Public'}
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={handleSave} 
+            disabled={isLoading || !note}
+          >
+            {isLoading ? <Spinner animation="border" size="sm" /> : 'Save'}
+          </Button>
+        </div>
+      </Form>
+    </Container>
   );
 };
 

@@ -16,7 +16,6 @@ import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../components/common/FormateDate';
-//import styles from '../../styles/NoteDetails.module.css';
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -84,10 +83,16 @@ const NoteDetails = () => {
               <Card.Footer className="d-flex justify-content-between align-items-center">
                 {(owner || admin) && (
                   <>
-                    <Button variant="primary" onClick={() => navigate(`/notes/edit/${id}`)}>
+                    <Button 
+                      variant="primary" 
+                      onClick={() => navigate(`/notes/edit/${id}`)}
+                      >
                       <FontAwesomeIcon icon={faEdit} /> Edit Note
                     </Button>
-                    <Button variant="danger" onClick={() => handleDelete(id, setError, setDeleting)} disabled={deleting}>
+                    <Button 
+                      variant="danger" 
+                      onClick={() => handleDelete(id, setError, setDeleting)} disabled={deleting}
+                      >
                       <FontAwesomeIcon icon={faTrash} /> {deleting ? 'Deleting...' : 'Delete Note'}
                     </Button>
                   </>
