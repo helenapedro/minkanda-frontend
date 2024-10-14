@@ -5,13 +5,11 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { fetchUserDetails } from '../../services/admin';
-import { getCurrentUser } from '../../services/auth';
+
 
 const PublicNotesDetailsCard = ({ note }) => {
   const navigate = useNavigate();
-  const [cardColor, setCardColor] = useState(getRandomColor());
-  const [ownerName, setOwnerName] = useState(null); 
+  const [cardColor, setCardColor] = useState(getRandomColor()); 
 
   useEffect(() => {
     setCardColor(getRandomColor());

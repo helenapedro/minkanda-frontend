@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { loginUser, registerUser, getCurrentUser, updateCurrentUser, deleteUser } from '../services/auth';
-import { getAllUsers, fetchUserDetails } from '../services/admin'
+import { loginUser, registerUser, getCurrentUser, fetchUserDetails, updateCurrentUser, deleteUser } from '../services/auth';
+import { getAllUsers } from '../services/admin'
 
 const TOKEN_KEY = 'token'; 
 
@@ -47,7 +47,11 @@ const userSlice = createSlice({
 
       clearSuccessMessage: (state) => {
         state.successMessage = '';
-      },      
+      }, 
+      
+      setAuthor: (state, action) => {
+        state.userInfo = action.payload;
+      },
   },
   extraReducers: (builder) => {
       builder
@@ -184,10 +188,16 @@ export const getCurrentUserAsync = createAsyncThunk(
 });
 
 export const fetchUserDetailsAsync = createAsyncThunk(
-  'user/fetchDetails', async (userId) => {
-  const response = await fetchUserDetails(userId);
-  return response;
-});
+  'user/fetchDetails',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await fetchUserDetails(userId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response ? error.response.data : 'Error fetching user details');
+    }
+  }
+);
 
 export const deleteUserAsync = createAsyncThunk(
   'user/delete', async (userId) => {
@@ -202,7 +212,7 @@ export const getAllUsersAsync = createAsyncThunk(
 });
 
 
-export const { logoutUser, clearError, resetUpdateStatus, clearSuccessMessage } = userSlice.actions;
+export const { logoutUser, clearError, resetUpdateStatus, clearSuccessMessage, setAuthor } = userSlice.actions;
 
 // Selector to get authentication status
 export const selectIsAuthenticated = (state) => state.user.isAuthenticated;

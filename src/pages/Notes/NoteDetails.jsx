@@ -65,7 +65,7 @@ const NoteDetails = () => {
         })
         .catch(error => {
           console.error('Error fetching user details:', error);
-          setOwnerName('Erro ao carregar nome do proprietário');
+          setOwnerName('Error fetching the Owners name');
         });
     }
   }, [id, note, user.id]);

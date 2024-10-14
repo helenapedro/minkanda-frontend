@@ -1,3 +1,4 @@
+import { handleApiError } from '../utils/errorUtils';
 import api from '../utils/fetchApiBase';
 
 const TOKEN_KEY = 'token'; 
@@ -61,6 +62,15 @@ export const getCurrentUser = async () => {
   }
 };
 
+export const fetchUserDetails = async (userId) => {
+  try {
+    const response = await api.get(`/api/users/${userId}`); 
+    return response.data;
+  } catch (error) {
+    handleApiError(error, `/api/users/${userId}`);
+    throw error;
+  }
+};
 
 export const updateCurrentUser = async (updatedData) => {
   try {
