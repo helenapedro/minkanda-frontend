@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';   
 import { useNoteActions } from '../../actions/useNoteActions';
 import { fetchNoteById } from '../../services/api';
 import { isAdmin, isOwner } from '../../utils/roleUtils';
@@ -12,10 +12,13 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Col from 'react-bootstrap/Col';   
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';   
+
 import formatDate from '../../components/common/FormateDate';
+
 import { fetchUserDetails } from '../../services/admin';
 
 const NoteDetails = () => {
@@ -24,12 +27,12 @@ const NoteDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleting, setDeleting] = useState(false);
-  const [cardColor, setCardColor] = useState(getRandomColor());
+  const   
+ [cardColor, setCardColor] = useState(getRandomColor());
   const { handleDelete } = useNoteActions();
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user.userInfo);
-  console.log("user_info: ", user)
   const admin = isAdmin(user);
   const owner = isOwner(note, user);
   const [ownerName, setOwnerName] = useState(null); 
@@ -53,16 +56,19 @@ const NoteDetails = () => {
   useEffect(() => {
     setCardColor(getRandomColor());
 
-    if (note && note.userId !== user.id) { // Check if note exists and owner is not current user
+    if (note && note.userId?.toString() !== user.id?.toString()) {
+      console.log('Fetching user details for userId:', note.userId);
       fetchUserDetails(note.userId)
         .then(userData => {
           setOwnerName(userData.name);
+          console.log('Fetched user data:', userData);
         })
         .catch(error => {
           console.error('Error fetching user details:', error);
+          setOwnerName('Erro ao carregar nome do proprietário');
         });
     }
-  }, [id, note, user.id]); 
+  }, [id, note, user.id]);
 
   if (loading) {
     return <Loading />;
@@ -101,13 +107,13 @@ const NoteDetails = () => {
                     <Button 
                       variant="primary" 
                       onClick={() => navigate(`/notes/edit/${id}`)}
-                      >
+                    >
                       <FontAwesomeIcon icon={faEdit} /> Edit Note
                     </Button>
                     <Button 
                       variant="danger" 
                       onClick={() => handleDelete(id, setError, setDeleting)} disabled={deleting}
-                      >
+                    >
                       <FontAwesomeIcon icon={faTrash} /> {deleting ? 'Deleting...' : 'Delete Note'}
                     </Button>
                   </>
