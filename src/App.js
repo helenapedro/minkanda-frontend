@@ -7,7 +7,6 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import NotesList from './pages/NotesList';
 import NoteDetails from './pages/Notes/NoteDetails';
 import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
@@ -19,6 +18,7 @@ import UserDetails from './components/user/UserDetails';
 import EditProfile from './components/user/EditProfile';
 import About from './components/About';
 import Logout from './components/logout';
+import PrivateNotes from './pages/PrivateNotes';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           
           <Route path="/notes" element={<ProtectedRoute element={<NotesLayout />} />}>
-            <Route path="" element={<NotesList />} />
+            <Route path="" element={<PrivateNotes />} />
             <Route path=":id" element={<NoteDetails />} />
             <Route path="edit/:id" element={<NoteEdit />} />
             <Route path="add" element={<AddNote />} />

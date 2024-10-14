@@ -13,7 +13,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import NoteCard from '../components/notes/NoteCard';
 
-const NotesList = () => {
+const PrivateNotes = () => {
   const { user, loading: userLoading, error: userError } = useFetchUserDetails(); 
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -95,4 +95,4 @@ const NotesList = () => {
   );
 };
 
-export default NotesList;
+export default PrivateNotes;
