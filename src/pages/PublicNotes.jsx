@@ -7,6 +7,12 @@ import NoteCard from '../components/notes/NoteCard';
 import { getPaginationControls } from '../utils/pagination';
 import PaginationLayout from '../components/common/PaginationLayout';
 import notesStyles from '../styles/NotesList.module.css';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'; 
+
 
 const PublicNotes = () => {
   const [notes, setNotes] = useState([]);
@@ -18,6 +24,7 @@ const PublicNotes = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [showSearch, setShowSearch] = useState(false);
+  const [cardsPerRow, setCardsPerRow] = useState(2);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,9 +53,9 @@ const PublicNotes = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className={`${notesStyles['notes-list']} container`}>
-      <div className={`${notesStyles.card} card`}>
-        <div className={`${notesStyles['card-body']} card-body`}>
+    <Container>
+      <Card className="mt-5" style={{ borderRadius: '10px', marginBottom: '1rem', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
+        <Card.Body>
           <div className={notesStyles.actions}>
             <SearchForm
               text={text}
@@ -56,21 +63,26 @@ const PublicNotes = () => {
               showSearch={showSearch}
               setShowSearch={setShowSearch}
             />
-            <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/")}>
-              My Notes
-            </button>
+            <Button 
+              variant="outline-secondary" 
+              onClick={() => navigate("/notes/")}
+              > My Notes
+            </Button>
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {filteredNotes.length === 0 ? (
         <div>No notes match your search criteria.</div>
       ) : (
-        filteredNotes.map((note) => (
-          <NoteCard key={note.nid} note={note} isPublic={true} />
-        ))
+        <Row xs={1} md={cardsPerRow} >
+          {filteredNotes.map((note) => (
+            <Col key={note.nid}>
+              <NoteCard note={note} isPublic={true} />
+            </Col>
+          ))}
+        </Row>
       )}
-
       <PaginationLayout
         page={page}
         totalPages={totalPages}
@@ -79,7 +91,7 @@ const PublicNotes = () => {
         pageSize={pageSize}
         handlePageSizeChange={handlePageSizeChange}
       />
-    </div>
+    </Container>
   );
 };
 

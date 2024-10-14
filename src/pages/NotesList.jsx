@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDebouncedSearch } from '../../utils/search';
-import { fetchNotesList } from '../../services/notes';
-import { getPaginationControls } from '../../utils/pagination';
-import SearchForm from './../../forms/searchForm';
-import PaginationLayout from '../../components/common/PaginationLayout';
-import MainScreen from '../../components/MainScreen';
-import NoteDetailsCard from '../../components/notes/NoteDetailsCard';
-import useFetchUserDetails from '../../actions/useFetchUserDetails';
-import notesStyles from '../../styles/NotesList.module.css';
+import { useDebouncedSearch } from '../utils/search';
+import { fetchNotesList } from '../services/notes';
+import { getPaginationControls } from '../utils/pagination';
+import SearchForm from '../forms/searchForm';
+import PaginationLayout from '../components/common/PaginationLayout';
+import MainScreen from '../components/MainScreen';
+import useFetchUserDetails from '../actions/useFetchUserDetails';
+import notesStyles from '../styles/NotesList.module.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import NoteCard from '../components/notes/NoteCard';
 
 const NotesList = () => {
   const { user, loading: userLoading, error: userError } = useFetchUserDetails(); 
@@ -49,7 +50,7 @@ const NotesList = () => {
 
   return (
     <MainScreen title={`Welcome, ${user ? user.firstname : 'Guest'}!`}>
-      <div >
+      <Container >
         <div className={`${notesStyles.card} card`}>
           <div className={`${notesStyles['card-body']} card-body`}>
             <div className={notesStyles.actions}>
@@ -70,11 +71,12 @@ const NotesList = () => {
         {filteredNotes.length === 0 ? (
           <div>No notes match your search criteria.</div>
         ) : (
-          <Row xs={1} md={cardsPerRow} className="g-4">
+          <Row xs={1} md={cardsPerRow} >
             {filteredNotes.map((note) => (
               <Col key={note.nid}>
-                <NoteDetailsCard note={note} />
+                <NoteCard note={note} isPublic={false} />
               </Col>
+              
             ))}
           </Row>
         )}
@@ -88,7 +90,7 @@ const NotesList = () => {
           handlePageSizeChange={handlePageSizeChange}
         />
         {/* <FloatingButton to="/notes/add"/> */}
-      </div>
+      </Container>
     </MainScreen> 
   );
 };
