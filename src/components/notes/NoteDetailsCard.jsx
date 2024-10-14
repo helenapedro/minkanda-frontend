@@ -27,7 +27,7 @@ const NoteDetailsCard = ({ note }) => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
-
+ 
   return (
     <Card style={{ backgroundColor: cardColor, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '10px' }}>
       <Card.Header as="h5" style={{ fontWeight: 'bold', color: '#fff' }}>{note.title}</Card.Header>

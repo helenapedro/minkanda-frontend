@@ -16,6 +16,7 @@ import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../../components/common/FormateDate';
+import { fetchUserDetails } from '../../services/admin';
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -28,8 +29,10 @@ const NoteDetails = () => {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user.userInfo);
+  console.log("user_info: ", user)
   const admin = isAdmin(user);
   const owner = isOwner(note, user);
+  const [ownerName, setOwnerName] = useState(null); 
 
   useEffect(() => {
     const getNoteDetails = async () => {
@@ -49,7 +52,17 @@ const NoteDetails = () => {
 
   useEffect(() => {
     setCardColor(getRandomColor());
-  }, [id]);
+
+    if (note && note.userId !== user.id) { // Check if note exists and owner is not current user
+      fetchUserDetails(note.userId)
+        .then(userData => {
+          setOwnerName(userData.name);
+        })
+        .catch(error => {
+          console.error('Error fetching user details:', error);
+        });
+    }
+  }, [id, note, user.id]); 
 
   if (loading) {
     return <Loading />;
@@ -68,11 +81,13 @@ const NoteDetails = () => {
               <Card.Header as="h2" className="d-flex justify-content-between align-items-center">
                 {note.title}
                 <ReturnButton url="/notes" />
-              </Card.Header>
+              </Card.Header> 
               <Card.Body>
-                <blockquote className="blockquote mb-0">
-                  <footer className="blockquote-footer">{`Created by ${user.firstname}`}</footer>
-                </blockquote>
+                {ownerName && (
+                  <blockquote className="blockquote mb-0">
+                    <footer className="blockquote-footer">{`Created by ${ownerName}`}</footer>
+                  </blockquote>
+                )}
                 {note.updatedAt && note.updatedAt !== note.createdAt && (
                   <div style={{ marginTop: '10px', fontSize: 'smaller', color: '#6c757d' }}>
                     {`Updated on ${formatDate(note.updatedAt)}`}

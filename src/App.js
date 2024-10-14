@@ -40,6 +40,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
           <Route path="/notes" element={<ProtectedRoute element={<NotesLayout />} />}>
             <Route path="" element={<NotesList />} />
             <Route path=":id" element={<NoteDetails />} />
@@ -47,12 +48,14 @@ const App = () => {
             <Route path="add" element={<AddNote />} />
             <Route path="public" element={<PublicNotes />} />
           </Route>
+          
           <Route path="/profile" element={<ProtectedRoute element={<ProfileLayout />} />}>
             <Route index element={<UserProfile />} />
             <Route path="view" element={<UserDetails />} />
             <Route path="edit" element={<EditProfile />} />
           </Route>
-            <Route path="/logout" element={<ProtectedRoute element={<Logout />}/>} />
+          
+          <Route path="/logout" element={<ProtectedRoute element={<Logout />}/>} />
         </Routes>
       </Router> 
   );
