@@ -8,6 +8,9 @@ import PaginationLayout from '../components/common/PaginationLayout';
 import MainScreen from '../components/MainScreen';
 import useFetchUserDetails from '../actions/useFetchUserDetails';
 import notesStyles from '../styles/NotesList.module.css';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -25,14 +28,17 @@ const PrivateNotes = () => {
   const [pageSize, setPageSize] = useState(5);
   const [showSearch, setShowSearch] = useState(false);
   const [cardsPerRow, setCardsPerRow] = useState(2);
+  const [sortByDate, setSortByDate] = useState(false);
   const navigate = useNavigate(); 
 
   useEffect(() => {
     fetchNotesList(page, pageSize, setNotes, setTotalPages, setError)
       .finally(() => setLoading(false));
-  }, [page, pageSize]);
+  }, [page, pageSize, sortByDate]);
 
-  const handleSearch = useDebouncedSearch(notes, text, setFilteredNotes);
+  const handleSearch = useDebouncedSearch(
+    notes, text, setFilteredNotes
+  );
 
   useEffect(() => {
     handleSearch();
@@ -51,8 +57,8 @@ const PrivateNotes = () => {
   return (
     <MainScreen title={`Welcome, ${user ? user.firstname : 'Guest'}!`}>
       <Container >
-        <div className={`${notesStyles.card} card`}>
-          <div className={`${notesStyles['card-body']} card-body`}>
+        <Card style={{ marginBottom: '1rem'}}>
+          <Card.Body>
             <div className={notesStyles.actions}>
               <SearchForm
                 text={text}
@@ -60,23 +66,34 @@ const PrivateNotes = () => {
                 showSearch={showSearch}
                 setShowSearch={setShowSearch}
               />
-              <div className={`${notesStyles['btn-group']} btn-group`}>
-                <button className="btn btn-outline-secondary" onClick={() => navigate("/notes/add")}>
-                  Create New Note
-                </button>  
-              </div>
+              {/* <Button 
+                variant="outline-secondary" 
+                onClick={() => navigate("/notes/add")}
+                > Create New Note
+              </Button>  */}
+              <Button 
+                variant="outline-secondary" 
+                onClick={() => {setSortByDate(!sortByDate)}}
+                >
+                  Sort by Date
+              </Button> 
             </div>
-          </div>
-        </div>
+          </Card.Body>
+        </Card>
         {filteredNotes.length === 0 ? (
           <div>No notes match your search criteria.</div>
         ) : (
           <Row xs={1} md={cardsPerRow} >
-            {filteredNotes.map((note) => (
-              <Col key={note.nid}>
-                <NoteCard note={note} isPublic={false} />
-              </Col>
-              
+            {filteredNotes
+              .sort((a, b) => {
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
+                return sortByDate ? dateB - dateA : dateA - dateB;
+              })
+              .map((note) => (
+                <Col key={note.nid}>
+                  <NoteCard note={note} isPublic={false} />
+                </Col>
             ))}
           </Row>
         )}
