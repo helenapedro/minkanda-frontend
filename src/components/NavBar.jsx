@@ -41,12 +41,19 @@ const NavBar = () => {
             )}
             {isAuthenticated && (
               <>
-                <Nav.Link as={Link} to="/notes">
+                <Nav.Link as={Link} to="/notes/add"
+                > 
+                  Create New Note
+                  <FontAwesomeIcon icon={faPenNib} /> 
+                </Nav.Link>
+                <NavDropdown title={<span>Notes <FontAwesomeIcon icon={faStickyNote} /></span>} id="navbarScrollingDropdown" >
+                  <NavDropdown.Item as={Link} to="/notes">
                   <FontAwesomeIcon icon={faStickyNote} /> {NOTES}
-                </Nav.Link>
-                <Nav.Link as={Link} to="/notes/public">
-                  <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
-                </Nav.Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/notes/public">
+                    <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
+                  </NavDropdown.Item>
+                </NavDropdown>
                 <NavDropdown title={<span>User <FontAwesomeIcon icon={faUser} /></span>} id="navbarScrollingDropdown" >
                   <NavDropdown.Item as={Link} to="/profile">
                     <FontAwesomeIcon icon={faUser} /> {PROFILE}

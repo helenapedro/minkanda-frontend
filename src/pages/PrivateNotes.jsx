@@ -66,11 +66,6 @@ const PrivateNotes = () => {
                 showSearch={showSearch}
                 setShowSearch={setShowSearch}
               />
-              {/* <Button 
-                variant="outline-secondary" 
-                onClick={() => navigate("/notes/add")}
-                > Create New Note
-              </Button>  */}
               <Button 
                 variant="outline-secondary" 
                 onClick={() => {setSortByDate(!sortByDate)}}
