@@ -7,7 +7,7 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import NoteDetails from './pages/Notes/NoteDetails';
+import NoteDetails from './components/notes/NoteDetails';
 import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
 import PublicNotes from './pages/PublicNotes';

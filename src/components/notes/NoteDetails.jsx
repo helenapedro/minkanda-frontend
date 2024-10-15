@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';  
 import { useNoteActions } from '../../actions/useNoteActions';
 import { fetchNoteById } from '../../services/api';
 import { isAdmin, isOwner } from '../../utils/roleUtils';
-import getRandomColor from '../../components/notes/NoteColor';
-import ReturnButton from '../../components/common/ReturnButton';
-import Loading from '../../components/common/Loading';
-import Error from '../../components/common/Error';
+import getRandomColor from './NoteColor';
+import ReturnButton from '../common/ReturnButton';
+import Loading from '../common/Loading';
+import Error from '../common/Error';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -17,7 +17,7 @@ import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';   
 
-import formatDate from '../../components/common/FormateDate';
+import formatDate from '../common/FormateDate';
 
 import { fetchUserDetails } from '../../services/admin';
 
