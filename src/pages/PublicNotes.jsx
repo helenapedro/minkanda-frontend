@@ -22,7 +22,7 @@ const PublicNotes = () => {
   const [filteredNotes, setFilteredNotes] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(6);
   const [showSearch, setShowSearch] = useState(false);
   const [cardsPerRow, setCardsPerRow] = useState(2);
   const [sortByDate, setSortByDate] = useState(false);
