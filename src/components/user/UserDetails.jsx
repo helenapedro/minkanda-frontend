@@ -27,7 +27,7 @@ const UserDetails = () => {
         <Card.Header className="d-flex justify-content-between align-items-center bg-light">
           <div className="d-flex align-items-center">
             <ReturnButton url="/notes" className="me-3" />
-            <h2 className="mb-0 ms-2">{user?.firstname}'s Profile</h2>
+            {/* <h2 className="mb-0 ms-2">{user?.firstname}'s Profile</h2> */}
           </div>
           <Link to="/profile/edit" className="btn btn-outline-primary">
             Edit

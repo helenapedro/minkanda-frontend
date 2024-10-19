@@ -38,7 +38,7 @@ const UserProfile = () => {
         <Col xs={12} md={8} lg={6}>
           <Card className="shadow-sm">
             <Card.Header as="h5" className="d-flex text-white justify-content-between align-items-center bg-primary">
-              User Profile
+              {userInfo.firstname}'s Profile
             </Card.Header>
             <Card.Body>
               {loading ? (
