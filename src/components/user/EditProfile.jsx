@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, Alert, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import ReturnButton from '../common/ReturnButton';
 import UpdateForm from './../../forms/updateForm';
 import { updateCurrentUserAsync, selectUserInfo, resetUpdateStatus } from '../../redux/userSlice';
