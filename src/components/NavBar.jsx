@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faSignIn, faSignOutAlt, 
-  faInfoCircle, faUserPlus, 
-  faStickyNote, faUser, 
-  faBook, faPenNib
+  faSignIn, faSignOutAlt, faInfoCircle, faUserPlus, 
+  faStickyNote, faUser, faBook, faPenNib, faCog
 } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -54,7 +52,7 @@ const NavBar = () => {
                     <FontAwesomeIcon icon={faBook} /> {PUBLIC_NOTES}
                   </NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown title={<span>User <FontAwesomeIcon icon={faUser} /></span>} id="navbarScrollingDropdown" >
+                <NavDropdown title={<span>Settings <FontAwesomeIcon icon={faCog} /></span>} id="navbarScrollingDropdown" >
                   <NavDropdown.Item as={Link} to="/profile">
                     <FontAwesomeIcon icon={faUser} /> {PROFILE}
                   </NavDropdown.Item>
