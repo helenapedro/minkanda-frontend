@@ -27,13 +27,13 @@ const PaginationLayout = ({
       <Row className="justify-content-center">
         <Col xs="auto">
           <Form.Group controlId="pageSize" className="d-flex align-items-center">
-            <Form.Label className="me-2 mb-0">Notes per page:</Form.Label>
-            <Form.Select value={pageSize} onChange={handlePageSizeChange}>
+            {/* <Form.Label className="me-2 mb-0">Notes per page:</Form.Label> */}
+            {/* <Form.Select value={pageSize} onChange={handlePageSizeChange}>
               <option value="5">6</option>
               <option value="10">12</option>
               <option value="15">16</option>
               <option value="20">22</option>
-            </Form.Select>
+            </Form.Select> */}
           </Form.Group>
         </Col>
       </Row>
