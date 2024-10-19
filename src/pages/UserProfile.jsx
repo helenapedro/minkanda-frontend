@@ -12,12 +12,32 @@ const UserProfile = () => {
     dispatch(getCurrentUserAsync());
   }, [dispatch]);
 
+  if (loading) {
+    return (
+      <Container className="vh-100 d-flex justify-content-center align-items-center">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="vh-100 d-flex justify-content-center align-items-center">
+        <Alert variant="danger">
+          {error}
+        </Alert>
+      </Container>
+    );
+  }
+
   return (
     <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
       <Row className="justify-content-center w-100">
         <Col xs={12} md={8} lg={6}>
-          <Card className="shadow-lg border-0 rounded">
-            <Card.Header as="h5" className="bg-primary text-white text-center">
+          <Card className="shadow-sm">
+            <Card.Header as="h5" className="d-flex text-white justify-content-between align-items-center bg-primary">
               User Profile
             </Card.Header>
             <Card.Body>

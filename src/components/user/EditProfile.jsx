@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styles from './User.module.css';
+import { Container, Row, Col, Card, Alert, Button } from 'react-bootstrap';
 import ReturnButton from '../common/ReturnButton';
 import UpdateForm from './../../forms/updateForm';
 import { updateCurrentUserAsync, selectUserInfo, resetUpdateStatus } from '../../redux/userSlice';
@@ -73,19 +73,16 @@ const EditProfile = () => {
       gender
     };
 
-     // Only include password fields if a new password has been provided
      if (showPasswordFields && formData.newPassword) {
       updatedUserData.password = formData.newPassword;
       updatedUserData.currentPassword = formData.currentPassword;
     } else {
-      // Remove password-related fields if they are not being updated
       delete updatedUserData.newPassword;
       delete updatedUserData.currentPassword;
     }
 
     setIsLoading(true);
 
-    // Dispatch the update action
     dispatch(updateCurrentUserAsync(updatedUserData))
       .then(response => {
         setIsLoading(false);
@@ -98,33 +95,34 @@ const EditProfile = () => {
   };
 
   return (
-    <section className="vh-100">
-      <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
-        <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col-md-7 col-lg-6 col-xl-4">
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <ReturnButton url="/profile" style={{ marginRight: '10px' }} />
-              <h2 style={{ margin: 0, marginLeft: '10px' }}>Edit Profile</h2>
-            </div>
-
-            {error && <div className="alert alert-danger">{error}</div>}
-            
-            {successMessage && <div className="alert alert-success">{successMessage}</div>}
-            
-            <UpdateForm
-              handleSubmit={handleSubmit}
-              formData={formData}
-              handleChange={handleChange}
-              gender={gender}
-              setGender={setGender}
-              showPasswordFields={showPasswordFields}
-              setShowPasswordFields={setShowPasswordFields}
-              isLoading={isLoading}
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+    <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+      <Row className="justify-content-center w-100">
+        <Col xs={12} md={8} lg={6}>
+          <Card className="shadow-sm">
+            <Card.Header className="d-flex justify-content-between align-items-center bg-light">
+              <div className="d-flex align-items-center">
+                <ReturnButton url="/profile" className="me-2" />
+                <h2 className="mb-0 ms-2">Edit Profile</h2>
+              </div>
+            </Card.Header>
+            <Card.Body>
+              {error && <Alert variant="danger">{error}</Alert>}
+              {successMessage && <Alert variant="success">{successMessage}</Alert>}
+              <UpdateForm
+                handleSubmit={handleSubmit}
+                formData={formData}
+                handleChange={handleChange}
+                gender={gender}
+                setGender={setGender}
+                showPasswordFields={showPasswordFields}
+                setShowPasswordFields={setShowPasswordFields}
+                isLoading={isLoading}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
