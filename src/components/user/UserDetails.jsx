@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isTester } from '../../utils/roleUtils';
 import { useUserActions } from '../../actions/useUserActions';
-import Loading from '../common/Loading';
-import Error from '../common/Error';
+import { Card, Button, Alert } from 'react-bootstrap';
 import ReturnButton from '../common/ReturnButton';
 import UserDetailsForm from '../../forms/UserDetailsForm';
 import useFetchUserDetails from '../../actions/useFetchUserDetails';
-import styles from './User.module.css';
 
 const UserDetails = () => {
     const { user, loading, error, setError } = useFetchUserDetails();
@@ -18,18 +16,6 @@ const UserDetails = () => {
     const currentUser = useSelector((state) => state.user.userInfo);
     const tester = isTester(currentUser);
 
-    if (loading) {
-        return <Loading />;
-    }
-
-    if (error) {
-        return <Error message={error} />;
-    }
-
-    if (!user) {
-        return <div className="error-message">User details not found. Please log in again.</div>;
-    }
-
     const handleDelete = async () => {
         setDeleting(true);
         await handleDeleteUser(user.uid, setSuccessMessage, setError);
@@ -37,34 +23,42 @@ const UserDetails = () => {
     };
 
     return (
-        <section className="vh-100">
-            <div className={`${styles.divider} ${styles.hCustom} container-fluid h-100`}>
-                <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <ReturnButton url="/notes" style={{ marginRight: '10px' }} />
-                            <h2 style={{ margin: 0, marginLeft: '10px' }}>{user.firstname}'s profile</h2>
-                        </div>
-                        <Link to="/profile/edit" className="btn btn-secondary mt-3">
-                            Edit
-                        </Link>
-                    </div>
-                    <div className="card-body">
-                        {successMessage && <div className="alert alert-success">{successMessage}</div>}
-                        <UserDetailsForm user={user} />
-                        {!tester && (
-                            <button 
-                                className="btn btn-danger" 
-                                onClick={handleDelete}
-                                disabled={deleting}
-                            >
-                                {deleting ? 'Deleting...' : 'Delete Profile'}
-                            </button>
-                        )}
-                    </div>
-                </div>
+      <Card className="border-0">
+        <Card.Header className="d-flex justify-content-between align-items-center bg-light">
+          <div className="d-flex align-items-center">
+            <ReturnButton url="/notes" className="me-3" />
+            <h2 className="mb-0 ms-2">{user?.firstname}'s Profile</h2>
+          </div>
+          <Link to="/profile/edit" className="btn btn-outline-primary">
+            Edit
+          </Link>
+        </Card.Header>
+        <Card.Body>
+          {loading && <div className="text-center">Loading...</div>}
+          {error && (
+            <Alert variant="danger" className="text-center">
+              {error}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert variant="success" className="mb-4 text-center">
+              {successMessage}
+            </Alert>
+          )}
+          <UserDetailsForm user={user} />
+          {!tester && (
+            <div className="text-center mt-4">
+              <Button 
+                variant="danger"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Delete Profile'}
+              </Button>
             </div>
-        </section>
+          )}
+        </Card.Body>
+      </Card>
     );
 };
 

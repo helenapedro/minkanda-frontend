@@ -1,46 +1,60 @@
 import React from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
 
 const UserDetailsForm = ({ user }) => {
-  
   return (
-    <form className='mx-1 mx-md-4'>
-      <div className='row'>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="firstname">First Name:</label>
-          <input type="text" id="firstname" className="form-control" value={user.firstname || ''} readOnly />
-        </div>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="lastname">Last Name:</label>
-          <input type="text" id="lastname" className="form-control" value={user.lastname || ''} readOnly />
-        </div>
-      </div>
-      <div className='d-flex flex-row align-items-center mb-4'>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" className="form-control" value={user.email || ''} readOnly />
-        </div>
-      </div>
-      <div className='row'>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="birthday">Birthday:</label>
-          <input type="text" id="birthday" className="form-control" value={new Date(user.birthday || '').toLocaleDateString()} readOnly />
-        </div>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="gender">Gender:</label>
-          <input type="text" id="gender" className="form-control" value={user.gender || ''} readOnly />
-        </div>
-      </div>
-      <div className='row'>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="address">Address:</label>
-          <input type="text" id="address" className="form-control" value={user.address || ''} readOnly />
-        </div>
-        <div className="col-md-6 mb-4">
-          <label htmlFor="phoneNumber">Phone Number:</label>
-          <input type="text" id="phoneNumber" className="form-control" value={user.phoneNumber || ''} readOnly />
-        </div>
-      </div>
-    </form>
+    <Form className="mx-3">
+      <Row className="mb-3">
+        <Col md={6}>
+          <Form.Group controlId="firstname">
+            <Form.Label>First Name:</Form.Label>
+            <Form.Control type="text" value={user?.firstname || ''} readOnly />
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="lastname">
+            <Form.Label>Last Name:</Form.Label>
+            <Form.Control type="text" value={user?.lastname || ''} readOnly />
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col md={14}>
+          <Form.Group controlId="email">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control type="email" value={user?.email || ''} readOnly />
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col md={6}>
+          <Form.Group controlId="birthday">
+            <Form.Label>Birthday:</Form.Label>
+            <Form.Control type="text" value={new Date(user?.birthday || '').toLocaleDateString()} readOnly />
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="gender">
+            <Form.Label>Gender:</Form.Label>
+            <Form.Control type="text" value={user?.gender || ''} readOnly />
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col md={6}>
+          <Form.Group controlId="address">
+            <Form.Label>Address:</Form.Label>
+            <Form.Control type="text" value={user?.address || ''} readOnly />
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="phoneNumber">
+            <Form.Label>Phone Number:</Form.Label>
+            <Form.Control type="text" value={user?.phoneNumber || ''} readOnly />
+          </Form.Group>
+        </Col>
+      </Row>
+    </Form>
   );
 };
 

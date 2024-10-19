@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUserAsync } from '../redux/userSlice'; 
 import UserDetails from '../components/user/UserDetails'; 
-import Loading from './../components/common/Loading';
-import Error from './../components/common/Error';
+import { Spinner, Alert, Card, Container, Row, Col } from 'react-bootstrap';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -13,26 +12,33 @@ const UserProfile = () => {
     dispatch(getCurrentUserAsync());
   }, [dispatch]);
 
-  useEffect(() => {
-    
-  }, [userInfo]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <Error message={error} />;
-  }
-
   return (
-    <div className="vh-100"> 
-      <div className="container-fluid h-100">
-        <div className="row d-flex justify-content-center align-items-center h-100"> 
-          <UserDetails user={userInfo} />
-        </div>
-      </div>
-    </div>
+    <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+      <Row className="justify-content-center w-100">
+        <Col xs={12} md={8} lg={6}>
+          <Card className="shadow-lg border-0 rounded">
+            <Card.Header as="h5" className="bg-primary text-white text-center">
+              User Profile
+            </Card.Header>
+            <Card.Body>
+              {loading ? (
+                <div className="d-flex justify-content-center">
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div>
+              ) : error ? (
+                <Alert variant="danger" className="text-center">
+                  {error}
+                </Alert>
+              ) : (
+                <UserDetails user={userInfo} />
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
