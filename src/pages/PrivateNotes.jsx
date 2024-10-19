@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDebouncedSearch } from '../utils/search';
 import { fetchNotesList } from '../services/notes';
 import { getPaginationControls } from '../utils/pagination';
@@ -9,7 +8,6 @@ import MainScreen from '../components/MainScreen';
 import useFetchUserDetails from '../actions/useFetchUserDetails';
 import notesStyles from '../styles/NotesList.module.css';
 import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -29,7 +27,6 @@ const PrivateNotes = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [cardsPerRow, setCardsPerRow] = useState(2);
   const [sortByDate, setSortByDate] = useState(false);
-  const navigate = useNavigate(); 
 
   useEffect(() => {
     fetchNotesList(page, pageSize, setNotes, setTotalPages, setError)
