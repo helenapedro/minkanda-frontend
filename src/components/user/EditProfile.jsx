@@ -95,7 +95,7 @@ const EditProfile = () => {
   };
 
   return (
-    <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+    <Container fluid className="vh-70 d-flex justify-content-center align-items-center">
       <Row className="justify-content-center w-100">
         <Col xs={12} md={8} lg={6}>
           <Card className="shadow-sm">
