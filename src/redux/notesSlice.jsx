@@ -56,13 +56,13 @@ const notesSlice = createSlice({
       })
       .addCase(fetchNoteByIdAsync.rejected, setErrorState);
 
-    // Add a new note
+    // Add a new note (initially private)
     builder
       .addCase(addNoteAsync.fulfilled, (state, action) => {
         const newNote = action.payload;
-        const { nid, public: isPublic, ...rest } = newNote;
-        state.notes.push({ ...rest, nid, isPublic });
-      })
+        const { nid, ...rest } = newNote;
+        state.notes.push({ ...rest, nid, isPublic: false }); 
+      })
       .addCase(addNoteAsync.rejected, setErrorState);
 
     // Update note
@@ -84,7 +84,16 @@ const notesSlice = createSlice({
     builder
       .addCase(toggleNotePrivacyAsync.pending, setLoadingState)
       .addCase(toggleNotePrivacyAsync.fulfilled, (state, action) => {
-        state.selectedNote.isPublic = action.payload.isPublic;
+        const updatedNote = action.payload;
+        // Update privacy in the selected note
+        if (state.selectedNote && state.selectedNote.nid === updatedNote.nid) {
+          state.selectedNote.isPublic = updatedNote.isPublic;
+        }
+        // Update privacy in the notes list
+        const noteIndex = state.notes.findIndex((note) => note.nid === updatedNote.nid);
+        if (noteIndex !== -1) {
+          state.notes[noteIndex].isPublic = updatedNote.isPublic;
+        }
         state.successMessage = 'Privacy toggled successfully!';
       })
       .addCase(toggleNotePrivacyAsync.rejected, setErrorState);

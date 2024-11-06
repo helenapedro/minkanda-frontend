@@ -16,9 +16,7 @@ import Col from 'react-bootstrap/Col';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';   
-
 import formatDate from '../common/FormateDate';
-
 import { fetchUserDetails } from '../../services/admin';
 
 const NoteDetails = () => {

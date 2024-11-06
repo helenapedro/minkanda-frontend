@@ -8,7 +8,6 @@ import loginForm from '../../forms/loginForm';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -15,8 +15,8 @@ const AddNote = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const { nid } = await dispatch( addNoteAsync({ title, body })).unwrap();
-          
+      const { nid } = await dispatch(addNoteAsync({ title, body })).unwrap();
+
       if (!nid) {
         throw new Error('Note creation failed.');
       }
@@ -46,7 +46,6 @@ const AddNote = () => {
       setIsPublic={setIsPublic}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
-      
     />
   );
 };

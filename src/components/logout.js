@@ -13,7 +13,7 @@ const Logout = ({ logoutUser }) => {
     } catch (error) {
       console.error("Error during logout:", error);
     }
-  }, [logoutUser, navigate]); // Include logoutUser and navigate in the dependency array
+  }, [logoutUser, navigate]);
 
   return null;
 };
