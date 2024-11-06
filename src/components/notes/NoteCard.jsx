@@ -13,7 +13,7 @@ const NoteCard = ({ note, isPublic, sortByDate }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cardColor, setCardColor] = useState(getRandomColor());
-  const author = useSelector((state) => state.user.userInfo);
+  //const author = useSelector((state) => state.user.userInfo);
   const loading = useSelector((state) => state.user.loading);
   const error = useSelector((state) => state.user.error);
 
