@@ -1,46 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchNoteByIdAsync, updateNoteAsync, toggleNotePrivacyAsync, resetUpdateStatus } from '../../redux/notesSlice';
+import { fetchNoteByIdAsync, updateNoteAsync, toggleNotePrivacyAsync, resetUpdateStatus, clearSuccessMessage } from '../../redux/notesSlice';
 import { Container, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import ReturnButton from '../common/ReturnButton';
 
 const NoteEdit = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  // State for handling form inputs
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redux selectors for note data and update status
   const note = useSelector((state) => state.notes.selectedNote);
   const error = useSelector((state) => state.notes.error);
   const updateNoteStatus = useSelector((state) => state.notes.updateNoteStatus);
   const successMessage = useSelector((state) => state.notes.successMessage);
 
-  // Handle API call status updates
   useEffect(() => {
     if (updateNoteStatus === 'fulfilled') {
       alert('Note updated successfully!');
       setTimeout(() => {
-        navigate('/notes'); 
+        navigate('/notes');
         dispatch(resetUpdateStatus());
       }, 2000);
     }
   }, [updateNoteStatus, navigate, dispatch]);
 
-  // Fetch the note when component loads
   useEffect(() => {
     if (id) {
       dispatch(fetchNoteByIdAsync(id));
     }
   }, [dispatch, id]);
 
-  // Populate fields when note is loaded
   useEffect(() => {
     if (note) {
       setTitle(note.title);
@@ -48,7 +43,15 @@ const NoteEdit = () => {
       setIsPublic(note.isPublic);
     }
   }, [note]);
-  
+
+  useEffect(() => {
+    if (successMessage === 'Privacy toggled successfully!') {
+      alert(successMessage);
+      navigate('/notes');
+      dispatch(clearSuccessMessage()); 
+    }
+  }, [successMessage, navigate, dispatch]);
+
   const handleSave = async () => {
     if (!note) return;
 
@@ -62,14 +65,14 @@ const NoteEdit = () => {
     setIsLoading(true);
 
     try {
-      await dispatch(updateNoteAsync(updatedNote)).unwrap(); 
+      await dispatch(updateNoteAsync(updatedNote)).unwrap();
     } catch (error) {
       console.error('Oops! Something went wrong on our end. Please try again later.', error);
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
-  
+
   const handleTogglePrivacy = async () => {
     if (!note) return;
 
@@ -114,16 +117,16 @@ const NoteEdit = () => {
           />
         </Form.Group>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button 
-            onClick={handleTogglePrivacy} 
-            variant="secondary" 
+          <Button
+            onClick={handleTogglePrivacy}
+            variant="secondary"
             disabled={isLoading}
           >
             {isPublic ? 'Make Private' : 'Make Public'}
           </Button>
-          <Button 
-            variant="primary" 
-            onClick={handleSave} 
+          <Button
+            variant="primary"
+            onClick={handleSave}
             disabled={isLoading || !note}
           >
             {isLoading ? <Spinner animation="border" size="sm" /> : 'Save'}
