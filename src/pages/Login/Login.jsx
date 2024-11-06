@@ -35,8 +35,6 @@ const Login = () => {
     }
   };
   
-  {/* <section className="d-flex align-items-center vh-100 bg-light">
-  </section> */}
   return (
     <Container>
       <Row className="justify-content-center align-items-center">
