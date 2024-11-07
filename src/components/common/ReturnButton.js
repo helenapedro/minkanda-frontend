@@ -1,7 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
 const ReturnButton = ({ url }) => {
@@ -12,7 +12,7 @@ const ReturnButton = ({ url }) => {
   };
 
   return (
-    <Button onClick={handleReturn} variant="outline-primary">
+    <Button onClick={handleReturn} variant="outline-light" className="btn-sm p-1">
       <FontAwesomeIcon icon={faArrowLeft} />
     </Button>
   );
