@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import PaginationLayout from '../common/PaginationLayout';
 import Dropdown from 'react-bootstrap/Dropdown';
 import NoteCard from './NoteCard';
 
-const NotesList = ({ notes, isPublic }) => {
-  const dispatch = useDispatch();
+const NotesList = ({ notes, isPublic, pageControls }) => {
   const [sortedNotes, setSortedNotes] = useState([...notes]);
   const [sortOption, setSortOption] = useState('Newest');
 
@@ -21,7 +20,7 @@ const NotesList = ({ notes, isPublic }) => {
   return (
     <>
       <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
+        <Dropdown.Toggle variant="success" id="dropdown-basic" style={{marginBottom: '8px'}}>
           Sort By
         </Dropdown.Toggle>
         <Dropdown.Menu>
@@ -32,6 +31,7 @@ const NotesList = ({ notes, isPublic }) => {
       {sortedNotes.map((note) => (
         <NoteCard key={note.nid} note={note} isPublic={isPublic} />
       ))}
+      <PaginationLayout {...pageControls} />
     </>
   );
 };
