@@ -1,6 +1,6 @@
 import React from 'react';
-import useNotes from '../actions/useNotes';
 import MainScreen from '../components/MainScreen';
+import useNotes from '../actions/useNotes';
 import NotesList from '../components/notes/NotesList';
 
 const PublicNotes = () => {
