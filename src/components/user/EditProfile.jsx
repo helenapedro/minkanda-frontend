@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import ReturnButton from '../common/ReturnButton';
-import UpdateForm from './../../forms/updateForm';
+import UpdateForm from '../../forms/UpdateForm';
 import { updateCurrentUserAsync, selectUserInfo, resetUpdateStatus } from '../../redux/userSlice';
 
 const EditProfile = () => {
