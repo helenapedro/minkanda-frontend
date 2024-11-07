@@ -1,86 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDebouncedSearch } from '../utils/search';
+import useNotes from '../actions/useNotes';
 import SearchForm from '../forms/searchForm';
-import { fetchPublicNotesList } from '../services/notes';
-import NoteCard from '../components/notes/NoteCard';
-import { getPaginationControls } from '../utils/pagination';
 import PaginationLayout from '../components/common/PaginationLayout';
-import notesStyles from '../styles/NotesList.module.css';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col'; 
 import MainScreen from '../components/MainScreen';
+import NoteCard from '../components/notes/NoteCard';
+import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import notesStyles from '../styles/NotesList.module.css';
 
-
-const PublicNotes = () => {
-  const [notes, setNotes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const PrivateNotes = () => {
+  const { notes, loading, error, page, setPage, totalPages, pageSize, handlePageSizeChange } = useNotes(true);
   const [text, setText] = useState('');
   const [filteredNotes, setFilteredNotes] = useState([]);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
   const [showSearch, setShowSearch] = useState(false);
-  const [cardsPerRow, setCardsPerRow] = useState(2);
   const [sortByDate, setSortByDate] = useState(false);
-
-  useEffect(() => {
-    fetchPublicNotesList(page, pageSize, setNotes, setTotalPages, setError)
-      .finally(() => setLoading(false));
-  }, [page, pageSize, sortByDate]);
-
   const handleSearch = useDebouncedSearch(notes, text, setFilteredNotes);
 
   useEffect(() => {
     handleSearch();
   }, [text, notes, handleSearch]);
 
-  const { handleNextPage, handlePreviousPage } = getPaginationControls(
-    page, totalPages, setPage
-  );
-
-  const handlePageSizeChange = (e) => {
-    setPageSize(Number(e.target.value));
-    setPage(0);
-  };
-
-  if (loading) return <p>Loading public notes...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
-    <MainScreen title='Public Notes'>
+    <MainScreen title="Private Notes">
       <Container>
-        <Card style={{ marginBottom: '1rem'}}>
+        <Card style={{ marginBottom: '1rem' }}>
           <Card.Body>
             <div className={notesStyles.actions}>
-              <SearchForm
-                text={text}
-                setText={setText}
-                showSearch={showSearch}
-                setShowSearch={setShowSearch}
-              />
-              <Button 
-                variant="outline-secondary" 
-                onClick={() => {setSortByDate(!sortByDate)}}
-                >
-                  Sort by Date
-              </Button>
-              {/* <Button 
-                variant="outline-secondary" 
-                onClick={() => navigate("/notes/")}
-                > My Notes
-              </Button> */}
+              <SearchForm text={text} setText={setText} showSearch={showSearch} setShowSearch={setShowSearch} />
+              <Button variant="outline-secondary" onClick={() => setSortByDate(!sortByDate)}>Sort by Date</Button>
             </div>
           </Card.Body>
         </Card>
-
         {filteredNotes.length === 0 ? (
           <div>No notes match your search criteria.</div>
         ) : (
-          <Row xs={1} md={cardsPerRow} >
+          <Row xs={1} md={2}>
             {filteredNotes
               .sort((a, b) => {
                 const dateA = new Date(a.createdAt);
@@ -89,17 +46,16 @@ const PublicNotes = () => {
               })
               .map((note) => (
                 <Col key={note.nid}>
-                  <NoteCard note={note} isPublic={true} />
+                  <NoteCard note={note} isPublic={false} />
                 </Col>
-              ))
-            }
+              ))}
           </Row>
         )}
         <PaginationLayout
           page={page}
           totalPages={totalPages}
-          handlePreviousPage={handlePreviousPage}
-          handleNextPage={handleNextPage}
+          handlePreviousPage={() => setPage((prev) => Math.max(prev - 1, 0))}
+          handleNextPage={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
           pageSize={pageSize}
           handlePageSizeChange={handlePageSizeChange}
         />
@@ -108,4 +64,4 @@ const PublicNotes = () => {
   );
 };
 
-export default PublicNotes;
+export default PrivateNotes;
