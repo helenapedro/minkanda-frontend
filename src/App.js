@@ -7,8 +7,6 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import NoteDetails from './components/notes/NoteDetails';
-import NoteEdit from './components/notes/NoteEdit';
 import AddNote from './components/notes/AddNote';
 import PublicNotes from './pages/PublicNotes';
 import UserProfile from './pages/UserProfile';
@@ -17,6 +15,7 @@ import { Outlet } from 'react-router-dom';
 import About from './components/About';
 import Logout from './components/logout';
 import PrivateNotes from './pages/PrivateNotes';
+import NoteDetailsEdit from './components/notes/NoteDetailsEdit';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -41,8 +40,7 @@ const App = () => {
           
           <Route path="/notes" element={<ProtectedRoute element={<NotesLayout />} />}>
             <Route path="" element={<PrivateNotes />} />
-            <Route path=":id" element={<NoteDetails />} />
-            <Route path="edit/:id" element={<NoteEdit />} />
+            <Route path=":id" element={<NoteDetailsEdit />} />
             <Route path="add" element={<AddNote />} />
             <Route path="public" element={<PublicNotes />} />
           </Route>

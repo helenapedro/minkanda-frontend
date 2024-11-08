@@ -19,7 +19,7 @@ const PrivateNotes = () => {
   };
 
   return (
-    <MainScreen title="Private Notes">
+    <MainScreen title="My Notes">
       <NotesList notes={notes} title="Private Notes" isPublic={false} pageControls={pageControls} />
     </MainScreen>
   );

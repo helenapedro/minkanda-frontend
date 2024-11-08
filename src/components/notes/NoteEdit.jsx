@@ -1,92 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchNoteByIdAsync, updateNoteAsync, toggleNotePrivacyAsync, resetUpdateStatus, clearSuccessMessage } from '../../redux/notesSlice';
 import { Container, Form, Button, Spinner, Alert } from 'react-bootstrap';
 import ReturnButton from '../common/ReturnButton';
+import useNoteEditor from '../../actions/useNoteEditor';
 
 const NoteEdit = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [isPublic, setIsPublic] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const note = useSelector((state) => state.notes.selectedNote);
-  const error = useSelector((state) => state.notes.error);
-  const updateNoteStatus = useSelector((state) => state.notes.updateNoteStatus);
-  const successMessage = useSelector((state) => state.notes.successMessage);
-
-  useEffect(() => {
-    if (updateNoteStatus === 'fulfilled') {
-      alert('Note updated successfully!');
-      setTimeout(() => {
-        navigate('/notes');
-        dispatch(resetUpdateStatus());
-      }, 2000);
-    }
-  }, [updateNoteStatus, navigate, dispatch]);
-
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchNoteByIdAsync(id));
-    }
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    if (note) {
-      setTitle(note.title);
-      setBody(note.body);
-      setIsPublic(note.isPublic);
-    }
-  }, [note]);
-
-  useEffect(() => {
-    if (successMessage === 'Privacy toggled successfully!') {
-      alert(successMessage);
-      navigate('/notes');
-      dispatch(clearSuccessMessage()); 
-    }
-  }, [successMessage, navigate, dispatch]);
-
-  const handleSave = async () => {
-    if (!note) return;
-
-    const updatedNote = {
-      nid: note.nid,
-      title,
-      body,
-      isPublic
-    };
-
-    setIsLoading(true);
-
-    try {
-      await dispatch(updateNoteAsync(updatedNote)).unwrap();
-    } catch (error) {
-      console.error('Oops! Something went wrong on our end. Please try again later.', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleTogglePrivacy = async () => {
-    if (!note) return;
-
-    setIsLoading(true);
-
-    try {
-      await dispatch(toggleNotePrivacyAsync(note.nid)).unwrap();
-      setIsPublic((prev) => !prev);
-    } catch (error) {
-      console.error('Error toggling privacy:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    title,
+    setTitle,
+    body,
+    setBody,
+    isPublic,
+    isLoading,
+    note,
+    error,
+    handleSave,
+    handleTogglePrivacy
+  } = useNoteEditor(id, navigate);
 
   return (
     <Container>
@@ -96,7 +28,6 @@ const NoteEdit = () => {
       </div>
 
       {error && <Alert variant="danger">{error}</Alert>}
-      {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
       <Form>
         <Form.Group className="mb-3" controlId="title">

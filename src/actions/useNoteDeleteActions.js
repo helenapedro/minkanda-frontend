@@ -16,7 +16,7 @@ export const useNoteDeleteAction = () => {
       if (resultAction && resultAction.success) {
         setDeleteStatus('Note successfully deleted.');
         dispatch(fetchNotesAsync());
-        window.location.reload(); // Refresh the page
+        window.location.reload(); 
       } else {
         setDeleteStatus('Note deletion failed.');
       }
