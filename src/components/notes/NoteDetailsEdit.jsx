@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useNoteDetails from '../../actions/useNoteDetails';
-import useOwnerDetails from '../../actions/useOwnerDetails';
+//import useOwnerDetails from '../../actions/useOwnerDetails';
 import { useNoteActions } from '../../actions/useNoteActions';
 import useNoteEditor from '../../actions/useNoteEditor';
 import { isAdmin, isOwner } from '../../utils/roleUtils';
-import getRandomColor from './NoteColor';
+//import getRandomColor from './NoteColor';
 import ReturnButton from '../common/ReturnButton';
 import Loading from '../common/Loading';
 import Error from '../common/Error';
-import { Container, Row, Col, Card, Button, Form, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faSave, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../common/FormateDate';
 
 const NoteDetailsEdit = () => {
@@ -33,7 +33,7 @@ const NoteDetailsEdit = () => {
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
-  const cardColor = getRandomColor();
+  //const cardColor = getRandomColor();
   const userCanEdit = isOwner(note, user) || isAdmin(user);
 
   if (loading) {

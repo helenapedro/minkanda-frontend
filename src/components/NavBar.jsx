@@ -37,16 +37,19 @@ const NavBar = () => {
             {isAuthenticated && (
               <>
                 <Nav.Link as={Link} to="/notes/add"
-                > Create New Note <FontAwesomeIcon icon={icon.faPenNib} /> 
+                > Add New Note <FontAwesomeIcon icon={icon.faPenNib} /> 
                 </Nav.Link>
-                <NavDropdown title={<span>Notes <FontAwesomeIcon icon={icon.faStickyNote} /></span>} id="navbarScrollingDropdown" >
+                <Nav.Link as={Link} to="/notes/public"
+                > {constant.PUBLIC_NOTES} <FontAwesomeIcon icon={icon.faBook} />  
+                </Nav.Link>
+                {/* <NavDropdown title={<span>Notes <FontAwesomeIcon icon={icon.faStickyNote} /></span>} id="navbarScrollingDropdown" >
                   <NavDropdown.Item as={Link} to="/notes">
                   <FontAwesomeIcon icon={icon.faStickyNote} /> {constant.NOTES}
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/notes/public">
                     <FontAwesomeIcon icon={icon.faBook} /> {constant.PUBLIC_NOTES}
                   </NavDropdown.Item>
-                </NavDropdown>
+                </NavDropdown> */}
                 <NavDropdown title={<span>Settings <FontAwesomeIcon icon={icon.faCog} /></span>} id="navbarScrollingDropdown" >
                   <NavDropdown.Item as={Link} to="/profile">
                     <FontAwesomeIcon icon={icon.faUser} /> {constant.PROFILE}

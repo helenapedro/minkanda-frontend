@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, Form, Container, Row, Col } from 'react-bootstrap';
+import { Pagination, Form, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import paginationStyles from '../../styles/pagination.module.css';

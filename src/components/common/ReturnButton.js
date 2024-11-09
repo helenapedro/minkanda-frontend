@@ -12,7 +12,7 @@ const ReturnButton = ({ url }) => {
   };
 
   return (
-    <Button onClick={handleReturn} variant="outline-light" className="btn-sm p-1">
+    <Button onClick={handleReturn} variant="outline-dark" className="btn-sm p-1">
       <FontAwesomeIcon icon={faArrowLeft} />
     </Button>
   );

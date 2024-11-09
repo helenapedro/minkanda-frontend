@@ -73,10 +73,10 @@ const UserProfile = () => {
       <style.Row className="justify-content-center w-100">
         <style.Col xs={12} md={8} lg={6}>
           <style.Card className="shadow-sm border-0 rounded-3">
-            <style.Card.Header className="d-flex justify-content-between align-items-center bg-info text-white p-3 rounded-top">
-              <ReturnButton url="/notes" className="me-2 text-white" />
+            <style.Card.Header className="shadow-sm d-flex justify-content-between align-items-center p-3 rounded-top">
+              <ReturnButton url="/notes" className="me-2" />
               <h4 className="mb-0 ms-2">{userInfo?.firstname}'s Profile</h4>
-              <style.Button onClick={handleEditToggle} variant="outline-light" className="btn-sm p-1">
+              <style.Button onClick={handleEditToggle} variant="outline-dark" className="btn-sm p-1">
                 <FontAwesomeIcon icon={icon.faEdit} size='sm' />
               </style.Button>
             </style.Card.Header>
