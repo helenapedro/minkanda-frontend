@@ -22,21 +22,18 @@ const NoteDetailsEdit = () => {
   const user = useSelector((state) => state.user.userInfo);
   //const ownerName = useOwnerDetails(note, user);
   const { handleDelete } = useNoteActions();
-  const {
-    title,
-    setTitle,
-    body,
-    setBody,
-    isPublic,
-    isLoading,
-    handleSave,
-    handleTogglePrivacy
+  const { 
+    title, setTitle, 
+    body, setBody, 
+    isPublic, 
+    isLoading, 
+    handleSave, 
+    handleTogglePrivacy 
   } = useNoteEditor(id, navigate);
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const cardColor = getRandomColor();
-
   const userCanEdit = isOwner(note, user) || isAdmin(user);
 
   if (loading) {
@@ -55,7 +52,7 @@ const NoteDetailsEdit = () => {
           <Card
             className="mt-5"
             style={{
-              backgroundColor: cardColor,
+              //backgroundColor: cardColor,
               borderRadius: '10px',
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
             }}
@@ -70,7 +67,7 @@ const NoteDetailsEdit = () => {
               ) : (
                 note.title
               )}
-              <ReturnButton url="/notes" />
+              <ReturnButton url="/notes" /> 
             </Card.Header>
             <Card.Body>
               {/* {ownerName && (

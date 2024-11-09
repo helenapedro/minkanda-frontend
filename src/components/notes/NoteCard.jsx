@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import getRandomColor from './NoteColor';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import { fetchUserDetailsAsync, setAuthor } from '../../redux/userSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
+import * as styles from 'react-bootstrap/'
+import getRandomColor from './NoteColor';
 import formatDate from '../common/FormateDate';
-import { fetchUserDetailsAsync, setAuthor } from '../../redux/userSlice';
 
 const NoteCard = ({ note, isPublic, sortByDate }) => {
   const navigate = useNavigate();
@@ -45,22 +44,29 @@ const NoteCard = ({ note, isPublic, sortByDate }) => {
   if (error) return <div>{error}</div>;
 
   return (
-    <Card className="card mb-3" style={{ backgroundColor: cardColor, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '10px' }}>
-      <Card.Body style={{ padding: '20px', color: '#333' }}>
-        <Card.Header as="h5" style={{ fontWeight: 'bold', color: '#fff' }}>{note.title}</Card.Header>
-        <div style={{ marginTop: '10px', fontSize: 'smaller', color: '#6c757d' }}>{`Created at ${formatDate(note.createdAt)}`}</div>
-        <div style={{ marginTop: '10px' }}>
-          <Button variant="primary" onClick={handleView} style={{ marginRight: '10px' }}>
-            <FontAwesomeIcon icon={faEye} /> View
-          </Button>
-          {!isPublic && (
-            <Button variant="warning" onClick={handleEdit}>
-              <FontAwesomeIcon icon={faEdit} /> Edit
-            </Button>
-          )}
-        </div>
-      </Card.Body>
-    </Card>
+      <styles.Card className='mb-3 p-4 shadow-sm' style={{ backgroundColor: cardColor, borderRadius: '10px'}}>
+        <styles.Card.Header as="h5" className='text-white' style={{ fontWeight: 'bold', backgroundColor: '#333', borderRadius: '5px' }}>
+          {note.title}
+        </styles.Card.Header>
+        <styles.Card.Body style={{ color: '#333' }}>
+          <div className='text-muted mb-3'>
+            {`Created at ${formatDate(note.createdAt)}`}
+          </div>
+          <styles.Card.Text className='mt-3' style={{ textAlign: 'justify' }}>
+            {note.body.substring(0, 60)}...
+          </styles.Card.Text>
+          <div className='d-flex justify-content-between'>
+            <styles.Button variant="primary" onClick={handleView}>
+              <FontAwesomeIcon icon={faEye} /> View
+            </styles.Button>
+            {!isPublic && (
+              <styles.Button variant="warning" onClick={handleEdit}>
+                <FontAwesomeIcon icon={faEdit} /> Edit
+              </styles.Button>
+            )}
+          </div>
+        </styles.Card.Body>
+      </styles.Card>
   );
 };
 

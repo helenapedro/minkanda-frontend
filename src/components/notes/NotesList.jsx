@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PaginationLayout from '../common/PaginationLayout';
-import Dropdown from 'react-bootstrap/Dropdown';
 import NoteCard from './NoteCard';
+import * as styles from 'react-bootstrap/';
 
 const NotesList = ({ notes, isPublic, pageControls }) => {
   const [sortedNotes, setSortedNotes] = useState([...notes]);
@@ -18,21 +18,21 @@ const NotesList = ({ notes, isPublic, pageControls }) => {
   }, [notes, sortOption]);
 
   return (
-    <>
-      <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic" style={{marginBottom: '8px'}}>
+    <styles.Col>
+      <styles.Dropdown className='mb-3'>
+        <styles.Dropdown.Toggle variant="success" id="dropdown-basic">
           Sort By
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setSortOption('Newest')}>Newest</Dropdown.Item>
-          <Dropdown.Item onClick={() => setSortOption('Oldest')}>Oldest</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+        </styles.Dropdown.Toggle>
+        <styles.Dropdown.Menu>
+          <styles.Dropdown.Item onClick={() => setSortOption('Newest')}>Newest</styles.Dropdown.Item>
+          <styles.Dropdown.Item onClick={() => setSortOption('Oldest')}>Oldest</styles.Dropdown.Item>
+        </styles.Dropdown.Menu>
+      </styles.Dropdown>
       {sortedNotes.map((note) => (
         <NoteCard key={note.nid} note={note} isPublic={isPublic} />
       ))}
       <PaginationLayout {...pageControls} />
-    </>
+    </styles.Col>
   );
 };
 

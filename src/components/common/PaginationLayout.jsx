@@ -10,7 +10,7 @@ const PaginationLayout = ({
   pageSize, handlePageSizeChange 
 }) => {
   return (
-    <Container>
+    <Col>
       <Row className="justify-content-center mb-3">
         <Col xs="auto">
           <Pagination className={paginationStyles.pagination}>
@@ -37,7 +37,7 @@ const PaginationLayout = ({
           </Form.Group>
         </Col>
       </Row>
-    </Container>
+    </Col>
   );
 };
 
