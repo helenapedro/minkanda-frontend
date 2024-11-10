@@ -1,142 +1,112 @@
-import Gender from './Gender';
-import styles from './Forms.module.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faUser, faCalendar, faGenderless,  } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 
-const registerForm = (
+const RegisterForm = ({
      handleSubmit, 
      email, setEmail, 
      password, setPassword, 
      firstname, setFirstname,
      lastname, setLastname,
-     birthday, setBirthday,
-     gender, setGender,
-     phoneNumber, setPhoneNumber,
-     address, setAddress,
      isLoading
-) => {
+}) => {
+     const [confirmPassword, setConfirmPassword] = useState('');
+     const [passwordMatchError, setPasswordMatchError] = useState('');
+
+     const handlePasswordChange = (e) => {
+          setPassword(e.target.value);
+          if (confirmPassword !== e.target.value) {
+               setPasswordMatchError('Passwords do not match');
+          } else {
+               setPasswordMatchError('');
+          }
+     };
+
+     const handleConfirmPasswordChange = (e) => {
+          setConfirmPassword(e.target.value);
+          if (password !== e.target.value) {
+               setPasswordMatchError('Passwords do not match');
+          } else {
+               setPasswordMatchError('');
+          }
+     };
+
      return (
-          <form className='mx-1 mx-md-4' onSubmit={handleSubmit}>
-               <div className='row'>
-                    <div className="col-md-6 mb-4">
-                         {/* <FontAwesomeIcon className='fa-lg fa-fw' icon={faUser} /> */}
-                         <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                              <input
-                              type="text"
-                              id="form3Example1c"
-                              placeholder="First Name"
-                              className="form-control"
-                              value={firstname}
-                              onChange={(e) => setFirstname(e.target.value)}
-                              required
-                              autoComplete="given-name"
-                              />
-                         </div>
-                    </div>
-                    <div className="col-md-6 mb-4">
-                         {/* <FontAwesomeIcon className='fa-lg me-3 fa-fw' icon={faUser} /> */}
-                         <div className="form-outline flex-fill mb-0">
-                              <input
-                              type="text"
-                              id="lastname"
-                              placeholder='Last Name'
-                              className="form-control"
-                              value={lastname}
-                              onChange={(e) => setLastname(e.target.value)}
-                              required
-                              autoComplete="family-name"
-                              />
-                         </div>
-                    </div>
-               </div>
-               <div  className='row'>
-                    <div className="col-md-6 mb-4 align-items-center">
-                         {/* <FontAwesomeIcon className='fa-lg fa-fw' icon={faCalendar} /> */}
-                         <h6 className="mb-2 pb-1">Birthday: </h6>
-                         <div className="form-outline datepicker w-100">
-                              <input
-                              type="date"
-                              id="birthdayDate"
-                              className="form-control form-control-lg"
-                              value={birthday}
-                              onChange={(e) => setBirthday(e.target.value)}
-                              required
-                              />
-                         </div>  
-                    </div>
-                    {/* <FontAwesomeIcon className='fa-lg fa-fw' icon={faGenderless} /> */}
-                    <Gender gender={gender} setGender={setGender} />
-               </div>
-               <div className="d-flex flex-row align-items-center mb-4">
-                    {/* <i className="fas fa-envelope fa-lg me-3 fa-fw"></i> */}
-                    <div className="form-outline flex-fill mb-0">
-                         <input
+          <Container>
+               <Form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
+                    <Row>
+                         <Col md={6} className="mb-4">
+                              <Form.Group controlId="firstname">
+                                   <Form.Label>First Name</Form.Label>
+                                   <Form.Control
+                                        type="text"
+                                        placeholder="First Name"
+                                        value={firstname}
+                                        onChange={(e) => setFirstname(e.target.value)}
+                                        required
+                                        autoComplete="given-name"
+                                   />
+                              </Form.Group>
+                         </Col>
+                         <Col md={6} className="mb-4">
+                              <Form.Group controlId="lastname">
+                                   <Form.Label>Last Name</Form.Label>
+                                   <Form.Control
+                                        type="text"
+                                        placeholder="Last Name"
+                                        value={lastname}
+                                        onChange={(e) => setLastname(e.target.value)}
+                                        required
+                                        autoComplete="family-name"
+                                   />
+                              </Form.Group>
+                         </Col>
+                    </Row>
+                    <Form.Group className="mb-4" controlId="email">
+                         <Form.Label>Email</Form.Label>
+                         <Form.Control
                               type="email"
-                              id="email"
-                              className="form-control"
-                              placeholder='Your Email'
+                              placeholder="Your Email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                               required
                               autoComplete="email"
                          />
-                    </div>
-               </div>
-               <div className="d-flex flex-row align-items-center mb-4">
-                    {/* <i className="fas fa-lock fa-lg me-3 fa-fw"></i> */}
-                    <div className="form-outline flex-fill mb-0">
-                         <input
+                    </Form.Group>
+                    <Form.Group className="mb-4" controlId="password">
+                         <Form.Label>Password</Form.Label>
+                         <Form.Control
                               type="password"
-                              id="password"
-                              className="form-control"
-                              placeholder='Password'
+                              placeholder="Password"
                               value={password}
-                              onChange={(e) => setPassword(e.target.value)}
+                              onChange={handlePasswordChange}
                               required
                               autoComplete="new-password"
                          />
-                    </div>
-               </div>
-               <div className="d-flex flex-row align-items-center mb-4">
-                    {/* <i className="fas fa-phone fa-lg me-3 fa-fw"></i> */}
-                    <div className="form-outline flex-fill mb-0">
-                         <input
-                         type="tel"
-                         id="phoneNumber"
-                         className="form-control"
-                         placeholder="Phone Number"
-                         value={phoneNumber}
-                         onChange={(e) => setPhoneNumber(e.target.value)}
-                         autoComplete="tel"
+                    </Form.Group>
+                    <Form.Group className="mb-4" controlId="confirmPassword">
+                         <Form.Label>Confirm Password</Form.Label>
+                         <Form.Control
+                              type="password"
+                              placeholder="Confirm Password"
+                              value={confirmPassword}
+                              onChange={handleConfirmPasswordChange}
+                              required
                          />
+                         {passwordMatchError && <Form.Text className="text-danger">{passwordMatchError}</Form.Text>}
+                    </Form.Group>
+                    <div className="text-center text-lg-start mt-4 pt-2">
+                         <Button 
+                              type="submit" 
+                              variant="primary" 
+                              size="lg" 
+                              disabled={isLoading || passwordMatchError !== ''}
+                         >
+                              {isLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Register'}
+                         </Button>
                     </div>
-               </div>
-               <div className="d-flex flex-row align-items-center mb-4">
-                    {/* <i className="fas fa-home fa-lg me-3 fa-fw"></i> */}
-                    <div className="form-outline flex-fill mb-0">
-                         <input
-                         type="text"
-                         id="address"
-                         className="form-control"
-                         placeholder="Address"
-                         value={address}
-                         onChange={(e) => setAddress(e.target.value)}
-                         required
-                         autoComplete="address-line1"
-                         />
-                    </div>
-               </div>
-               <div className="text-center text-lg-start mt-4 pt-2">
-                    <button 
-                         type="submit" 
-                         className={`${styles.button} btn btn-primary btn-lg`}  
-                         disabled={isLoading}
-                    >
-                         {isLoading ? 'Registering' : 'Register'}
-                    </button>
-               </div>
-          </form> 
+               </Form>
+          </Container>
      );
-}
+};
 
-export default registerForm;
+export default RegisterForm;

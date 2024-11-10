@@ -13,18 +13,10 @@ api.interceptors.request.use((config) => {
 
 export const registerUser = async (userData) => {
   try {
-    const { 
-      email, password, 
-      firstname, lastname, 
-      birthday, gender, 
-      address, phoneNumber 
-    } = userData; 
+    const { email, password, firstname, lastname } = userData; 
 
     const response = await api.post('/register', { 
-      email, password, 
-      firstname, lastname, 
-      birthday, gender, 
-      address, phoneNumber 
+      email, password, firstname, lastname
     });
 
     return response.data;
