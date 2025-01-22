@@ -59,11 +59,11 @@ const NoteCard = ({ note, isPublic, sortByDate }) => {
             <styles.Button variant="primary" onClick={handleView}>
               <FontAwesomeIcon icon={faEye} /> View
             </styles.Button>
-            {!isPublic && (
+            {/* {!isPublic && (
               <styles.Button variant="warning" onClick={handleEdit}>
                 <FontAwesomeIcon icon={faEdit} /> Edit
               </styles.Button>
-            )}
+            )} */}
           </div>
         </styles.Card.Body>
       </styles.Card>
