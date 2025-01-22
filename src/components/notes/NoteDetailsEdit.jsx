@@ -7,10 +7,11 @@ import useNoteEditor from '../../actions/useNoteEditor';
 import { isAdmin, isOwner } from '../../utils/roleUtils';
 import ReturnButton from '../common/ReturnButton';
 import Error from '../common/Error';
-import { Container, Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import formatDate from '../common/FormateDate';
+import styles from '../../styles/NoteDetails.module.css';
 
 const canUserEditNote = (note, user) => isOwner(note, user) || isAdmin(user);
 
@@ -26,7 +27,10 @@ const NoteDetailsEdit = () => {
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
   const userCanEdit = canUserEditNote(note, user);
+
+  const handleAlertClose = () => setShowAlert(false);
 
   if (loading) {
     return (
@@ -44,14 +48,12 @@ const NoteDetailsEdit = () => {
     <Container className="vh-100">
       <Row className="justify-content-center">
         <Col md={8}>
-          <Card
-            className="mt-5"
-            style={{
-              //backgroundColor: cardColor,
-              borderRadius: '10px',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
-            }}
-          >
+          {showAlert && (
+            <Alert variant="success" onClose={handleAlertClose} dismissible>
+              Note saved successfully!
+            </Alert>
+          )}
+          <Card className={`${styles["note-card"]} mt-5`} >
             <Card.Header as="h2" className="d-flex justify-content-between align-items-center">
               {editing ? (
                 <Form.Control
@@ -62,11 +64,11 @@ const NoteDetailsEdit = () => {
               ) : (
                 note.title
               )}
-              <ReturnButton url="/notes" /> 
+              <ReturnButton url="/notes" />
             </Card.Header>
             <Card.Body>
               {note.updatedAt && note.updatedAt !== note.createdAt && (
-                <div style={{ marginTop: '10px', fontSize: 'smaller', color: '#6c757d' }}>
+                <div className={`${styles["text-muted"]} small`}>
                   {`Updated on ${formatDate(note.updatedAt)}`}
                 </div>
               )}
@@ -81,36 +83,43 @@ const NoteDetailsEdit = () => {
                 <Card.Text>{note.body}</Card.Text>
               )}
             </Card.Body>
-               { (userCanEdit) && (
-               <Card.Footer className="d-flex justify-content-between align-items-center">
-               {editing ? (
-                    <>
+            {userCanEdit && (
+              <Card.Footer className="d-flex justify-content-between align-items-center">
+                {editing ? (
+                  <>
                     <Button variant="secondary" onClick={handleTogglePrivacy} disabled={isLoading}>
-                         {isPublic ? 'Make Private' : 'Make Public'}
-                    </Button>
-                    <Button variant="primary" onClick={handleSave} disabled={isLoading || !note}>
-                         {isLoading ? <Spinner animation="border" size="sm" /> : 'Save'}
-                    </Button>
-                    <Button variant="link" onClick={() => setEditing(false)}>
-                         <FontAwesomeIcon icon={faEye} /> View
-                    </Button>
-                    </>
-               ) : (
-                    <>
-                    <Button variant="primary" onClick={() => setEditing(true)}>
-                         <FontAwesomeIcon icon={faEdit} /> Edit Note
+                      {isPublic ? 'Make Private' : 'Make Public'}
                     </Button>
                     <Button
-                         variant="danger"
-                         onClick={() => handleDelete(id, setDeleteError, setDeleting)}
-                         disabled={deleting}
+                      variant="primary"
+                      onClick={() => {
+                        handleSave();
+                        setShowAlert(true);
+                      }}
+                      disabled={isLoading || !note}
                     >
-                         <FontAwesomeIcon icon={faTrash} /> {deleting ? 'Deleting...' : 'Delete Note'}
+                      {isLoading ? <Spinner animation="border" size="sm" /> : 'Save'}
                     </Button>
-                    </>
-               )}
-               </Card.Footer>
-          )}
+                    <Button variant="link" onClick={() => setEditing(false)}>
+                      <FontAwesomeIcon icon={faEye} /> View
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="primary" onClick={() => setEditing(true)}>
+                      <FontAwesomeIcon icon={faEdit} /> Edit Note
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDelete(id, setDeleteError, setDeleting)}
+                      disabled={deleting}
+                    >
+                      <FontAwesomeIcon icon={faTrash} /> {deleting ? 'Deleting...' : 'Delete Note'}
+                    </Button>
+                  </>
+                )}
+              </Card.Footer>
+            )}
           </Card>
           {deleteError && <Error message={deleteError} />}
         </Col>
