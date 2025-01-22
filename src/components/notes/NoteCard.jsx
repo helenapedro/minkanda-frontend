@@ -65,11 +65,11 @@ const NoteCard = ({ note, isPublic }) => {
           <div className="text-muted mb-3">
             {`Created at ${formatDate(note.createdAt)}`}
           </div>
-          {author && (
+          {/* {author && (
             <div className="text-muted mb-3">
               {`Author: ${author.name}`}
             </div>
-          )}
+          )} */}
           <Card.Text className="mt-3" style={{ textAlign: 'justify' }}>
             {note.body.length > 60 ? `${note.body.substring(0, 60)}...` : note.body}
           </Card.Text>
