@@ -5,7 +5,7 @@ import { fetchUserDetailsAsync, setAuthor } from '../../redux/userSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getRandomColor from './NoteColor';
 import formatDate from '../common/FormateDate';
-import { faEye, faEdit, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { Card, Button, Collapse } from 'react-bootstrap';
 
 
